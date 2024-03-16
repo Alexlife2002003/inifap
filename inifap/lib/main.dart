@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/screens/listPage.dart';
+import 'package:inifap/screens/resumenReal.dart';
+import 'package:inifap/widgets/Colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bottom Navigation Bar',
+      title: 'Inifap',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -24,13 +27,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  Color lightGreen = Color(0xffE5EFE7);
-  Color darkGreen = Color(0xff176A24);
 
   final List<Widget> _pages = [
     HomeScreen(),
-    ExploreScreen(),
-    ProfileScreen(),
+    ListPage(),
+    ResumenReal(),
     GraphScreen(),
   ];
 
@@ -52,15 +53,15 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             backgroundColor: darkGreen,
             icon: Icon(Icons.sunny_snowing),
-            label: 'Weather',
+            label: 'Estacion',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: 'List',
+            label: 'Lista Estaciones',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
+            icon: Icon(Icons.access_time),
+            label: 'Resumen tiempo real',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.open_with_rounded),
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HomeScreen extends StatelessWidget {
-  final Color lightGreen = Color(0xffE5EFE7);
+  
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +165,6 @@ class WeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color lightGreen = Color(0xffE5EFE7);
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth - 40;
     return Container(
@@ -256,7 +256,6 @@ class WeatherCardViento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color lightGreen = Color(0xffE5EFE7);
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth - 40;
     return Container(
@@ -342,7 +341,7 @@ class ExploreScreen extends StatelessWidget {
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
