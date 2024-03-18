@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,7 +47,7 @@ class _ResumenRealState extends State<ResumenReal> {
     double cardWidth = screenWidth - 40;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Resumen en tiempo real'),
+        title: Text('Resumen tiempo real'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -104,28 +106,28 @@ class _ResumenRealState extends State<ResumenReal> {
                                     SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Row(
+                                        Column(
                                           children: [
                                             Icon(
                                               Icons.access_time,
-                                              size: 20,
+                                              size: 50,
                                               color: Colors.black,
                                             ),
-                                            SizedBox(width: 5),
+                                            SizedBox(height: 5),
                                             Text(
-                                              '${data['Hora']}',
+                                              '${data['Hora']} hrs',
                                               style: TextStyle(fontSize: 18),
                                             ),
                                           ],
                                         ),
-                                        Row(
+                                        Column(
                                           children: [
                                             Icon(Icons.calendar_month,
-                                                size: 20, color: Colors.black),
+                                                size: 50, color: Colors.black),
                                             SizedBox(
-                                              width: 5,
+                                              height: 5,
                                             ),
                                             Text(
                                               '${data['Fecha']}',
@@ -136,68 +138,154 @@ class _ResumenRealState extends State<ResumenReal> {
                                       ],
                                     ),
                                     SizedBox(height: 10),
-                                    Text(
-                                      'Temperatura:',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                    Center(
+                                      child: Text(
+                                        'Temperatura:',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(height: 5),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          'Max: ${data["Max"]}°C',
-                                          style: TextStyle(fontSize: 18),
+                                        Column(
+                                          children: [
+                                            Icon(
+                                              Icons.thermostat,
+                                              color: Colors.red,
+                                              size: 40,
+                                            ),
+                                            Text(
+                                              'Max',
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            Text(
+                                              '${data["Max"]}°C',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          'Min: ${data["Min"]}°C',
-                                          style: TextStyle(fontSize: 18),
+                                        Column(
+                                          children: [
+                                            Icon(
+                                              Icons.thermostat,
+                                              size: 40,
+                                            ),
+                                            Text(
+                                              'Med',
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            Text(
+                                              '${data["Med"]}°C',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          'Med: ${data["Med"]}°C',
-                                          style: TextStyle(fontSize: 18),
+                                        Column(
+                                          children: [
+                                            Icon(Icons.thermostat,
+                                                size: 40,
+                                                color: Colors.blue[200]),
+                                            Text(
+                                              "Min",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            Text(
+                                              '${data["Min"]}°C',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
                                     SizedBox(height: 10),
-                                    Text(
-                                      'Precipitacion:',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                    Center(
+                                      child: Text(
+                                        'Precipitacion:',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                    Text(
-                                      "${data['Precipitacion']}",
-                                      style: TextStyle(fontSize: 18),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Icon(
+                                              Icons.cloudy_snowing,
+                                              size: 40,
+                                            ),
+                                            Text(
+                                              "${data['Precipitacion']}",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: 10),
-                                    Text(
-                                      'Viento:',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                    Center(
+                                      child: Text(
+                                        'Viento:',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(height: 5),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          'Med: ${data['VelMed']}',
-                                          style: TextStyle(fontSize: 18),
+                                        Column(
+                                          children: [
+                                            Icon(
+                                              Icons.air,
+                                              size: 40,
+                                            ),
+                                            Text(
+                                              "Max/Med",
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            Text(
+                                              '${data['VelMax']} km/hr | ${data['VelMed']} km/hr',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          'Max: ${data['VelMax']}',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        Text(
-                                          'Direccion: ${data['Direccion']}',
-                                          style: TextStyle(fontSize: 18),
+                                        Column(
+                                          children: [
+                                            Icon(
+                                              Icons.discord,
+                                              size: 40,
+                                            ),
+                                            Text(
+                                              'Direccion',
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            Text(
+                                              '${data['Direccion']}',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
