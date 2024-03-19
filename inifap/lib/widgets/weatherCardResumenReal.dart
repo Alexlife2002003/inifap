@@ -19,7 +19,7 @@ class WeatherCardResumenReal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color lightGreen = Color(0xffE5EFE7);
+    Color lightGreen = const Color(0xffE5EFE7);
     return Card(
       color: lightGreen,
       elevation: 4,
@@ -40,10 +40,10 @@ class WeatherCardResumenReal extends StatelessWidget {
                     size: 40,
                     color: Colors.blue,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     label,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Colors.blue,

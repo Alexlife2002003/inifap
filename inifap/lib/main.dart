@@ -52,18 +52,18 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(
             backgroundColor: darkGreen,
-            icon: Icon(Icons.sunny_snowing),
+            icon: const Icon(Icons.sunny_snowing),
             label: 'Estacion',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'Lista Estaciones',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.access_time),
             label: 'Resumen tiempo real',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.open_with_rounded),
             label: 'Other',
           ),
@@ -78,30 +78,29 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Center(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Image.asset(
               'lib/assets/logo.png',
             ),
-            SizedBox(height: 15,),
-            Text(
+            const SizedBox(height: 15,),
+            const Text(
               "Rancho Grande",
               style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               "Fresnillo",
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               "Fecha de instalacion:\n27 de marzo 2003",
               style: TextStyle(fontSize: 20, color: Colors.grey),
             ),
-            SizedBox(height: 25),
-            WeatherCard(
+            const SizedBox(height: 25),
+            const WeatherCard(
               icon: Icons.thermostat,
               label: 'Temperatura',
               value: '22.7 °C',
@@ -109,7 +108,7 @@ class HomeScreen extends StatelessWidget {
               min: 'Min 10.6°C a las 07:00 hr',
               avg: 'Med 15.7°C',
             ),
-            WeatherCard(
+            const WeatherCard(
               icon: Icons.water_drop,
               label: 'Humedad\nrelativa',
               value: '15.9 %',
@@ -117,19 +116,19 @@ class HomeScreen extends StatelessWidget {
               min: 'Min 12.5% a las 14:30hr',
               avg: 'Med 25.6%',
             ),
-            WeatherCard(
+            const WeatherCard(
               icon: Icons.cloudy_snowing,
               label: 'Precipitación',
               value: '0.0 mm',
               total: 'Total acumulada\n0.0 mm',
             ),
-            WeatherCard(
+            const WeatherCard(
               icon: Icons.sunny,
               label: 'Radiación',
               value: '103.2 W/m²',
               total: 'Total registrada\n12,413 W/m²',
             ),
-            WeatherCardViento(
+            const WeatherCardViento(
               icon: Icons.air,
               label: 'Velocidad y\ndirección del\n viento',
               value: '21.3 Km/hr',
@@ -168,11 +167,11 @@ class WeatherCard extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth - 40;
     return Container(
-      padding: EdgeInsets.only(left: 16, bottom: 10),
+      padding: const EdgeInsets.only(left: 16, bottom: 10),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             width: cardWidth,
             decoration: BoxDecoration(
               border: Border.all(
@@ -189,7 +188,7 @@ class WeatherCard extends StatelessWidget {
                   color: Colors.blue,
                   size: 32.0,
                 ),
-                SizedBox(width: 5.0),
+                const SizedBox(width: 5.0),
                 Row(
                   children: [
                     Column(
@@ -197,21 +196,21 @@ class WeatherCard extends StatelessWidget {
                       children: [
                         Text(
                           label,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           value,
-                          style: TextStyle(fontSize: 16.0),
+                          style: const TextStyle(fontSize: 16.0),
                         ),
                       ],
                     ),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           'Resumen registrado:',
                           style: TextStyle(
                             fontSize: 16.0,
@@ -259,11 +258,11 @@ class WeatherCardViento extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth - 40;
     return Container(
-      padding: EdgeInsets.only(left: 16),
+      padding: const EdgeInsets.only(left: 16),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             width: cardWidth,
             decoration: BoxDecoration(
               border: Border.all(
@@ -282,7 +281,7 @@ class WeatherCardViento extends StatelessWidget {
                       color: Colors.blue,
                       size: 32.0,
                     ),
-                    SizedBox(width: 5.0),
+                    const SizedBox(width: 5.0),
                     Row(
                       children: [
                         Column(
@@ -290,14 +289,14 @@ class WeatherCardViento extends StatelessWidget {
                           children: [
                             Text(
                               label,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
                               value,
-                              style: TextStyle(fontSize: 16.0),
+                              style: const TextStyle(fontSize: 16.0),
                             ),
                           ],
                         ),
@@ -305,12 +304,12 @@ class WeatherCardViento extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       'Resumen registrado:',
                       style: TextStyle(
                         fontSize: 16.0,
@@ -335,7 +334,7 @@ class WeatherCardViento extends StatelessWidget {
 class ExploreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('List of places'),
     );
   }
@@ -344,7 +343,7 @@ class ExploreScreen extends StatelessWidget {
 class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Map'),
     );
   }
@@ -353,7 +352,7 @@ class MapScreen extends StatelessWidget {
 class GraphScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Other'),
     );
   }

@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/widgets/icons/RotatedIcon.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResumenReal extends StatefulWidget {
@@ -43,30 +43,25 @@ class _ResumenRealState extends State<ResumenReal> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth = screenWidth - 40;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Resumen tiempo real'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 10),
-            Text(
-              'Lista de favoritos:',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
+            const SizedBox(height: 40),
+            const Center(
+              child: Text(
+                'Resumen tiempo real',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            SizedBox(height: 10),
             Expanded(
               child: favorites.isEmpty
-                  ? Center(
+                  ? const Center(
                       child: Text(
                         'No hay favoritos seleccionados',
                         style: TextStyle(fontSize: 20),
@@ -87,58 +82,82 @@ class _ResumenRealState extends State<ResumenReal> {
                             elevation: 0, // No shadow
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(color: Colors.black, width: 1),
+                              side: const BorderSide(color: Colors.black, width: 1),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Estacion: $estacion',
-                                    style: TextStyle(fontSize: 20),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const Text(
+                                        'Estacion:',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      Text(
+                                        estacion,
+                                        style: const TextStyle(
+                                            fontSize: 20, color: Colors.blue),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'Municipio: $municipio',
-                                    style: TextStyle(fontSize: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const Text(
+                                        'Municipio:',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      Text(
+                                        municipio,
+                                        style: const TextStyle(fontSize: 20,color: Colors.blue),
+                                      ),
+                                    ],
                                   ),
                                   if (data.isNotEmpty) ...[
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Column(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.access_time,
                                               size: 50,
                                               color: Colors.black,
                                             ),
-                                            SizedBox(height: 5),
+                                            const SizedBox(height: 5),
                                             Text(
                                               '${data['Hora']} hrs',
-                                              style: TextStyle(fontSize: 18),
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
                                             ),
                                           ],
                                         ),
                                         Column(
                                           children: [
-                                            Icon(Icons.calendar_month,
+                                            const Icon(Icons.calendar_month,
                                                 size: 50, color: Colors.black),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 5,
                                             ),
                                             Text(
                                               '${data['Fecha']}',
-                                              style: TextStyle(fontSize: 18),
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
                                             ),
                                           ],
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
-                                    Center(
+                                    const SizedBox(height: 10),
+                                    const Center(
                                       child: Text(
                                         'Temperatura:',
                                         style: TextStyle(
@@ -147,25 +166,25 @@ class _ResumenRealState extends State<ResumenReal> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Column(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.thermostat,
                                               color: Colors.red,
                                               size: 40,
                                             ),
-                                            Text(
+                                            const Text(
                                               'Max',
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               '${data["Max"]}°C',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
                                             ),
@@ -173,17 +192,17 @@ class _ResumenRealState extends State<ResumenReal> {
                                         ),
                                         Column(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.thermostat,
                                               size: 40,
                                             ),
-                                            Text(
+                                            const Text(
                                               'Med',
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               '${data["Med"]}°C',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
                                             ),
@@ -194,13 +213,13 @@ class _ResumenRealState extends State<ResumenReal> {
                                             Icon(Icons.thermostat,
                                                 size: 40,
                                                 color: Colors.blue[200]),
-                                            Text(
+                                            const Text(
                                               "Min",
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               '${data["Min"]}°C',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
                                             ),
@@ -208,8 +227,8 @@ class _ResumenRealState extends State<ResumenReal> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
-                                    Center(
+                                    const SizedBox(height: 10),
+                                    const Center(
                                       child: Text(
                                         'Precipitacion:',
                                         style: TextStyle(
@@ -224,20 +243,22 @@ class _ResumenRealState extends State<ResumenReal> {
                                       children: [
                                         Column(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.cloudy_snowing,
                                               size: 40,
                                             ),
                                             Text(
-                                              "${data['Precipitacion']}",
-                                              style: TextStyle(fontSize: 18),
+                                              "${data['Precipitacion']} mm",
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blue),
                                             ),
                                           ],
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
-                                    Center(
+                                    const SizedBox(height: 10),
+                                    const Center(
                                       child: Text(
                                         'Viento:',
                                         style: TextStyle(
@@ -246,24 +267,24 @@ class _ResumenRealState extends State<ResumenReal> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Column(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.air,
                                               size: 40,
                                             ),
-                                            Text(
+                                            const Text(
                                               "Max/Med",
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               '${data['VelMax']} km/hr | ${data['VelMed']} km/hr',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
                                             ),
@@ -271,17 +292,19 @@ class _ResumenRealState extends State<ResumenReal> {
                                         ),
                                         Column(
                                           children: [
-                                            Icon(
-                                              Icons.discord,
+                                            RotatedIcon(
+                                              icon: Icons.assistant_navigation,
+                                              direction:
+                                                  '${data['Direccion']}', // Dirección basada en los datos proporcionados
                                               size: 40,
                                             ),
-                                            Text(
+                                            const Text(
                                               'Direccion',
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
                                               '${data['Direccion']}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
                                             ),
@@ -290,8 +313,8 @@ class _ResumenRealState extends State<ResumenReal> {
                                       ],
                                     ),
                                   ] else ...[
-                                    SizedBox(height: 10),
-                                    Text(
+                                    const SizedBox(height: 10),
+                                    const Text(
                                       'No data available',
                                       style: TextStyle(
                                         fontSize: 18,

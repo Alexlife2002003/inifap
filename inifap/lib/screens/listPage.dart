@@ -75,7 +75,7 @@ class _ListPageState extends State<ListPage> {
         tileColor: lightGreen,
         title: Text(fav['titulo']),
         trailing: IconButton(
-          icon: Icon(Icons.favorite),
+          icon: const Icon(Icons.favorite),
           color: Colors.red,
           onPressed: () {
             _addToFavorites(filteredMarcadores
@@ -92,7 +92,7 @@ class _ListPageState extends State<ListPage> {
         tileColor: lightGreen,
         title: Text(item['titulo']),
         trailing: IconButton(
-          icon: Icon(Icons.favorite_border),
+          icon: const Icon(Icons.favorite_border),
           onPressed: () {
             _addToFavorites(filteredMarcadores
                 .indexWhere((element) => element['titulo'] == item['titulo']));
@@ -104,7 +104,7 @@ class _ListPageState extends State<ListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lista de estaciones"),
+        title: const Text("Lista de estaciones"),
         backgroundColor: lightGreen,
       ),
       backgroundColor: lightGreen,
@@ -120,14 +120,14 @@ class _ListPageState extends State<ListPage> {
               decoration: InputDecoration(
                 labelText: "Search",
                 hintText: "Search",
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
                 ),
                 focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(25.0)),
                     borderSide: BorderSide(color: darkGreen)),
               ),
             ),
