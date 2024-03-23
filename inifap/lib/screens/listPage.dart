@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/screens/MapScreen.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:inifap/datos/Datos.dart';
+import 'package:inifap/widgets/Colors.dart';
+
 
 class ListPage extends StatefulWidget {
   @override
@@ -67,6 +71,14 @@ class _ListPageState extends State<ListPage> {
     _loadFavorites();
   }
 
+  void _openMapScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MapScreen(locations: filteredMarcadores)),
+    );
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> listTiles = [];
@@ -82,7 +94,6 @@ class _ListPageState extends State<ListPage> {
                 .indexWhere((element) => element['titulo'] == fav['titulo']));
           },
         ),
-        // You can add onTap functionality here
       );
     }));
     listTiles.addAll(filteredMarcadores
@@ -98,7 +109,6 @@ class _ListPageState extends State<ListPage> {
                 .indexWhere((element) => element['titulo'] == item['titulo']));
           },
         ),
-        // You can add onTap functionality here
       );
     }));
 
@@ -106,6 +116,12 @@ class _ListPageState extends State<ListPage> {
       appBar: AppBar(
         title: const Text("Lista de estaciones"),
         backgroundColor: lightGreen,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.map),
+            onPressed: _openMapScreen,
+          ),
+        ],
       ),
       backgroundColor: lightGreen,
       body: Column(
@@ -141,4 +157,13 @@ class _ListPageState extends State<ListPage> {
       ),
     );
   }
+}
+
+
+
+
+void main() {
+  runApp(MaterialApp(
+    home: ListPage(),
+  ));
 }
