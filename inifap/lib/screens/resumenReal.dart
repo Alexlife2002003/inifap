@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
@@ -18,7 +21,7 @@ class _ResumenRealState extends State<ResumenReal> {
   void initState() {
     super.initState();
     loadFavorites();
-    loadResumenEstaciones();
+    loadResumenEstaciones(); // No need to await here
   }
 
   Future<void> loadFavorites() async {
@@ -28,13 +31,27 @@ class _ResumenRealState extends State<ResumenReal> {
     });
   }
 
-  void loadResumenEstaciones() {
+  Future<void> loadResumenEstaciones() async {
     // Data from your provided list
-    resumenEstaciones = ResumenEstacionesTiempoReal;
+    const secureStorage = FlutterSecureStorage();
+    String? storedDataJson =
+        await secureStorage.read(key: 'Resumen_tiempo_real');
+    if (storedDataJson != null) {
+      setState(() {
+        resumenEstaciones =
+            List<Map<String, dynamic>>.from(json.decode(storedDataJson));
+        //print(resumenEstaciones);
+      });
+    } else {
+      setState(() {
+        resumenEstaciones = [];
+      });
+    }
   }
 
   Map<String, dynamic> getDataForEstacionAndMunicipio(
       String estacion, String municipio) {
+     
     return resumenEstaciones.firstWhere(
       (data) => data['Estacion'] == estacion && data['Municipio'] == municipio,
       orElse: () => {},
@@ -82,7 +99,8 @@ class _ResumenRealState extends State<ResumenReal> {
                             elevation: 0, // No shadow
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
-                              side: const BorderSide(color: Colors.black, width: 1),
+                              side: const BorderSide(
+                                  color: Colors.black, width: 1),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
@@ -105,7 +123,8 @@ class _ResumenRealState extends State<ResumenReal> {
                                     ],
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       const Text(
                                         'Municipio:',
@@ -113,7 +132,8 @@ class _ResumenRealState extends State<ResumenReal> {
                                       ),
                                       Text(
                                         municipio,
-                                        style: const TextStyle(fontSize: 20,color: Colors.blue),
+                                        style: const TextStyle(
+                                            fontSize: 20, color: Colors.blue),
                                       ),
                                     ],
                                   ),

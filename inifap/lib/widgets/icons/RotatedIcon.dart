@@ -12,7 +12,7 @@ class RotatedIcon extends StatelessWidget {
     double angle = 0;
 
     switch (direction) {
-      case 'N':
+      case 'Norte':
         angle = 0;
         break;
       case 'NNE':
@@ -24,7 +24,7 @@ class RotatedIcon extends StatelessWidget {
       case 'ENE':
         angle = 67.5;
         break;
-      case 'E':
+      case 'Este':
         angle = 90;
         break;
       case 'ESE':

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/screens/HomeScreen.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/screens/resumenReal.dart';
@@ -6,13 +9,38 @@ import 'package:inifap/widgets/Colors.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart' ;
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-void main() {
+        List<String> prefixes = [
+      'Norte',
+      'NNE',
+      'NE',
+      'ENE',
+      'Este',
+      'ESE',
+      'SE',
+      'SSE',
+      'Sur',
+      'SSO',
+      'SO',
+      'OSO',
+      'Oeste',
+      'ONO',
+      'NO',
+      'NNO'
+    ];
+
+void main() async {
+  await dotenv.load();
   runApp(MyApp());
+  requestNotificationPermission();
+  // Start periodic background task to fetch data and show notifications
+  startPeriodicTask();
 }
 
 void requestNotificationPermission() async {
@@ -37,6 +65,59 @@ void startPeriodicTask() {
 
 Future<String> fetchData() async {
   // Simulating an asynchronous API call to fetch data
+  String api_url = dotenv.env['RESUMEN_TIEMPO_REAL'] ?? "DEFAULT";
+  final response = await http.get(Uri.parse(api_url));
+  List<String> dataList = [];
+  List<Map<String, dynamic>> data = [];
+  const secureStorage=FlutterSecureStorage();
+  
+  if (response.statusCode == 200) {
+    final document = parse(response.body);
+    String? parsedString = parse(document.body?.text).documentElement?.text;
+    var textparts=parsedString?.split(',');
+    textparts?.forEach((part){
+      dataList.add(part.trim());
+    });
+
+    while(dataList.length !=1){
+      String municipio=dataList[0];
+      String direccion=dataList[10];
+      for (String prefix in prefixes){
+        if(municipio.startsWith(prefix)){
+          municipio=municipio.substring(prefix.length).trim();
+          
+        }
+        if(direccion.startsWith(prefix)){
+          direccion=prefix;
+        }
+      }
+      var dataMap={
+        "Municipio": municipio,
+        "Estacion": dataList[1],
+        "Hora": dataList[2],
+        "Fecha": dataList[3],
+        "Max": dataList[4],
+        "Min":dataList[5],
+        "Med": dataList[6],
+        "Precipitacion": dataList[7],
+        "VelMed": dataList[8],
+        "VelMax": dataList[9],
+        "Direccion": direccion,
+      };
+      data.add(dataMap);
+      dataList.removeRange(0,10);
+     // print("------------------------------------------------");
+     //print(dataList);
+
+    }
+    //print(data);
+    String dataJson=jsonEncode(data);
+    await secureStorage.write(key: 'Resumen_tiempo_real', value: dataJson);
+
+
+
+  }
+  
   await Future.delayed(Duration(seconds: 5));
   return 'Fetched data'; // Replace this with your actual data fetching logic
 }

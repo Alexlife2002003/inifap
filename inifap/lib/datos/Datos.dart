@@ -585,7 +585,7 @@ List<Map<String, dynamic>> estaciones = [
   },
   {
     "position": {"lat": 23.969722, "lng": -103.451667},
-    "titulo": "Estación: Col. Golzalez Ortega - Municipio: Sombrerete"
+    "titulo": "Estación: Col. Gonzalez Ortega - Municipio: Sombrerete"
   },
   {
     "position": {"lat": 23.964167, "lng": -103.663333},
