@@ -5,12 +5,12 @@ import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ResumenReal extends StatefulWidget {
+class ResumenDiaAnterior extends StatefulWidget {
   @override
-  _ResumenRealState createState() => _ResumenRealState();
+  _ResumenDiaAnteriorState createState() => _ResumenDiaAnteriorState();
 }
 
-class _ResumenRealState extends State<ResumenReal> {
+class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
   List<String> favorites = [];
   List<Map<String, dynamic>> resumenEstaciones = [];
 
@@ -31,8 +31,7 @@ class _ResumenRealState extends State<ResumenReal> {
   Future<void> loadResumenEstaciones() async {
     // Data from your provided list
     const secureStorage = FlutterSecureStorage();
-    String? storedDataJson =
-        await secureStorage.read(key: 'Resumen_tiempo_real');
+    String? storedDataJson = await secureStorage.read(key: 'dia_anterior');
     if (storedDataJson != null) {
       setState(() {
         resumenEstaciones =
@@ -65,7 +64,7 @@ class _ResumenRealState extends State<ResumenReal> {
             const SizedBox(height: 40),
             const Center(
               child: Text(
-                'Resumen tiempo real',
+                'Resumen dia anterior',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -139,22 +138,6 @@ class _ResumenRealState extends State<ResumenReal> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.access_time,
-                                              size: 50,
-                                              color: Colors.black,
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              '${data['Hora']} hrs',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
                                         Column(
                                           children: [
                                             const Icon(Icons.calendar_month,

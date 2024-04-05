@@ -64,11 +64,11 @@ class _MapScreenState extends State<MapScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Mapa de Estaciones"),
+          title: const Text("Mapa de Estaciones"),
           backgroundColor: lightGreen,
         ),
         body: GoogleMap(
-          initialCameraPosition: CameraPosition(
+          initialCameraPosition: const CameraPosition(
             target: LatLng(23.6260, -102.5375), // Center of Mexico
             zoom: 5.0, // Initial zoom level
           ),

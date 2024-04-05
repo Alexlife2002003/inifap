@@ -8,7 +8,7 @@ class WeatherCardResumenReal extends StatelessWidget {
   final String avg;
   final String precipitation; // Add precipitation field
 
-  WeatherCardResumenReal({
+  const WeatherCardResumenReal({
     required this.icon,
     required this.label,
     required this.max,

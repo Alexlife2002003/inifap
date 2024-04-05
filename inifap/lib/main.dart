@@ -3,40 +3,61 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/screens/HomeScreen.dart';
+import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/screens/resumenReal.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
-import 'package:flutter_dotenv/flutter_dotenv.dart' ;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-        List<String> prefixes = [
-      'Norte',
-      'NNE',
-      'NE',
-      'ENE',
-      'Este',
-      'ESE',
-      'SE',
-      'SSE',
-      'Sur',
-      'SSO',
-      'SO',
-      'OSO',
-      'Oeste',
-      'ONO',
-      'NO',
-      'NNO'
-    ];
+List<String> prefixes = [
+  'Norte',
+  'NNE',
+  'NE',
+  'ENE',
+  'Este',
+  'ESE',
+  'SE',
+  'SSE',
+  'Sur',
+  'SSO',
+  'SO',
+  'OSO',
+  'Oeste',
+  'ONO',
+  'NO',
+  'NNO'
+];
+List<String> prefixesShort = [
+  'N',
+  'NNE',
+  'NE',
+  'ENE',
+  'E',
+  'ESE',
+  'SE',
+  'SSE',
+  'S',
+  'SSO',
+  'SO',
+  'OSO',
+  'O',
+  'ONO',
+  'NO',
+  'NNO'
+];
 
 void main() async {
   await dotenv.load();
+  fetchDataResumenReal();
+  fetchDataResumenDiaAnterior();
   runApp(MyApp());
   requestNotificationPermission();
   // Start periodic background task to fetch data and show notifications
@@ -49,77 +70,188 @@ void requestNotificationPermission() async {
   if (status != PermissionStatus.granted) {
     // Handle denied or restricted permission
     // You may want to show a message to the user
-    print('Notification permission denied or restricted');
+    debugPrint('Notification permission denied or restricted');
   }
 }
 
 void startPeriodicTask() {
   // Schedule a periodic task using Timer.periodic
-  Timer.periodic(Duration(hours: 1), (Timer timer) async {
+  Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
     // Fetch data
-    final fetchedData = await fetchData();
+    final fetchedData = await fetchDataResumenReal();
+    // Show notification with fetched data
+    await showNotification(fetchedData);
+  });
+
+  Timer.periodic(const Duration(hours: 6), (Timer timer) async {
+    // Fetch data
+    final fetchedData = await fetchDataResumenDiaAnterior();
     // Show notification with fetched data
     await showNotification(fetchedData);
   });
 }
 
-Future<String> fetchData() async {
-  // Simulating an asynchronous API call to fetch data
-  String api_url = dotenv.env['RESUMEN_TIEMPO_REAL'] ?? "DEFAULT";
-  final response = await http.get(Uri.parse(api_url));
-  List<String> dataList = [];
-  List<Map<String, dynamic>> data = [];
-  const secureStorage=FlutterSecureStorage();
-  
-  if (response.statusCode == 200) {
-    final document = parse(response.body);
-    String? parsedString = parse(document.body?.text).documentElement?.text;
-    var textparts=parsedString?.split(',');
-    textparts?.forEach((part){
-      dataList.add(part.trim());
-    });
+Future<String> fetchDataResumenDiaAnterior() async {
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String api_url = dotenv.env['DIA_ANTERIOR'] ?? "DEFAULT";
+    final response = await http.get(Uri.parse(api_url));
 
-    while(dataList.length !=1){
-      String municipio=dataList[0];
-      String direccion=dataList[10];
-      for (String prefix in prefixes){
-        if(municipio.startsWith(prefix)){
-          municipio=municipio.substring(prefix.length).trim();
-          
+    List<String> dataList = [];
+    List<Map<String, dynamic>> data = [];
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      final document = parse(response.body);
+      String? parsedString = parse(document.body?.text).documentElement?.text;
+      var textparts = parsedString?.split(',');
+      textparts?.forEach((part) {
+        dataList.add(part.trim());
+      });
+
+      while (dataList.length >= 10) {
+        String municipio = dataList[0];
+        String direccion = dataList[9];
+        for (String prefix in prefixesShort) {
+          if (municipio.startsWith(prefix)) {
+            municipio = municipio.substring(prefix.length).trim();
+          }
+          if (direccion.startsWith(prefix)) {
+            direccion = prefix;
+          }
         }
-        if(direccion.startsWith(prefix)){
-          direccion=prefix;
+        if (direccion == "S") {
+          for (String prefix in prefixes) {
+            if (dataList[9].startsWith(prefix)) {
+              direccion = prefix;
+              break;
+            } else {
+              direccion = "Sur";
+            }
+          }
         }
+
+        if (direccion == "O") {
+          for (String prefix in prefixes) {
+            if (dataList[9].startsWith(prefix)) {
+              direccion = prefix;
+              break;
+            } else {
+              direccion = "Oeste";
+            }
+          }
+        }
+        if (direccion == "E") {
+          for (String prefix in prefixes) {
+            if (dataList[9].startsWith(prefix)) {
+              direccion = prefix;
+              break;
+            } else {
+              direccion = "Este";
+            }
+          }
+        }
+
+        if (direccion == "N") {
+          for (String prefix in prefixes) {
+            if (dataList[9].startsWith(prefix)) {
+              direccion = prefix;
+              break;
+            } else {
+              direccion = "Norte";
+            }
+          }
+        }
+
+        if (dataList[1]=="Col. González Ortega"){
+          dataList[1]=="Col. Gonzalez Ortega";
+        }
+        var dataMap = {
+          "Municipio": municipio,
+          "Estacion": dataList[1],
+          "Fecha": dataList[2],
+          "Max": dataList[3],
+          "Min": dataList[4],
+          "Med": dataList[5],
+          "Precipitacion": dataList[6],
+          "VelMed": dataList[7],
+          "VelMax": dataList[8],
+          "Direccion": direccion,
+        };
+        data.add(dataMap);
+        dataList.removeRange(0, 9);
       }
-      var dataMap={
-        "Municipio": municipio,
-        "Estacion": dataList[1],
-        "Hora": dataList[2],
-        "Fecha": dataList[3],
-        "Max": dataList[4],
-        "Min":dataList[5],
-        "Med": dataList[6],
-        "Precipitacion": dataList[7],
-        "VelMed": dataList[8],
-        "VelMax": dataList[9],
-        "Direccion": direccion,
-      };
-      data.add(dataMap);
-      dataList.removeRange(0,10);
-     // print("------------------------------------------------");
-     //print(dataList);
 
+      String dataJson = jsonEncode(data);
+      await secureStorage.write(key: 'dia_anterior', value: dataJson);
+
+      return 'Fetched data'; // Replace this with your actual data fetching logic
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
     }
-    //print(data);
-    String dataJson=jsonEncode(data);
-    await secureStorage.write(key: 'Resumen_tiempo_real', value: dataJson);
-
-
-
+  } catch (e) {
+    print('Error fetching data: $e');
+    return 'Error fetching data: $e';
   }
-  
-  await Future.delayed(Duration(seconds: 5));
-  return 'Fetched data'; // Replace this with your actual data fetching logic
+}
+
+Future<String> fetchDataResumenReal() async {
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String api_url = dotenv.env['RESUMEN_TIEMPO_REAL'] ?? "DEFAULT";
+    final response = await http.get(Uri.parse(api_url));
+
+    List<String> dataList = [];
+    List<Map<String, dynamic>> data = [];
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      final document = parse(response.body);
+      String? parsedString = parse(document.body?.text).documentElement?.text;
+      var textparts = parsedString?.split(',');
+      textparts?.forEach((part) {
+        dataList.add(part.trim());
+      });
+
+      while (dataList.length >= 11) {
+        String municipio = dataList[0];
+        String direccion = dataList[10];
+        for (String prefix in prefixes) {
+          if (municipio.startsWith(prefix)) {
+            municipio = municipio.substring(prefix.length).trim();
+          }
+          if (direccion.startsWith(prefix)) {
+            direccion = prefix;
+          }
+        }
+        var dataMap = {
+          "Municipio": municipio,
+          "Estacion": dataList[1],
+          "Hora": dataList[2],
+          "Fecha": dataList[3],
+          "Max": dataList[4],
+          "Min": dataList[5],
+          "Med": dataList[6],
+          "Precipitacion": dataList[7],
+          "VelMed": dataList[8],
+          "VelMax": dataList[9],
+          "Direccion": direccion,
+        };
+        data.add(dataMap);
+        dataList.removeRange(0, 10);
+      }
+
+      String dataJson = jsonEncode(data);
+      await secureStorage.write(key: 'Resumen_tiempo_real', value: dataJson);
+
+      return 'Fetched data'; // Replace this with your actual data fetching logic
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error fetching data: $e');
+    return 'Error fetching data: $e';
+  }
 }
 
 Future<void> showNotification(String fetchedData) async {
@@ -138,7 +270,7 @@ Future<void> showNotification(String fetchedData) async {
     0, // Unique notification ID
     'Periodic Notification', // Notification title
     fetchedData, // Notification body using fetched data
-    NotificationDetails(
+    const NotificationDetails(
       android: AndroidNotificationDetails(
         'channel_id',
         'channel_name',
@@ -173,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _pages = [
     HomeScreen(),
     ListPage(),
-    ResumenReal(),
+    ResumenRealOrYesterday(),
     GraphScreen(),
   ];
 
@@ -214,10 +346,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-
-
 
 class GraphScreen extends StatelessWidget {
   @override
