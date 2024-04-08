@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:diacritic/diacritic.dart';
 
 class ResumenDiaAnterior extends StatefulWidget {
   @override
@@ -28,6 +30,8 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
     });
   }
 
+
+
   Future<void> loadResumenEstaciones() async {
     // Data from your provided list
     const secureStorage = FlutterSecureStorage();
@@ -36,6 +40,10 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
       setState(() {
         resumenEstaciones =
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
+        for (var obj in resumenEstaciones) {
+          String estacion = obj['Estacion'];
+          print(removeDiacritics(obj['Estacion']) + " ," + obj['Municipio']);
+        }
         //print(resumenEstaciones);
       });
     } else {
@@ -48,7 +56,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
   Map<String, dynamic> getDataForEstacionAndMunicipio(
       String estacion, String municipio) {
     return resumenEstaciones.firstWhere(
-      (data) => data['Estacion'] == estacion && data['Municipio'] == municipio,
+      (data) => removeDiacritics(data['Estacion']) == removeDiacritics(estacion) && removeDiacritics(data['Municipio']) == removeDiacritics(municipio),
       orElse: () => {},
     );
   }
