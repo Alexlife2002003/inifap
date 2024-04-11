@@ -110,36 +110,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Text(
-                                        'Estacion:',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      Text(
-                                        estacion,
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.blue),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Text(
-                                        'Municipio:',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      Text(
-                                        municipio,
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.blue),
-                                      ),
-                                    ],
-                                  ),
+                                  estacion_municipio(estacion, municipio),
                                   if (data.isNotEmpty) ...[
                                     const SizedBox(height: 10),
                                     Temperatura(
@@ -259,9 +230,12 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10,),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         informacion_singular(
                                           "Radiacion:",

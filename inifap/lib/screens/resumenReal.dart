@@ -56,38 +56,7 @@ class _ResumenRealState extends State<ResumenReal> {
     );
   }
 
-  estacion_municipio(String estacion, String municipio) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Text(
-              'Estacion:',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              estacion,
-              style: const TextStyle(fontSize: 20, color: Colors.blue),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Text(
-              'Municipio:',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              municipio,
-              style: const TextStyle(fontSize: 20, color: Colors.blue),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+
 
   hora_fecha(String hora, String fecha) {
     return Row(

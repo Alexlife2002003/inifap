@@ -55,10 +55,10 @@ List<String> prefixesShort = [
 void main() async {
   await dotenv.load();
   requestNotificationPermission();
-  startPeriodicTask();
   fetchDataResumenReal();
   fetchDataResumenDiaAnterior();
   fetchDataAvanceMensual();
+  startPeriodicTask();
   runApp(MyApp());
 }
 
@@ -74,6 +74,17 @@ void requestNotificationPermission() async {
 
 void startPeriodicTask() {
   // Schedule a periodic task using Timer.periodic
+
+  Timer(Duration(seconds: 10), () async {
+    await fetchDataResumenReal();
+    await fetchDataResumenDiaAnterior();
+    final fetchedData= await fetchDataAvanceMensual();
+    if(fetchedData!="Error"){
+      await showNotification(fetchedData);
+    }else{
+      await showNotificationError();
+    }
+  });
   Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
     // Fetch data
     final fetchedData = await fetchDataResumenReal();
@@ -303,7 +314,8 @@ Future<String> fetchDataAvanceMensual() async {
           "Radiacion": dataList[9] + "," + dataList[10],
           "Viento_max": dataList[11],
           "Viento_med": dataList[12],
-          "Evapotranspiracion": dataList[13].replaceAll(RegExp("[a-zA-ZáéíóúñÑÁÉÍÓÚ:\s]"), ""),
+          "Evapotranspiracion":
+              dataList[13].replaceAll(RegExp("[a-zA-ZáéíóúñÑÁÉÍÓÚ:\s]"), ""),
         };
         data.add(dataMap);
         dataList.removeRange(0, 13);
