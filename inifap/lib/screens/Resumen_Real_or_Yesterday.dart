@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/screens/resumenAvanceMensual.dart';
 import 'package:inifap/screens/resumenDiaAnterior.dart';
 import 'package:inifap/screens/resumenReal.dart';
 import 'package:inifap/widgets/Colors.dart';
@@ -15,63 +16,61 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          color: lightGreen,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                height: 50,
-              ),
-              Row(
-                children: [
-                  _buildForecastCard(
-                      Icons.today, "Resumen en tiempo real", Colors.lightBlue,
-                      () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>  ResumenReal()),
-                    );
-                  }),
-                  _buildForecastCard(Icons.calendar_today,
-                      "Resumen dia anterior", Colors.orangeAccent,(){
-                        Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>  ResumenDiaAnterior()),
-                    );
-                      }),
-                ],
-              ),
-              Row(
-                children: [
-                  _buildForecastCard(
-                      Icons.calendar_month, "Avance mensual", Colors.blueGrey,(){})
-                ],
-              ),
-              _buildForecastCard(
-                  Icons.today, "Today's Forecast", Colors.lightBlue,(){}),
-              _buildForecastCard(Icons.calendar_today, "Yesterday's Forecast",
-                  Colors.orangeAccent,(){}),
-              _buildForecastCard(Icons.wb_sunny, "Sunny", Colors.yellow,(){}),
-              _buildForecastCard(Icons.cloud, "Cloudy", Colors.grey,(){}),
-              _buildForecastCard(Icons.waves, "Rainy", Colors.blue,(){}),
-              _buildForecastCard(Icons.grain, "Windy", Colors.lightBlue,(){}),
-              _buildForecastCard(
-                  Icons.ac_unit, "Snowy", Colors.lightBlueAccent,(){}),
-              _buildForecastCard(Icons.hot_tub, "Humid", Colors.purple,(){}),
-              _buildForecastCard(
-                  Icons.nightlight_round, "Night", Colors.indigo,(){}),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: lightGreen,
+        elevation: 0,
+        title: Text("Datos en tiempo real", style: TextStyle(fontWeight: FontWeight.bold),),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            height: screenHeight,
+            color: lightGreen,
+            child: Column(
+              children: [
+               
+                Row(
+                  children: [
+                    _buildForecastCard(
+                        Icons.today, "Resumen en tiempo real", Colors.lightBlue,
+                        () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ResumenReal()),
+                      );
+                    }),
+                    _buildForecastCard(Icons.calendar_today,
+                        "Resumen dia anterior", Colors.orangeAccent, () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResumenDiaAnterior()),
+                      );
+                    }),
+                  ],
+                ),
+                Row(
+                  children: [
+                    _buildForecastCard(
+                        Icons.calendar_month, "Avance mensual", Colors.blueGrey,
+                        () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => resumenAvanceMensual()),
+                      );
+                    })
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
 
   Widget _newCardTitle(
     IconData icon,

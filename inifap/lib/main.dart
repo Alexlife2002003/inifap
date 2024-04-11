@@ -56,12 +56,11 @@ List<String> prefixesShort = [
 
 void main() async {
   await dotenv.load();
+  requestNotificationPermission();
+  startPeriodicTask();
   fetchDataResumenReal();
   fetchDataResumenDiaAnterior();
   runApp(MyApp());
-  requestNotificationPermission();
-  // Start periodic background task to fetch data and show notifications
-  startPeriodicTask();
 }
 
 void requestNotificationPermission() async {
@@ -76,18 +75,26 @@ void requestNotificationPermission() async {
 
 void startPeriodicTask() {
   // Schedule a periodic task using Timer.periodic
-  Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
+  Timer.periodic(const Duration(seconds: 2), (Timer timer) async {
     // Fetch data
     final fetchedData = await fetchDataResumenReal();
     // Show notification with fetched data
-    await showNotification(fetchedData);
+    if (fetchedData != "Error") {
+      await showNotification(fetchedData);
+    } else {
+      await showNotificationError();
+    }
   });
 
-  Timer.periodic(const Duration(hours: 6), (Timer timer) async {
+  Timer.periodic(const Duration(seconds: 4), (Timer timer) async {
     // Fetch data
     final fetchedData = await fetchDataResumenDiaAnterior();
     // Show notification with fetched data
-    await showNotification(fetchedData);
+    if (fetchedData != "Error") {
+      await showNotification(fetchedData);
+    } else {
+      await showNotificationError();
+    }
   });
 }
 
@@ -114,7 +121,12 @@ Future<String> fetchDataResumenDiaAnterior() async {
         String direccion = dataList[9];
         for (String prefix in prefixesShort) {
           if (municipio.startsWith(prefix)) {
-            municipio = municipio.substring(prefix.length).trim();
+            if (prefix == "O") {
+              if (municipio != "Ojocaliente")
+                municipio = municipio.substring(prefix.length).trim();
+            }else{
+              municipio = municipio.substring(prefix.length).trim();
+            }
           }
           if (direccion.startsWith(prefix)) {
             direccion = prefix;
@@ -163,8 +175,8 @@ Future<String> fetchDataResumenDiaAnterior() async {
           }
         }
 
-        if (dataList[1]=="Col. González Ortega"){
-          dataList[1]=="Col. Gonzalez Ortega";
+        if (dataList[1] == "Col. González Ortega") {
+          dataList[1] == "Col. Gonzalez Ortega";
         }
         var dataMap = {
           "Municipio": municipio,
@@ -179,6 +191,7 @@ Future<String> fetchDataResumenDiaAnterior() async {
           "Direccion": direccion,
         };
         data.add(dataMap);
+        print(dataMap);
         dataList.removeRange(0, 9);
       }
 
@@ -190,8 +203,7 @@ Future<String> fetchDataResumenDiaAnterior() async {
       throw Exception('Failed to fetch data: ${response.statusCode}');
     }
   } catch (e) {
-    print('Error fetching data: $e');
-    return 'Error fetching data: $e';
+    return 'Error';
   }
 }
 
@@ -249,8 +261,7 @@ Future<String> fetchDataResumenReal() async {
       throw Exception('Failed to fetch data: ${response.statusCode}');
     }
   } catch (e) {
-    print('Error fetching data: $e');
-    return 'Error fetching data: $e';
+    return 'Error';
   }
 }
 
@@ -270,6 +281,33 @@ Future<void> showNotification(String fetchedData) async {
     0, // Unique notification ID
     'Periodic Notification', // Notification title
     fetchedData, // Notification body using fetched data
+    const NotificationDetails(
+      android: AndroidNotificationDetails(
+        'channel_id',
+        'channel_name',
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
+    ),
+  );
+}
+
+Future<void> showNotificationError() async {
+  // Initialize the local notifications plugin with Android-specific initialization settings.
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  // Create an instance of InitializationSettings with the Android initialization settings.
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Show notification with fetched data
+  await flutterLocalNotificationsPlugin.show(
+    1, // Unique notification ID
+    'Actualización de información fallida', // Notification title
+    'No se pudo actualizar la información debido a que el API está caído.', // Notification body using fetched data
     const NotificationDetails(
       android: AndroidNotificationDetails(
         'channel_id',
@@ -327,7 +365,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             backgroundColor: darkGreen,
             icon: const Icon(Icons.sunny_snowing),
-            label: 'Estacion',
+            label: 'Estaciones',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.list),
@@ -335,7 +373,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.access_time),
-            label: 'Resumen tiempo real',
+            label: 'Tiempo real',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.open_with_rounded),

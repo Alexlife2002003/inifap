@@ -42,7 +42,6 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
         for (var obj in resumenEstaciones) {
           String estacion = obj['Estacion'];
-          print(removeDiacritics(obj['Estacion']) + " ," + obj['Municipio']);
         }
         //print(resumenEstaciones);
       });
