@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:inifap/View/widgets.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -141,105 +142,17 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                   ),
                                   if (data.isNotEmpty) ...[
                                     const SizedBox(height: 10),
-                                    const Center(
-                                      child: Text(
-                                        'Temperatura:',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.thermostat,
-                                              color: Colors.red,
-                                              size: 40,
-                                            ),
-                                            const Text(
-                                              'Max',
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data["Temp_max"]}°C',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.thermostat,
-                                              size: 40,
-                                            ),
-                                            const Text(
-                                              'Med',
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data["Temp_med"]}°C',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Icon(Icons.thermostat,
-                                                size: 40,
-                                                color: Colors.blue[200]),
-                                            const Text(
-                                              "Min",
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data["Temp_min"]}°C',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                    Temperatura(
+                                      "Temperatura",
+                                      '${data["Temp_max"]}°C',
+                                      '${data["Temp_med"]}°C',
+                                      '${data["Temp_min"]}°C',
                                     ),
                                     const SizedBox(height: 10),
-                                    const Center(
-                                      child: Text(
-                                        'Precipitacion:',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.cloudy_snowing,
-                                              size: 40,
-                                            ),
-                                            Text(
-                                              "${data['Precipitacion']} mm",
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                    informacion_singular(
+                                      "Precipitacion:",
+                                      "${data['Precipitacion']} mm",
+                                      Icons.cloudy_snowing,
                                     ),
                                     const SizedBox(height: 10),
                                     const Center(
@@ -346,64 +259,22 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                         ),
                                       ],
                                     ),
-                                    const Center(
-                                      child: Text(
-                                        'Radiacion:',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
+                                    SizedBox(height: 10,),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.cloudy_snowing,
-                                              size: 40,
-                                            ),
-                                            Text(
-                                              "${data['Radiacion']} mm",
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
+                                        informacion_singular(
+                                          "Radiacion:",
+                                          "${data['Radiacion']} mm",
+                                          Icons.cloudy_snowing,
+                                        ),
+                                        informacion_singular(
+                                          "Evapotranspiracion:",
+                                          "${data['Evapotranspiracion']} mm",
+                                          Icons.cloudy_snowing,
                                         ),
                                       ],
-                                    ),
-                                    const Center(
-                                      child: Text(
-                                        'Evapotranspiracion:',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.cloudy_snowing,
-                                              size: 40,
-                                            ),
-                                            Text(
-                                              "${data['Evapotranspiracion']} mm",
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                    )
                                   ] else ...[
                                     const SizedBox(height: 10),
                                     const Text(

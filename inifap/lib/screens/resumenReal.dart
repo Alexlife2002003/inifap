@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:inifap/View/widgets.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
 
@@ -55,6 +56,74 @@ class _ResumenRealState extends State<ResumenReal> {
     );
   }
 
+  estacion_municipio(String estacion, String municipio) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Text(
+              'Estacion:',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              estacion,
+              style: const TextStyle(fontSize: 20, color: Colors.blue),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Text(
+              'Municipio:',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              municipio,
+              style: const TextStyle(fontSize: 20, color: Colors.blue),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  hora_fecha(String hora, String fecha) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          children: [
+            const Icon(
+              Icons.access_time,
+              size: 50,
+              color: Colors.black,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              hora,
+              style: const TextStyle(fontSize: 18, color: Colors.blue),
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            const Icon(Icons.calendar_month, size: 50, color: Colors.black),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              fecha,
+              style: const TextStyle(fontSize: 18, color: Colors.blue),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,177 +173,19 @@ class _ResumenRealState extends State<ResumenReal> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Text(
-                                        'Estacion:',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      Text(
-                                        estacion,
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.blue),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Text(
-                                        'Municipio:',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      Text(
-                                        municipio,
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.blue),
-                                      ),
-                                    ],
-                                  ),
+                                  estacion_municipio(estacion, municipio),
                                   if (data.isNotEmpty) ...[
                                     const SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.access_time,
-                                              size: 50,
-                                              color: Colors.black,
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              '${data['Hora']} hrs',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            const Icon(Icons.calendar_month,
-                                                size: 50, color: Colors.black),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              '${data['Fecha']}',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                
+                                    hora_fecha('${data['Hora']} hrs',
+                                        '${data['Fecha']}'),
                                     const SizedBox(height: 10),
-                                    const Center(
-                                      child: Text(
-                                        'Temperatura:',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.thermostat,
-                                              color: Colors.red,
-                                              size: 40,
-                                            ),
-                                            const Text(
-                                              'Max',
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data["Max"]}°C',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.thermostat,
-                                              size: 40,
-                                            ),
-                                            const Text(
-                                              'Med',
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data["Med"]}°C',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Icon(Icons.thermostat,
-                                                size: 40,
-                                                color: Colors.blue[200]),
-                                            const Text(
-                                              "Min",
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data["Min"]}°C',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                    Temperatura(
+                                        "Temperatura:",
+                                        '${data["Max"]}°C',
+                                        '${data["Med"]}°C',
+                                        '${data["Min"]}°C'),
                                     const SizedBox(height: 10),
-                                    const Center(
-                                      child: Text(
-                                        'Precipitacion:',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.cloudy_snowing,
-                                              size: 40,
-                                            ),
-                                            Text(
-                                              "${data['Precipitacion']} mm",
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                    informacion_singular("Precipitacion:","${data['Precipitacion']} mm",Icons.cloudy_snowing,),
                                     const SizedBox(height: 10),
                                     const Center(
                                       child: Text(

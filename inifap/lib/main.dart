@@ -95,9 +95,9 @@ void startPeriodicTask() {
       await showNotificationError();
     }
   });
-  Timer.periodic(const Duration(seconds: 12), (Timer timer) async {
+  Timer.periodic(const Duration(hours: 12), (Timer timer) async {
     final fetchedData = await fetchDataAvanceMensual();
-    if (fetchedData != Error) {
+    if (fetchedData != "Error") {
       await showNotification(fetchedData);
     } else {
       await showNotificationError();
