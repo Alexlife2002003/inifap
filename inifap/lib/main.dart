@@ -75,7 +75,7 @@ void requestNotificationPermission() async {
 
 void startPeriodicTask() {
   // Schedule a periodic task using Timer.periodic
-  Timer.periodic(const Duration(seconds: 2), (Timer timer) async {
+  Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
     // Fetch data
     final fetchedData = await fetchDataResumenReal();
     // Show notification with fetched data
@@ -86,7 +86,7 @@ void startPeriodicTask() {
     }
   });
 
-  Timer.periodic(const Duration(seconds: 4), (Timer timer) async {
+  Timer.periodic(const Duration(hours: 6), (Timer timer) async {
     // Fetch data
     final fetchedData = await fetchDataResumenDiaAnterior();
     // Show notification with fetched data
