@@ -14,13 +14,15 @@ class ResumenRealOrYesterday extends StatefulWidget {
 class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: lightGreen,
         elevation: 0,
-        title: Text("Datos en tiempo real", style: TextStyle(fontWeight: FontWeight.bold),),
+        title: const Text(
+          "Datos en tiempo real",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Center(
@@ -30,7 +32,6 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
             color: lightGreen,
             child: Column(
               children: [
-               
                 Row(
                   children: [
                     _buildForecastCard(
@@ -66,45 +67,6 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _newCardTitle(
-    IconData icon,
-    String title,
-    Color color,
-  ) {
-    return GestureDetector(
-      onTap: () {},
-      child: Card(
-        color: lightGreen,
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                size: 40,
-                color: color,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: color,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
           ),
         ),
       ),

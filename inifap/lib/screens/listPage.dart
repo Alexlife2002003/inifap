@@ -118,7 +118,7 @@ class _ListPageState extends State<ListPage> {
         backgroundColor: lightGreen,
         actions: [
           IconButton(
-            icon: Icon(Icons.map),
+            icon: const Icon(Icons.map),
             onPressed: _openMapScreen,
           ),
         ],

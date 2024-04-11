@@ -39,10 +39,6 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
       setState(() {
         resumenEstaciones =
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
-        for (var obj in resumenEstaciones) {
-          String estacion = obj['Estacion'];
-        }
-        //print(resumenEstaciones);
       });
     } else {
       setState(() {

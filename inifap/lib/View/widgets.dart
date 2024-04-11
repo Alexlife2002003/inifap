@@ -6,7 +6,7 @@ informacion_singular(String titulo, String valor, IconData icon) {
       Center(
         child: Text(
           titulo,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -39,7 +39,7 @@ Temperatura(String title, String max, String med, String min) {
       Center(
         child: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),

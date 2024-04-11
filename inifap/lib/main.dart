@@ -75,7 +75,7 @@ void requestNotificationPermission() async {
 void startPeriodicTask() {
   // Schedule a periodic task using Timer.periodic
 
-  Timer(Duration(seconds: 10), () async {
+  Timer(const Duration(seconds: 3), () async {
     await fetchDataResumenReal();
     await fetchDataResumenDiaAnterior();
     final fetchedData= await fetchDataAvanceMensual();
@@ -323,9 +323,6 @@ Future<String> fetchDataAvanceMensual() async {
 
       String dataJson = jsonEncode(data);
       await secureStorage.write(key: 'avance_mensual', value: dataJson);
-
-      print(data);
-
       return 'Fetched data'; // Replace this with your actual data fetching logic
     } else {
       throw Exception('Failed to fetch data: ${response.statusCode}');
@@ -413,7 +410,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _pages = [
     HomeScreen(),
     ListPage(),
-    ResumenRealOrYesterday(),
+    const ResumenRealOrYesterday(),
     GraphScreen(),
   ];
 

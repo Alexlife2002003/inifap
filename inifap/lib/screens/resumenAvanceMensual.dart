@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
 import 'package:inifap/widgets/Colors.dart';
-import 'package:inifap/widgets/icons/RotatedIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:diacritic/diacritic.dart';
 
@@ -39,10 +37,6 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
       setState(() {
         resumenEstaciones =
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
-        for (var obj in resumenEstaciones) {
-          String estacion = obj['Estacion'];
-        }
-        //print(resumenEstaciones);
       });
     } else {
       setState(() {
@@ -230,7 +224,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
