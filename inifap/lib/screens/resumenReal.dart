@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResumenReal extends StatefulWidget {
@@ -172,6 +173,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                         ),
                                       ],
                                     ),
+                                
                                     const SizedBox(height: 10),
                                     const Center(
                                       child: Text(

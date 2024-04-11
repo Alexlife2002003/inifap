@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/screens/HomeScreen.dart';
 import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
 import 'package:inifap/screens/listPage.dart';
-import 'package:inifap/screens/resumenReal.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -60,6 +58,7 @@ void main() async {
   startPeriodicTask();
   fetchDataResumenReal();
   fetchDataResumenDiaAnterior();
+  fetchDataAvanceMensual();
   runApp(MyApp());
 }
 
@@ -96,6 +95,14 @@ void startPeriodicTask() {
       await showNotificationError();
     }
   });
+  Timer.periodic(const Duration(seconds: 12), (Timer timer) async {
+    final fetchedData = await fetchDataAvanceMensual();
+    if (fetchedData != Error) {
+      await showNotification(fetchedData);
+    } else {
+      await showNotificationError();
+    }
+  });
 }
 
 Future<String> fetchDataResumenDiaAnterior() async {
@@ -124,7 +131,7 @@ Future<String> fetchDataResumenDiaAnterior() async {
             if (prefix == "O") {
               if (municipio != "Ojocaliente")
                 municipio = municipio.substring(prefix.length).trim();
-            }else{
+            } else {
               municipio = municipio.substring(prefix.length).trim();
             }
           }
@@ -191,7 +198,6 @@ Future<String> fetchDataResumenDiaAnterior() async {
           "Direccion": direccion,
         };
         data.add(dataMap);
-        print(dataMap);
         dataList.removeRange(0, 9);
       }
 
@@ -255,6 +261,58 @@ Future<String> fetchDataResumenReal() async {
 
       String dataJson = jsonEncode(data);
       await secureStorage.write(key: 'Resumen_tiempo_real', value: dataJson);
+
+      return 'Fetched data'; // Replace this with your actual data fetching logic
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    return 'Error';
+  }
+}
+
+Future<String> fetchDataAvanceMensual() async {
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String api_url = dotenv.env['AVANCE_MENSUAL'] ?? "DEFAULT";
+    final response = await http.get(Uri.parse(api_url));
+
+    List<String> dataList = [];
+    List<Map<String, dynamic>> data = [];
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      final document = parse(response.body);
+      String? parsedString = parse(document.body?.text).documentElement?.text;
+      var textparts = parsedString?.split(',');
+      textparts?.forEach((part) {
+        dataList.add(part.trim());
+      });
+
+      while (dataList.length >= 12) {
+        var dataMap = {
+          "Municipio": dataList[0].replaceAll(RegExp("[0-9.]"), ""),
+          "Estacion": dataList[1],
+          "Temp_max": dataList[2],
+          "Temp_min": dataList[3],
+          "Temp_med": dataList[4],
+          "Precipitacion": dataList[5],
+          "Humedad_max": dataList[6],
+          "Humedad_min": dataList[7],
+          "Humedad_med": dataList[8],
+          "Radiacion": dataList[9] + "," + dataList[10],
+          "Viento_max": dataList[11],
+          "Viento_med": dataList[12],
+          "Evapotranspiracion": dataList[13].replaceAll(RegExp("[a-zA-ZáéíóúñÑÁÉÍÓÚ:\s]"), ""),
+        };
+        data.add(dataMap);
+        dataList.removeRange(0, 13);
+      }
+
+      String dataJson = jsonEncode(data);
+      await secureStorage.write(key: 'avance_mensual', value: dataJson);
+
+      print(data);
 
       return 'Fetched data'; // Replace this with your actual data fetching logic
     } else {
