@@ -33,7 +33,7 @@ informacion_singular(String titulo, String valor, IconData icon) {
   );
 }
 
-Temperatura(String title, String max, String med, String min) {
+Temperatura(String title, String max, String med, String min, IconData icon) {
   return Column(
     children: [
       Center(
@@ -51,8 +51,8 @@ Temperatura(String title, String max, String med, String min) {
         children: [
           Column(
             children: [
-              const Icon(
-                Icons.thermostat,
+              Icon(
+                icon,
                 color: Colors.red,
                 size: 40,
               ),
@@ -68,8 +68,8 @@ Temperatura(String title, String max, String med, String min) {
           ),
           Column(
             children: [
-              const Icon(
-                Icons.thermostat,
+              Icon(
+                icon,
                 size: 40,
               ),
               const Text(
@@ -84,7 +84,7 @@ Temperatura(String title, String max, String med, String min) {
           ),
           Column(
             children: [
-              Icon(Icons.thermostat, size: 40, color: Colors.blue[200]),
+              Icon(icon, size: 40, color: Colors.blue[200]),
               const Text(
                 "Min",
                 style: TextStyle(fontSize: 18),
@@ -101,36 +101,35 @@ Temperatura(String title, String max, String med, String min) {
   );
 }
 
-
-  estacion_municipio(String estacion, String municipio) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Text(
-              'Estacion:',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              estacion,
-              style: const TextStyle(fontSize: 20, color: Colors.blue),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Text(
-              'Municipio:',
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              municipio,
-              style: const TextStyle(fontSize: 20, color: Colors.blue),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+estacion_municipio(String estacion, String municipio) {
+  return Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            'Estacion:',
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            estacion,
+            style: const TextStyle(fontSize: 20, color: Colors.blue),
+          ),
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            'Municipio:',
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            municipio,
+            style: const TextStyle(fontSize: 20, color: Colors.blue),
+          ),
+        ],
+      ),
+    ],
+  );
+}

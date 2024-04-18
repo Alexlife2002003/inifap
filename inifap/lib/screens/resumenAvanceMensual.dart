@@ -112,6 +112,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                       '${data["Temp_max"]}°C',
                                       '${data["Temp_med"]}°C',
                                       '${data["Temp_min"]}°C',
+                                      Icons.thermostat,
                                     ),
                                     const SizedBox(height: 10),
                                     informacion_singular(
@@ -171,7 +172,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                         Column(
                                           children: [
                                             const Icon(
-                                              Icons.thermostat,
+                                              Icons.water_drop,
                                               color: Colors.red,
                                               size: 40,
                                             ),
@@ -180,7 +181,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data["Humedad_max"]}°C',
+                                              '${data["Humedad_max"]}%',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
@@ -190,7 +191,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                         Column(
                                           children: [
                                             const Icon(
-                                              Icons.thermostat,
+                                              Icons.water_drop,
                                               size: 40,
                                             ),
                                             const Text(
@@ -198,7 +199,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data["Humedad_med"]}°C',
+                                              '${data["Humedad_med"]}%',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
@@ -207,7 +208,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                         ),
                                         Column(
                                           children: [
-                                            Icon(Icons.thermostat,
+                                            Icon(Icons.water_drop,
                                                 size: 40,
                                                 color: Colors.blue[200]),
                                             const Text(
@@ -215,7 +216,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data["Humedad_min"]}°C',
+                                              '${data["Humedad_min"]}%',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),

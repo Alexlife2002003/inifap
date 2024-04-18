@@ -136,8 +136,8 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                       '${data["Max"]}°C',
                                       '${data["Med"]}°C',
                                       '${data["Min"]}°C',
+                                      Icons.thermostat,
                                     ),
-                                    
                                     const SizedBox(height: 10),
                                     informacion_singular(
                                       "Precipitacion:",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
@@ -21,6 +22,16 @@ class _HomeScreenState extends State<HomeScreen> {
       // You may want to show a message to the user
       debugPrint('Notification permission denied or restricted');
     }
+
+    // Ensure permissions are granted before accessing location
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Handle the case where the user denies permission
+        debugPrint("Location permission denied or restricted");
+      }
+    }
   }
 
   void startPeriodicTask() {
@@ -36,7 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(minutes: 30), (Timer timer) async { //30 minutes
+    Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
+      //30 minutes
       // Fetch data
       final fetchedData = await fetchDataResumenReal();
       // Show notification with fetched data
@@ -47,7 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
 
-    Timer.periodic(const Duration(hours: 6), (Timer timer) async {//6 hours
+    Timer.periodic(const Duration(hours: 6), (Timer timer) async {
+      //6 hours
       // Fetch data
       final fetchedData = await fetchDataResumenDiaAnterior();
       // Show notification with fetched data
@@ -57,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(hours: 12), (Timer timer) async {//12 hours
+    Timer.periodic(const Duration(hours: 12), (Timer timer) async {
+      //12 hours
       final fetchedData = await fetchDataAvanceMensual();
       if (fetchedData != "Error") {
         await showNotificationAvanceMensual(fetchedData);
@@ -79,8 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -101,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const Text(
-              "Fecha de instalacion:\n27 de marzo 2003",
+              "Fecha de instalacion:\n13 de marzo 2003",
               style: TextStyle(fontSize: 20, color: Colors.grey),
             ),
             const SizedBox(height: 25),

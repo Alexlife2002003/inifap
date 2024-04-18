@@ -1,6 +1,6 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:inifap/screens/listPage.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,11 +14,101 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  late GoogleMapController mapController;
+  Set<Marker> markers = {};
+  double currentLatitude = 0.0;
+  double currentLongitude = 0.0;
+  double zoomlevel = 10.0;
   List<Map<String, dynamic>> favorites = [];
 
   @override
   void initState() {
     super.initState();
+    _getCurrentLocation();
+    _loadFavorites();
+  }
+
+  void _getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    setState(() {
+      currentLatitude = position.latitude;
+      currentLongitude = position.longitude;
+      zoomlevel = 10.0;
+      _updateMarkers();
+    });
+  }
+
+  void _updateMarkers() {
+    setState(() {
+      markers.clear();
+      markers.add(
+        Marker(
+          markerId: MarkerId('currentLocation'),
+          position: LatLng(currentLatitude, currentLongitude),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        ),
+      );
+      markers.addAll(
+        widget.locations.map((location) {
+          return Marker(
+            markerId: MarkerId(location['titulo']),
+            position: LatLng(
+              location['position']['lat'],
+              location['position']['lng'],
+            ),
+            icon: favorites
+                    .any((element) => element['titulo'] == location['titulo'])
+                ? BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueGreen)
+                : BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueBlue),
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 100,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(location['titulo']),
+                          IconButton(
+                            icon: Icon(
+                              favorites.any((element) =>
+                                      element['titulo'] == location['titulo'])
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                            ),
+                            onPressed: () {
+                              _addToFavorites(location['titulo']);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        }),
+      );
+    });
+  }
+
+  void _addToFavorites(String title) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favTitles = prefs.getStringList('favorites') ?? [];
+    if (favTitles.contains(title)) {
+      favTitles.remove(title); // Remove from favorites
+    } else {
+      favTitles.add(title); // Add to favorites
+    }
+    await prefs.setStringList('favorites', favTitles);
     _loadFavorites();
   }
 
@@ -33,90 +123,25 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  void _addToFavorites(String title) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favTitles = prefs.getStringList('favorites') ?? [];
-    if (favTitles.contains(title)) {
-      favTitles.remove(title); // Remove from favorites
-    } else {
-      favTitles.add(title); // Add to favorites
-    }
-    await prefs.setStringList('favorites', favTitles);
-    _loadFavorites();
-    setState(() {
-      favorites = widget.locations
-          .where((element) => favTitles.contains(element['titulo']))
-          .toList();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => ListPage(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Mapa de Estaciones"),
+        backgroundColor: lightGreen,
+      ),
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: LatLng(
+            currentLatitude != 0.0 ? currentLatitude : 22.7561951,
+            currentLongitude != 0.0 ? currentLongitude : -102.4989123,
           ),
-          (route) => false,
-        );
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Mapa de Estaciones"),
-          backgroundColor: lightGreen,
+          zoom: zoomlevel,
         ),
-        body: GoogleMap(
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(23.6260, -102.5375), // Center of Mexico
-            zoom: 5.0, // Initial zoom level
-          ),
-          markers: Set<Marker>.of(widget.locations.map((location) {
-            return Marker(
-              markerId: MarkerId(location['titulo']),
-              position: LatLng(
-                location['position']['lat'],
-                location['position']['lng'],
-              ),
-              icon: favorites
-                      .any((element) => element['titulo'] == location['titulo'])
-                  ? BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueBlue) // Blue marker for favorites
-                  : BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueRed), // Red marker for others
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Container(
-                      height: 100,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(location['titulo']),
-                            IconButton(
-                              icon: Icon(
-                                favorites.any((element) =>
-                                        element['titulo'] == location['titulo'])
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                              ),
-                              onPressed: () {
-                                _addToFavorites(location['titulo']);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          })),
-        ),
+        markers: markers,
+        onMapCreated: (GoogleMapController controller) {
+          mapController = controller;
+        },
       ),
     );
   }
