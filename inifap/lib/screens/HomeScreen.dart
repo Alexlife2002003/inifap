@@ -1,159 +1,191 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:inifap/backend/fetchData.dart';
+import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:diacritic/diacritic.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void requestNotificationPermission() async {
-    // Request notification permission
-    final PermissionStatus status = await Permission.notification.request();
-    if (status != PermissionStatus.granted) {
-      // Handle denied or restricted permission
-      // You may want to show a message to the user
-      debugPrint('Notification permission denied or restricted');
-    }
-
-    // Ensure permissions are granted before accessing location
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Handle the case where the user denies permission
-        debugPrint("Location permission denied or restricted");
-      }
-    }
-  }
-
-  void startPeriodicTask() {
-    // Schedule a periodic task using Timer.periodic
-
-    Timer(const Duration(seconds: 3), () async {
-      await fetchDataResumenReal();
-      await fetchDataResumenDiaAnterior();
-      final fetchedData = await fetchDataAvanceMensual();
-      if (fetchedData != "Error") {
-        await showNotificationAvanceMensual(fetchedData);
-      } else {
-        await showNotificationError();
-      }
-    });
-    Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
-      //30 minutes
-      // Fetch data
-      final fetchedData = await fetchDataResumenReal();
-      // Show notification with fetched data
-      if (fetchedData != "Error") {
-        await showNotificationResumenReal(fetchedData);
-      } else {
-        await showNotificationError();
-      }
-    });
-
-    Timer.periodic(const Duration(hours: 6), (Timer timer) async {
-      //6 hours
-      // Fetch data
-      final fetchedData = await fetchDataResumenDiaAnterior();
-      // Show notification with fetched data
-      if (fetchedData != "Error") {
-        await showNotificationDiaAnterior(fetchedData);
-      } else {
-        await showNotificationError();
-      }
-    });
-    Timer.periodic(const Duration(hours: 12), (Timer timer) async {
-      //12 hours
-      final fetchedData = await fetchDataAvanceMensual();
-      if (fetchedData != "Error") {
-        await showNotificationAvanceMensual(fetchedData);
-      } else {
-        await showNotificationError();
-      }
-    });
-  }
+  List<String> favorites = [];
+  List<Map<String, dynamic>> detailedInfo = [];
 
   @override
   void initState() {
     super.initState();
-    requestNotificationPermission();
-    fetchDataResumenReal();
-    fetchDataResumenDiaAnterior();
-    fetchDataAvanceMensual();
-    startPeriodicTask();
+    loadFavorites();
+  }
+
+  Future<void> loadFavorites() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      favorites = prefs.getStringList('favorites') ?? [];
+    });
+
+    // Load detailed information for each favorite
+    List<Map<String, dynamic>> infoList = [];
+    for (String favorite in favorites) {
+      List<String> parts = favorite.split(' - ');
+      String estacion = parts[0].split(': ')[1];
+      String municipio = parts[1].split(': ')[1];
+      Map<String, dynamic> info =
+          fetchDataForEstacionAndMunicipio(estacion, municipio);
+      infoList.add(info);
+    }
+
+    setState(() {
+      detailedInfo = infoList;
+    });
+  }
+
+  String getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return "Enero";
+      case 2:
+        return "Febrero";
+      case 3:
+        return "Marzo";
+      case 4:
+        return "Abril";
+      case 5:
+        return "Mayo";
+      case 6:
+        return "June";
+      case 7:
+        return "July";
+      case 8:
+        return "August";
+      case 9:
+        return "September";
+      case 10:
+        return "October";
+      case 11:
+        return "November";
+      case 12:
+        return "December";
+      default:
+        return "Invalid month";
+    }
+  }
+
+  // Simulated function to fetch detailed data based on estacion and municipio
+  Map<String, dynamic> fetchDataForEstacionAndMunicipio(
+      String estacion, String municipio) {
+    String instalacion = "";
+    for (var est in datosEstacions) {
+      if (removeDiacritics(est['Estacion'] )== removeDiacritics(estacion) && removeDiacritics(est['Municipio']) == removeDiacritics(municipio)) {
+        instalacion = est['Instalacion'];
+        var instalacions = instalacion.split("-");
+        instalacion =
+            "${instalacions[2]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[0]}";
+      
+      }
+    }
+    return {
+      'estacion': estacion,
+      'municipio': municipio,
+      'temperatura': '22.7 °C',
+      'humedad': '15.9 %',
+      'precipitacion': '0.0 mm',
+      'radiacion': '103.2 W/m²',
+      'viento': '21.3 Km/hr',
+      'Instalacion': instalacion,
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            Image.asset(
-              'lib/assets/logo.png',
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            const Text(
-              "Rancho Grande",
-              style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              "Fresnillo",
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              "Fecha de instalacion:\n13 de marzo 2003",
-              style: TextStyle(fontSize: 20, color: Colors.grey),
-            ),
-            const SizedBox(height: 25),
-            const WeatherCard(
-              icon: Icons.thermostat,
-              label: 'Temperatura',
-              value: '22.7 °C',
-              max: 'Max 24.9°C a las 13:30 hr',
-              min: 'Min 10.6°C a las 07:00 hr',
-              avg: 'Med 15.7°C',
-            ),
-            const WeatherCard(
-              icon: Icons.water_drop,
-              label: 'Humedad\nrelativa',
-              value: '15.9 %',
-              max: 'Max 38.9% a las 06:15hr',
-              min: 'Min 12.5% a las 14:30hr',
-              avg: 'Med 25.6%',
-            ),
-            const WeatherCard(
-              icon: Icons.cloudy_snowing,
-              label: 'Precipitación',
-              value: '0.0 mm',
-              total: 'Total acumulada\n0.0 mm',
-            ),
-            const WeatherCard(
-              icon: Icons.sunny,
-              label: 'Radiación',
-              value: '103.2 W/m²',
-              total: 'Total registrada\n12,413 W/m²',
-            ),
-            const WeatherCardViento(
-              icon: Icons.air,
-              label: 'Velocidad y\ndirección del\n viento',
-              value: '21.3 Km/hr',
-              max: 'Max 35 Km/hr proveniente del Sur a las 15:30 hr',
-              min: 'Min 4 Km/hr proveniente del Sur a las 08:30 hr',
-              avg: 'Med 17.5 Km/hr proveniente del SSO',
-            ),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Image.asset(
+            'lib/assets/logo.png', // Replace with your image path
+            height: 40, // Adjust the height as needed
+          ),
+        ),
+        centerTitle: true, // Center aligns the title widget
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (detailedInfo.isEmpty)
+                Column(children: [Text('No hay favoritos seleccionados')],),
+         
+              if (detailedInfo.isNotEmpty)
+                Column(
+                  children: detailedInfo.map((info) {
+                    return Column(
+                      children: [
+                        const SizedBox(height: 15),
+                        Text(
+                          info['estacion'],
+                          style: TextStyle(
+                              fontSize: 36, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          info['municipio'],
+                          style: TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Fecha de instalacion:\n ${info['Instalacion']}",
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
+                        WeatherCard(
+                          icon: Icons.thermostat,
+                          label: 'Temperatura',
+                          value: info['temperatura'],
+                          max: 'Max 24.9°C a las 13:30 hr',
+                          min: 'Min 10.6°C a las 07:00 hr',
+                          avg: 'Med 15.7°C',
+                        ),
+                        WeatherCard(
+                          icon: Icons.water_drop,
+                          label: 'Humedad\nrelativa',
+                          value: info['humedad'],
+                          max: 'Max 38.9% a las 06:15hr',
+                          min: 'Min 12.5% a las 14:30hr',
+                          avg: 'Med 25.6%',
+                        ),
+                        WeatherCard(
+                          icon: Icons.cloudy_snowing,
+                          label: 'Precipitación',
+                          value: info['precipitacion'],
+                          total: 'Total acumulada\n0.0 mm',
+                        ),
+                        WeatherCard(
+                          icon: Icons.sunny,
+                          label: 'Radiación',
+                          value: info['radiacion'],
+                          total: 'Total registrada\n12,413 W/m²',
+                        ),
+                        WeatherCardViento(
+                          icon: Icons.air,
+                          label: 'Velocidad y\ndirección del\n viento',
+                          value: info['viento'],
+                          max:
+                              'Max 35 Km/hr proveniente del Sur a las 15:30 hr',
+                          min: 'Min 4 Km/hr proveniente del Sur a las 08:30 hr',
+                          avg: 'Med 17.5 Km/hr proveniente del SSO',
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              
+            ],
+          ),
         ),
       ),
     );
