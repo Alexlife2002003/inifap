@@ -4,6 +4,10 @@ import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:diacritic/diacritic.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:inifap/backend/fetchData.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,12 +19,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<String> favorites = [];
   List<Map<String, dynamic>> detailedInfo = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadFavorites();
-  }
 
   Future<void> loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -80,12 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
       String estacion, String municipio) {
     String instalacion = "";
     for (var est in datosEstacions) {
-      if (removeDiacritics(est['Estacion'] )== removeDiacritics(estacion) && removeDiacritics(est['Municipio']) == removeDiacritics(municipio)) {
+      if (removeDiacritics(est['Estacion']) == removeDiacritics(estacion) &&
+          removeDiacritics(est['Municipio']) == removeDiacritics(municipio)) {
         instalacion = est['Instalacion'];
         var instalacions = instalacion.split("-");
         instalacion =
             "${instalacions[2]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[0]}";
-      
       }
     }
     return {
@@ -98,6 +96,84 @@ class _HomeScreenState extends State<HomeScreen> {
       'viento': '21.3 Km/hr',
       'Instalacion': instalacion,
     };
+  }
+
+  void requestNotificationPermission() async {
+    // Request notification permission
+    final PermissionStatus status = await Permission.notification.request();
+    if (status != PermissionStatus.granted) {
+      // Handle denied or restricted permission
+      // You may want to show a message to the user
+      debugPrint('Notification permission denied or restricted');
+    }
+
+    // Ensure permissions are granted before accessing location
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Handle the case where the user denies permission
+        debugPrint("Location permission denied or restricted");
+      }
+    }
+  }
+
+  void startPeriodicTask() {
+    // Schedule a periodic task using Timer.periodic
+
+    Timer(const Duration(seconds: 3), () async {
+      await fetchDataResumenReal();
+      await fetchDataResumenDiaAnterior();
+      final fetchedData = await fetchDataAvanceMensual();
+      if (fetchedData != "Error") {
+        
+      } else {
+        await showNotificationError();
+      }
+    });
+    Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
+      //30 minutes
+      // Fetch data
+      final fetchedData = await fetchDataResumenReal();
+      // Show notification with fetched data
+      if (fetchedData != "Error") {
+        await showNotificationResumenReal(fetchedData);
+      } else {
+        await showNotificationError();
+      }
+    });
+
+    Timer.periodic(const Duration(hours: 6), (Timer timer) async {
+      //6 hours
+      // Fetch data
+      final fetchedData = await fetchDataResumenDiaAnterior();
+      // Show notification with fetched data
+      if (fetchedData != "Error") {
+        await showNotificationDiaAnterior(fetchedData);
+      } else {
+        await showNotificationError();
+      }
+    });
+    Timer.periodic(const Duration(hours: 12), (Timer timer) async {
+      //12 hours
+      final fetchedData = await fetchDataAvanceMensual();
+      if (fetchedData != "Error") {
+        await showNotificationAvanceMensual(fetchedData);
+      } else {
+        await showNotificationError();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadFavorites();
+    requestNotificationPermission();
+    fetchDataResumenReal();
+    fetchDataResumenDiaAnterior();
+    fetchDataAvanceMensual();
+    startPeriodicTask();
   }
 
   @override
@@ -119,8 +195,9 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (detailedInfo.isEmpty)
-                Column(children: [Text('No hay favoritos seleccionados')],),
-         
+                Column(
+                  children: [Text('No hay favoritos seleccionadosc')],
+                ),
               if (detailedInfo.isNotEmpty)
                 Column(
                   children: detailedInfo.map((info) {
@@ -183,7 +260,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }).toList(),
                 ),
-              
             ],
           ),
         ),
