@@ -4,19 +4,17 @@ import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:diacritic/diacritic.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:inifap/backend/fetchData.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'dart:async';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class EstacionResumenReal extends StatefulWidget {
+  const EstacionResumenReal({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<EstacionResumenReal> createState() => _EstacionResumenRealState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _EstacionResumenRealState extends State<EstacionResumenReal> {
   List<String> favorites = [];
   List<Map<String, dynamic>> detailedInfo = [];
 
@@ -98,82 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
     };
   }
 
-  void requestNotificationPermission() async {
-    // Request notification permission
-    final PermissionStatus status = await Permission.notification.request();
-    if (status != PermissionStatus.granted) {
-      // Handle denied or restricted permission
-      // You may want to show a message to the user
-      debugPrint('Notification permission denied or restricted');
-    }
+ 
 
-    // Ensure permissions are granted before accessing location
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Handle the case where the user denies permission
-        debugPrint("Location permission denied or restricted");
-      }
-    }
-  }
-
-  void startPeriodicTask() {
-    // Schedule a periodic task using Timer.periodic
-
-    Timer(const Duration(seconds: 3), () async {
-      await fetchDataResumenReal();
-      await fetchDataResumenDiaAnterior();
-      final fetchedData = await fetchDataAvanceMensual();
-      if (fetchedData != "Error") {
-        
-      } else {
-        await showNotificationError();
-      }
-    });
-    Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
-      //30 minutes
-      // Fetch data
-      final fetchedData = await fetchDataResumenReal();
-      // Show notification with fetched data
-      if (fetchedData != "Error") {
-        await showNotificationResumenReal(fetchedData);
-      } else {
-        await showNotificationError();
-      }
-    });
-
-    Timer.periodic(const Duration(hours: 6), (Timer timer) async {
-      //6 hours
-      // Fetch data
-      final fetchedData = await fetchDataResumenDiaAnterior();
-      // Show notification with fetched data
-      if (fetchedData != "Error") {
-        await showNotificationDiaAnterior(fetchedData);
-      } else {
-        await showNotificationError();
-      }
-    });
-    Timer.periodic(const Duration(hours: 12), (Timer timer) async {
-      //12 hours
-      final fetchedData = await fetchDataAvanceMensual();
-      if (fetchedData != "Error") {
-        await showNotificationAvanceMensual(fetchedData);
-      } else {
-        await showNotificationError();
-      }
-    });
-  }
+  
 
   @override
   void initState() {
     super.initState();
     loadFavorites();
-    requestNotificationPermission();
-    fetchDataResumenReal();
-    fetchDataResumenDiaAnterior();
-    fetchDataAvanceMensual();
-    startPeriodicTask();
   }
 
   @override
