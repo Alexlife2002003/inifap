@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/Colors.dart';
 
-
 class ListPage extends StatefulWidget {
   @override
   _ListPageState createState() => _ListPageState();
@@ -56,6 +55,16 @@ class _ListPageState extends State<ListPage> {
           .where((element) => favTitles.contains(element['titulo']))
           .toList();
     });
+    if (favorites.length == 1) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('estacionActual', favTitles[0]);
+    } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String temporal = await prefs.getString('estacionActual') ?? "";
+      if (!favTitles.contains(temporal)) {
+        await prefs.setString('estacionActual', "");
+      }
+    }
   }
 
   void _addToFavorites(int index) async {
@@ -74,9 +83,9 @@ class _ListPageState extends State<ListPage> {
   void _openMapScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MapScreen(locations: filteredMarcadores)),
+      MaterialPageRoute(
+          builder: (context) => MapScreen(locations: filteredMarcadores)),
     );
-    
   }
 
   @override
@@ -157,13 +166,4 @@ class _ListPageState extends State<ListPage> {
       ),
     );
   }
-}
-
-
-
-
-void main() {
-  runApp(MaterialApp(
-    home: ListPage(),
-  ));
 }

@@ -106,7 +106,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -122,6 +122,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                   children: detailedInfo.map((info) {
                     return Column(
                       children: [
+                        SizedBox(height: 40,),
                         Image.asset(
                           'lib/assets/logo.png', // Replace with your image path
                           height: 40, // Adjust the height as needed

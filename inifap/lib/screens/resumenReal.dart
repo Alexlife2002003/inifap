@@ -27,7 +27,9 @@ class _ResumenRealState extends State<ResumenReal> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       String temporary = prefs.getString('estacionActual') ?? "";
-      favorites.add(temporary);
+      if (temporary != "") {
+        favorites.add(temporary);
+      }
     });
   }
 

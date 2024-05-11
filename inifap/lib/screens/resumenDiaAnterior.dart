@@ -24,12 +24,13 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
     loadResumenEstaciones(); // No need to await here
   }
 
-    Future<void> loadFavorites() async {
+  Future<void> loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      String temporary=prefs.getString('estacionActual') ?? "";
-      favorites.add(temporary);
-     
+      String temporary = prefs.getString('estacionActual') ?? "";
+      if (temporary != "") {
+        favorites.add(temporary);
+      }
     });
   }
 
@@ -64,21 +65,19 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-                'Resumen dia anterior',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              centerTitle: true,
+          'Resumen dia anterior',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-       
-            
             Expanded(
               child: favorites.isEmpty
                   ? const Center(

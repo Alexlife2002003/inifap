@@ -26,7 +26,9 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       String temporary = prefs.getString('estacionActual') ?? "";
-      favorites.add(temporary);
+      if (temporary != "") {
+        favorites.add(temporary);
+      }
     });
   }
 
