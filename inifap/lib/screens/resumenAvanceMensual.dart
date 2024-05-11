@@ -25,7 +25,8 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
   Future<void> loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      favorites = prefs.getStringList('favorites') ?? [];
+      String temporary = prefs.getString('estacionActual') ?? "";
+      favorites.add(temporary);
     });
   }
 
@@ -58,21 +59,21 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Avance mensual',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 40),
-            const Center(
-              child: Text(
-                'Resumen mensual',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             Expanded(
               child: favorites.isEmpty
                   ? const Center(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inifap/backend/fetchData.dart';
+import 'package:inifap/screens/EleccionFavoritaAVer.dart';
 import 'package:inifap/screens/EstacionResumenReal.dart';
 import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
 import 'package:inifap/screens/listPage.dart';
@@ -107,7 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    EstacionResumenReal(), //change
+    
+    EleccionFavoritaAVer(), 
     ListPage(),
     const ResumenRealOrYesterday(),
     GraphScreen(),

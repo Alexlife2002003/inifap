@@ -26,7 +26,8 @@ class _ResumenRealState extends State<ResumenReal> {
   Future<void> loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      favorites = prefs.getStringList('favorites') ?? [];
+      String temporary = prefs.getString('estacionActual') ?? "";
+      favorites.add(temporary);
     });
   }
 
@@ -55,8 +56,6 @@ class _ResumenRealState extends State<ResumenReal> {
       orElse: () => {},
     );
   }
-
-
 
   hora_fecha(String hora, String fecha) {
     return Row(
@@ -92,144 +91,156 @@ class _ResumenRealState extends State<ResumenReal> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 40),
-            const Center(
-              child: Text(
-                'Resumen tiempo real',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Resumen tiempo real',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
-            Expanded(
-              child: favorites.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'No hay favoritos seleccionados',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: favorites.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        List<String> parts = favorites[index].split(' - ');
-                        String estacion = parts[0].split(': ')[1];
-                        String municipio = parts[1].split(': ')[1];
-                        Map<String, dynamic> data =
-                            getDataForEstacionAndMunicipio(estacion, municipio);
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Card(
-                            color: lightGreen,
-                            elevation: 0, // No shadow
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: const BorderSide(
-                                  color: Colors.black, width: 1),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  estacion_municipio(estacion, municipio),
-                                  if (data.isNotEmpty) ...[
-                                    const SizedBox(height: 10),
-                                    hora_fecha('${data['Hora']} hrs',
-                                        '${data['Fecha']}'),
-                                    const SizedBox(height: 10),
-                                    Temperatura(
+          ),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: favorites.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No hay favoritos seleccionados',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: favorites.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          List<String> parts = favorites[index].split(' - ');
+                          String estacion = parts[0].split(': ')[1];
+                          String municipio = parts[1].split(': ')[1];
+                          Map<String, dynamic> data =
+                              getDataForEstacionAndMunicipio(
+                                  estacion, municipio);
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Card(
+                              color: lightGreen,
+                              elevation: 0, // No shadow
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: const BorderSide(
+                                    color: Colors.black, width: 1),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    estacion_municipio(estacion, municipio),
+                                    if (data.isNotEmpty) ...[
+                                      const SizedBox(height: 10),
+                                      hora_fecha('${data['Hora']} hrs',
+                                          '${data['Fecha']}'),
+                                      const SizedBox(height: 10),
+                                      Temperatura(
                                         "Temperatura:",
                                         '${data["Max"]}°C',
                                         '${data["Med"]}°C',
                                         '${data["Min"]}°C',
-                                          Icons.thermostat,),
-                                    const SizedBox(height: 10),
-                                    informacion_singular("Precipitacion:","${data['Precipitacion']} mm",Icons.cloudy_snowing,),
-                                    const SizedBox(height: 10),
-                                    const Center(
-                                      child: Text(
-                                        'Viento:',
+                                        Icons.thermostat,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      informacion_singular(
+                                        "Precipitacion:",
+                                        "${data['Precipitacion']} mm",
+                                        Icons.cloudy_snowing,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      const Center(
+                                        child: Text(
+                                          'Viento:',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              const Icon(
+                                                Icons.air,
+                                                size: 40,
+                                              ),
+                                              const Text(
+                                                "Max/Med",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              Text(
+                                                '${data['VelMax']} km/hr | ${data['VelMed']} km/hr',
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              RotatedIcon(
+                                                icon:
+                                                    Icons.assistant_navigation,
+                                                direction:
+                                                    '${data['Direccion']}', // Dirección basada en los datos proporcionados
+                                                size: 40,
+                                              ),
+                                              const Text(
+                                                'Direccion',
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              Text(
+                                                '${data['Direccion']}',
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ] else ...[
+                                      const SizedBox(height: 10),
+                                      const Text(
+                                        'No data available',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            const Icon(
-                                              Icons.air,
-                                              size: 40,
-                                            ),
-                                            const Text(
-                                              "Max/Med",
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data['VelMax']} km/hr | ${data['VelMed']} km/hr',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            RotatedIcon(
-                                              icon: Icons.assistant_navigation,
-                                              direction:
-                                                  '${data['Direccion']}', // Dirección basada en los datos proporcionados
-                                              size: 40,
-                                            ),
-                                            const Text(
-                                              'Direccion',
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                            Text(
-                                              '${data['Direccion']}',
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ] else ...[
-                                    const SizedBox(height: 10),
-                                    const Text(
-                                      'No data available',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ]
-                                ],
+                                    ]
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );

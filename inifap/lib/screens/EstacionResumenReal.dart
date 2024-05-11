@@ -15,25 +15,26 @@ class EstacionResumenReal extends StatefulWidget {
 }
 
 class _EstacionResumenRealState extends State<EstacionResumenReal> {
-  List<String> favorites = [];
+  String favorites = "";
   List<Map<String, dynamic>> detailedInfo = [];
 
   Future<void> loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      favorites = prefs.getStringList('favorites') ?? [];
+      favorites = prefs.getString('estacionActual') ?? "";
     });
 
     // Load detailed information for each favorite
     List<Map<String, dynamic>> infoList = [];
-    for (String favorite in favorites) {
-      List<String> parts = favorite.split(' - ');
+    if (favorites.isNotEmpty) {
+      List<String> parts = favorites.split(' - ');
       String estacion = parts[0].split(': ')[1];
       String municipio = parts[1].split(': ')[1];
       Map<String, dynamic> info =
           fetchDataForEstacionAndMunicipio(estacion, municipio);
       infoList.add(info);
     }
+   
 
     setState(() {
       detailedInfo = infoList;
@@ -96,10 +97,6 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     };
   }
 
- 
-
-  
-
   @override
   void initState() {
     super.initState();
@@ -109,15 +106,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Image.asset(
-            'lib/assets/logo.png', // Replace with your image path
-            height: 40, // Adjust the height as needed
-          ),
-        ),
-        centerTitle: true, // Center aligns the title widget
-      ),
+      appBar: AppBar(),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -133,6 +122,10 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                   children: detailedInfo.map((info) {
                     return Column(
                       children: [
+                        Image.asset(
+                          'lib/assets/logo.png', // Replace with your image path
+                          height: 40, // Adjust the height as needed
+                        ),
                         const SizedBox(height: 15),
                         Text(
                           info['estacion'],
