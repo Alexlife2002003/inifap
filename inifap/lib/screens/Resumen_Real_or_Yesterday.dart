@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/resumenAvanceMensual.dart';
 import 'package:inifap/screens/resumenDiaAnterior.dart';
 import 'package:inifap/screens/resumenReal.dart';
@@ -15,57 +16,57 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: lightGreen,
-        elevation: 0,
-        title: const Text(
-          "Datos en tiempo real",
-          style: TextStyle(fontWeight: FontWeight.bold),
+    return AppWithDrawer(
+      content: Scaffold(
+        appBar: AppBar(
+          backgroundColor: lightGreen,
+          elevation: 0,
+          title: const Text(
+            "Datos en tiempo real",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            height: screenHeight,
-            color: lightGreen,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    _buildForecastCard(
-                        Icons.today, "Resumen en tiempo real", Colors.lightBlue,
-                        () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ResumenReal()),
-                      );
-                    }),
-                    _buildForecastCard(Icons.calendar_today,
-                        "Resumen dia anterior", Colors.orangeAccent, () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ResumenDiaAnterior()),
-                      );
-                    }),
-                  ],
-                ),
-                Row(
-                  children: [
-                    _buildForecastCard(
-                        Icons.calendar_month, "Avance mensual", Colors.blueGrey,
-                        () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => resumenAvanceMensual()),
-                      );
-                    })
-                  ],
-                ),
-              ],
+        body: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              height: screenHeight,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      _buildForecastCard(Icons.today, "Resumen en tiempo real",
+                          Colors.lightBlue, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResumenReal()),
+                        );
+                      }),
+                      _buildForecastCard(Icons.calendar_today,
+                          "Resumen dia anterior", Colors.orangeAccent, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResumenDiaAnterior()),
+                        );
+                      }),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _buildForecastCard(Icons.calendar_month, "Avance mensual",
+                          Colors.blueGrey, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => resumenAvanceMensual()),
+                        );
+                      })
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/main.dart';
+import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/EstacionResumenReal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/datos/Datos.dart';
@@ -52,33 +53,36 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          EstacionResumenReal(),
-          _buildFavoritesScreen(), // Screen 1: Favorites screen
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Detalles',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favoritos',
-          ),
-        ],
+    return AppWithDrawer(
+      content: Scaffold(
+     
+        body: _buildScreenContent(),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: darkGreen,
+          currentIndex: _currentIndex,
+          selectedItemColor: lightGreen,
+          onTap: _selectTab,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info),
+              label: 'Detalles',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favoritos',
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _buildScreenContent() {
+    if (_currentIndex == 0) {
+      return EstacionResumenReal(); // Content for 'Detalles' tab
+    } else {
+      return _buildFavoritesScreen(); // Content for 'Favoritos' tab
+    }
   }
 
   Widget _buildFavoritesScreen() {
@@ -140,19 +144,22 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        onTap: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('estacionActual', stationName);
-          // Switch to the "Detalles" tab (index 0) when a favorite station is tapped
-          setState(() {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MyHomePage()));
-          });
+        onTap: () {
+          _navigateToDetails();
         },
       ),
     );
+  }
+
+  void _selectTab(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  void _navigateToDetails() {
+    // Navigate to 'Detalles' tab (index 0)
+    _selectTab(0);
   }
 }
 

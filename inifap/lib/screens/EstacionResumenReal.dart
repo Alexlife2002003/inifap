@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/datos/Datos.dart';
+import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -106,7 +107,6 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Center(
         child: SingleChildScrollView(
           child: Column(

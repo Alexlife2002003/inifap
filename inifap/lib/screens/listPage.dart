@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/MapScreen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -121,48 +122,50 @@ class _ListPageState extends State<ListPage> {
       );
     }));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Lista de estaciones"),
-        backgroundColor: lightGreen,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.map),
-            onPressed: _openMapScreen,
-          ),
-        ],
-      ),
-      backgroundColor: lightGreen,
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) {
-                filterSearchResults(value);
-              },
-              controller: searchController,
-              decoration: InputDecoration(
-                labelText: "Search",
-                hintText: "Search",
-                prefixIcon: const Icon(
-                  Icons.search,
+    return AppWithDrawer(
+      content: Scaffold(
+        appBar: AppBar(
+          title: const Text("Lista de estaciones"),
+          backgroundColor: lightGreen,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.map),
+              onPressed: _openMapScreen,
+            ),
+          ],
+        ),
+
+        body: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (value) {
+                  filterSearchResults(value);
+                },
+                controller: searchController,
+                decoration: InputDecoration(
+                  labelText: "Search",
+                  hintText: "Search",
+                  prefixIcon: const Icon(
+                    Icons.search,
+                  ),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+                      borderSide: BorderSide(color: darkGreen)),
                 ),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-                    borderSide: BorderSide(color: darkGreen)),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: listTiles,
+            Expanded(
+              child: ListView(
+                children: listTiles,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
