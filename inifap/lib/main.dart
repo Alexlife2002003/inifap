@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inifap/backend/fetchData.dart';
+import 'package:inifap/screens/AppDetailsPage.dart';
 import 'package:inifap/screens/EleccionFavoritaAVer.dart';
 import 'package:inifap/screens/EstacionResumenReal.dart';
 import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
@@ -112,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
     EleccionFavoritaAVer(), 
     ListPage(),
     const ResumenRealOrYesterday(),
-    GraphScreen(),
+    AppDetailsPage(),
   ];
 
   @override
