@@ -22,8 +22,8 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();
-    originalData = List.from(estaciones);
-    filteredMarcadores = List.from(estaciones);
+    originalData = List.from(datosEstacions);
+    filteredMarcadores = List.from(datosEstacions);
     _loadFavorites();
   }
 
@@ -31,7 +31,8 @@ class _ListPageState extends State<ListPage> {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> dummyListData = [];
       originalData.forEach((item) {
-        if (item['titulo'].toLowerCase().contains(query.toLowerCase())) {
+        if (item['Municipio'].toLowerCase().contains(query.toLowerCase()) ||
+            item['Estacion'].toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);
         }
       });
@@ -53,7 +54,8 @@ class _ListPageState extends State<ListPage> {
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
     setState(() {
       favorites = originalData
-          .where((element) => favTitles.contains(element['titulo']))
+          .where((element) =>
+              favTitles.contains(element['id_estacion'].toString()))
           .toList();
     });
     if (favorites.length == 1) {
@@ -69,13 +71,14 @@ class _ListPageState extends State<ListPage> {
   }
 
   void _addToFavorites(int index) async {
+    print(index);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String title = filteredMarcadores[index]['titulo'];
+    String id = index.toString();
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
-    if (favTitles.contains(title)) {
-      favTitles.remove(title); // Remove from favorites
+    if (favTitles.contains(id)) {
+      favTitles.remove(id); // Remove from favorites
     } else {
-      favTitles.add(title); // Add to favorites
+      favTitles.add(id); // Add to favorites
     }
     await prefs.setStringList('favorites', favTitles);
     _loadFavorites();
@@ -95,13 +98,13 @@ class _ListPageState extends State<ListPage> {
     listTiles.addAll(favorites.map((fav) {
       return ListTile(
         tileColor: lightGreen,
-        title: Text(fav['titulo']),
+        title: Text(
+            "Estacion: ${fav['Estacion']}-Municipio: ${fav['Municipio']}"),
         trailing: IconButton(
           icon: const Icon(Icons.favorite),
           color: Colors.red,
           onPressed: () {
-            _addToFavorites(filteredMarcadores
-                .indexWhere((element) => element['titulo'] == fav['titulo']));
+            _addToFavorites(fav['id_estacion']);
           },
         ),
       );
@@ -111,12 +114,12 @@ class _ListPageState extends State<ListPage> {
         .map((item) {
       return ListTile(
         tileColor: lightGreen,
-        title: Text(item['titulo']),
+        title: Text(
+            "Estacion: ${item['Estacion']}-Municipio: ${item['Municipio']}"),
         trailing: IconButton(
           icon: const Icon(Icons.favorite_border),
           onPressed: () {
-            _addToFavorites(filteredMarcadores
-                .indexWhere((element) => element['titulo'] == item['titulo']));
+            _addToFavorites(item['id_estacion']);
           },
         ),
       );
@@ -134,7 +137,6 @@ class _ListPageState extends State<ListPage> {
             ),
           ],
         ),
-
         body: Column(
           children: <Widget>[
             Padding(
@@ -154,7 +156,8 @@ class _ListPageState extends State<ListPage> {
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(25.0)),
                       borderSide: BorderSide(color: darkGreen)),
                 ),
               ),

@@ -28,9 +28,9 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     // Load detailed information for each favorite
     List<Map<String, dynamic>> infoList = [];
     if (favorites.isNotEmpty) {
-      List<String> parts = favorites.split(' - ');
-      String estacion = parts[0].split(': ')[1];
-      String municipio = parts[1].split(': ')[1];
+      
+      String estacion = "";
+      String municipio ="";
       Map<String, dynamic> info =
           fetchDataForEstacionAndMunicipio(estacion, municipio);
       infoList.add(info);

@@ -21,7 +21,7 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
   void initState() {
     super.initState();
     _loadFavorites();
-    originalData = List.from(estaciones);
+    originalData = List.from(datosEstacions);
     searchController.addListener(() {
       filterSearchResults(searchController.text);
     });
@@ -31,8 +31,10 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
     setState(() {
+      print(favTitles);
       favorites = originalData
-          .where((element) => favTitles.contains(element['titulo']))
+          .where((element) =>
+              favTitles.contains(element['id_estacion'].toString()))
           .toList();
     });
   }
@@ -42,11 +44,14 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
     List<Map<String, dynamic>> filteredList = originalData
         .where((element) =>
-            element['titulo'].toLowerCase().contains(query.toLowerCase()))
+            element['Estacion'].toLowerCase().contains(query.toLowerCase()) ||
+            element['Municipio'].toLowerCase().contains(query.toLowerCase()))
         .toList();
     setState(() {
       favorites = filteredList
-          .where((element) => favTitles.contains(element['titulo']))
+          .where((element) =>
+              favTitles.contains(element['Estacion']) ||
+              favTitles.contains(element['Municipio']))
           .toList();
     });
   }
@@ -55,7 +60,6 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
   Widget build(BuildContext context) {
     return AppWithDrawer(
       content: Scaffold(
-     
         body: _buildScreenContent(),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: darkGreen,
@@ -123,7 +127,8 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
           child: ListView.builder(
             itemCount: favorites.length,
             itemBuilder: (context, index) {
-              final stationName = favorites[index]['titulo'];
+              final stationName =
+                  "Estacion: ${favorites[index]['Estacion']}-Municipio: ${favorites[index]['Municipio']}";
               return buildFavoriteStationCard(stationName);
             },
           ),

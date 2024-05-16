@@ -54,13 +54,13 @@ class _MapScreenState extends State<MapScreen> {
       markers.addAll(
         widget.locations.map((location) {
           return Marker(
-            markerId: MarkerId(location['titulo']),
+            markerId: MarkerId(location['Estacion']),
             position: LatLng(
-              location['position']['lat'],
-              location['position']['lng'],
+              location['Lat'],
+              location['lng'],
             ),
             icon: favorites
-                    .any((element) => element['titulo'] == location['titulo'])
+                    .any((element) => element['id_estacion'] == location['id_estacion'])
                 ? BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueGreen)
                 : BitmapDescriptor.defaultMarkerWithHue(
@@ -75,16 +75,16 @@ class _MapScreenState extends State<MapScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(location['titulo']),
+                          Text("Estacion ${location['Estacion']}- Municipio ${location['Municipio']}"),
                           IconButton(
                             icon: Icon(
                               favorites.any((element) =>
-                                      element['titulo'] == location['titulo'])
+                                      element['id_estacion'] == location['id_estacion'])
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                             ),
                             onPressed: () {
-                              _addToFavorites(location['titulo']);
+                              _addToFavorites(location['id_estacion'].toString());
                             },
                           ),
                         ],
