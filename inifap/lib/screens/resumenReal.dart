@@ -38,11 +38,12 @@ class _ResumenRealState extends State<ResumenReal> {
     const secureStorage = FlutterSecureStorage();
     String? storedDataJson =
         await secureStorage.read(key: 'Resumen_tiempo_real');
+    print("stored data json $storedDataJson");
     if (storedDataJson != null) {
       setState(() {
         resumenEstaciones =
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
-        //print(resumenEstaciones);
+        print(resumenEstaciones);
       });
     } else {
       setState(() {
@@ -52,9 +53,9 @@ class _ResumenRealState extends State<ResumenReal> {
   }
 
   Map<String, dynamic> getDataForEstacionAndMunicipio(
-      String estacion, String municipio) {
+      String id) {
     return resumenEstaciones.firstWhere(
-      (data) => data['Estacion'] == estacion && data['Municipio'] == municipio,
+      (data) => data['Id'].toString() == id,
       orElse: () => {},
     );
   }
@@ -127,12 +128,12 @@ class _ResumenRealState extends State<ResumenReal> {
                     : ListView.builder(
                         itemCount: favorites.length,
                         itemBuilder: (BuildContext context, int index) {
-                          List<String> parts = favorites[index].split(' - ');
-                          String estacion = parts[0].split(': ')[1];
-                          String municipio = parts[1].split(': ')[1];
+                          String id = favorites[index];
+                          
+                          print("data id $id");
                           Map<String, dynamic> data =
-                              getDataForEstacionAndMunicipio(
-                                  estacion, municipio);
+                              getDataForEstacionAndMunicipio(id);
+                              print("data$data");
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Card(
@@ -148,7 +149,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    estacion_municipio(estacion, municipio),
+                                    estacion_municipio(data['Est'],data['Est']),
                                     if (data.isNotEmpty) ...[
                                       const SizedBox(height: 10),
                                       hora_fecha('${data['Hora']} hrs',
@@ -156,15 +157,15 @@ class _ResumenRealState extends State<ResumenReal> {
                                       const SizedBox(height: 10),
                                       Temperatura(
                                         "Temperatura:",
-                                        '${data["Max"]}°C',
-                                        '${data["Med"]}°C',
-                                        '${data["Min"]}°C',
+                                        '${data["TempMax"]}°C',
+                                        '${data["TempMed"]}°C',
+                                        '${data["TempMin"]}°C',
                                         Icons.thermostat,
                                       ),
                                       const SizedBox(height: 10),
                                       informacion_singular(
                                         "Precipitacion:",
-                                        "${data['Precipitacion']} mm",
+                                        "${data['Pre']} mm",
                                         Icons.cloudy_snowing,
                                       ),
                                       const SizedBox(height: 10),
@@ -206,7 +207,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                                 icon:
                                                     Icons.assistant_navigation,
                                                 direction:
-                                                    '${data['Direccion']}', // Dirección basada en los datos proporcionados
+                                                    '${data['DirViento']}', // Dirección basada en los datos proporcionados
                                                 size: 40,
                                               ),
                                               const Text(
@@ -214,7 +215,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                               Text(
-                                                '${data['Direccion']}',
+                                                '${data['DirViento']}',
                                                 style: const TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.blue),

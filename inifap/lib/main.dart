@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/screens/AppDetailsPage.dart';
+import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/EleccionFavoritaAVer.dart';
 import 'package:inifap/screens/EstacionResumenReal.dart';
 import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
@@ -95,7 +96,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Inifap',
-      home: EleccionFavoritaAVer(),
+      home: AppWithDrawer(content: EleccionFavoritaAVer()),
     );
   }
 }

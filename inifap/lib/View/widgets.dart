@@ -101,7 +101,8 @@ Temperatura(String title, String max, String med, String min, IconData icon) {
   );
 }
 
-estacion_municipio(String estacion, String municipio) {
+estacion_municipio(String estacion, String municipio) {//modificar
+  List<String> data=estacion.split(" - ");
   return Column(
     children: [
       Row(
@@ -112,7 +113,7 @@ estacion_municipio(String estacion, String municipio) {
             style: TextStyle(fontSize: 20),
           ),
           Text(
-            estacion,
+            data[1],
             style: const TextStyle(fontSize: 20, color: Colors.blue),
           ),
         ],
@@ -125,7 +126,7 @@ estacion_municipio(String estacion, String municipio) {
             style: TextStyle(fontSize: 20),
           ),
           Text(
-            municipio,
+            data[0],
             style: const TextStyle(fontSize: 20, color: Colors.blue),
           ),
         ],

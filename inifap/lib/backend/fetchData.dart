@@ -170,50 +170,12 @@ Future<String> fetchDataResumenReal() async {
     String api_url = dotenv.env['RESUMEN_TIEMPO_REAL'] ?? "DEFAULT";
     final response = await http.get(Uri.parse(api_url));
 
-    List<String> dataList = [];
-    List<Map<String, dynamic>> data = [];
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
-      final document = parse(response.body);
-      String? parsedString = parse(document.body?.text).documentElement?.text;
-      var textparts = parsedString?.split(',');
-      textparts?.forEach((part) {
-        dataList.add(part.trim());
-      });
-
-      while (dataList.length >= 11) {
-        String municipio = dataList[0];
-        String direccion = dataList[10];
-        for (String prefix in prefixes) {
-          if (municipio.startsWith(prefix)) {
-            municipio = municipio.substring(prefix.length).trim();
-          }
-          if (direccion.startsWith(prefix)) {
-            direccion = prefix;
-          }
-        }
-        var dataMap = {
-          "Municipio": municipio,
-          "Estacion": dataList[1],
-          "Hora": dataList[2],
-          "Fecha": dataList[3],
-          "Max": dataList[4],
-          "Min": dataList[5],
-          "Med": dataList[6],
-          "Precipitacion": dataList[7],
-          "VelMed": dataList[8],
-          "VelMax": dataList[9],
-          "Direccion": direccion,
-        };
-        data.add(dataMap);
-        dataList.removeRange(0, 10);
-      }
-
-      String dataJson = jsonEncode(data);
-      await secureStorage.write(key: 'Resumen_tiempo_real', value: dataJson);
-
-      return 'Se han actualizado los datos'; // Replace this with your actual data fetching logic
+      await secureStorage.write(
+          key: 'Resumen_tiempo_real', value: response.body);
+      return 'Se han actualizado los datos';
     } else {
       throw Exception('Failed to fetch data: ${response.statusCode}');
     }
@@ -276,8 +238,6 @@ Future<String> fetchDataAvanceMensual() async {
   }
 }
 
-
-
 Future<void> showNotificationAvanceMensual(String fetchedData) async {
   // Initialize the local notifications plugin with Android-specific initialization settings.
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -332,7 +292,6 @@ Future<void> showNotificationError() async {
   );
 }
 
-
 Future<void> showNotificationResumenReal(String fetchedData) async {
   // Initialize the local notifications plugin with Android-specific initialization settings.
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -360,7 +319,6 @@ Future<void> showNotificationResumenReal(String fetchedData) async {
   );
 }
 
-
 Future<void> showNotificationDiaAnterior(String fetchedData) async {
   // Initialize the local notifications plugin with Android-specific initialization settings.
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -387,4 +345,3 @@ Future<void> showNotificationDiaAnterior(String fetchedData) async {
     ),
   );
 }
-
