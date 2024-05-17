@@ -27,7 +27,7 @@ void main() async {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
+    Timer.periodic(const Duration(minutes: 1), (Timer timer) async {//30 minutes
       //30 minutes
       // Fetch data
       final fetchedData = await fetchDataResumenReal();
@@ -39,7 +39,7 @@ void main() async {
       }
     });
 
-    Timer.periodic(const Duration(hours: 6), (Timer timer) async {
+    Timer.periodic(const Duration(minutes: 6), (Timer timer) async {//6 hours
       //6 hours
       // Fetch data
       final fetchedData = await fetchDataResumenDiaAnterior();
@@ -50,7 +50,7 @@ void main() async {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(hours: 12), (Timer timer) async {
+    Timer.periodic(const Duration(minutes: 12), (Timer timer) async {//12 hours
       //12 hours
       final fetchedData = await fetchDataAvanceMensual();
       if (fetchedData != "Error") {

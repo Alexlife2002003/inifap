@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,8 +48,7 @@ class _MapScreenState extends State<MapScreen> {
         Marker(
           markerId: MarkerId('currentLocation'),
           position: LatLng(currentLatitude, currentLongitude),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         ),
       );
       markers.addAll(
@@ -59,8 +59,8 @@ class _MapScreenState extends State<MapScreen> {
               location['Lat'],
               location['lng'],
             ),
-            icon: favorites
-                    .any((element) => element['id_estacion'] == location['id_estacion'])
+            icon: favorites.any((element) =>
+                    element['id_estacion'] == location['id_estacion'])
                 ? BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueGreen)
                 : BitmapDescriptor.defaultMarkerWithHue(
@@ -69,22 +69,24 @@ class _MapScreenState extends State<MapScreen> {
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
+                  bool isFavorite = favorites.any((element) =>
+                      element['id_estacion'] == location['id_estacion']);
                   return Container(
                     height: 100,
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Estacion ${location['Estacion']}- Municipio ${location['Municipio']}"),
+                          Text(
+                              "Estacion ${location['Estacion']}- Municipio ${location['Municipio']}"),
                           IconButton(
                             icon: Icon(
-                              favorites.any((element) =>
-                                      element['id_estacion'] == location['id_estacion'])
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
+                              isFavorite ? Icons.favorite : Icons.favorite_border,
+                              color: isFavorite ? Colors.red : Colors.grey,
                             ),
                             onPressed: () {
-                              _addToFavorites(location['id_estacion'].toString());
+                              _toggleFavorite(location['id_estacion'].toString());
+                              Navigator.pop(context); // Close the bottom sheet
                             },
                           ),
                         ],
@@ -100,48 +102,58 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  void _addToFavorites(String title) async {
+  void _toggleFavorite(String idEstacion) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favTitles = prefs.getStringList('favorites') ?? [];
-    if (favTitles.contains(title)) {
-      favTitles.remove(title); // Remove from favorites
+    List<String> favIds = prefs.getStringList('favorites') ?? [];
+    if (favIds.contains(idEstacion)) {
+      favIds.remove(idEstacion); // Remove from favorites
     } else {
-      favTitles.add(title); // Add to favorites
+      favIds.add(idEstacion); // Add to favorites
     }
-    await prefs.setStringList('favorites', favTitles);
+    await prefs.setStringList('favorites', favIds);
     _loadFavorites();
   }
 
   void _loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favTitles = prefs.getStringList('favorites') ?? [];
+    List<String> favIds = prefs.getStringList('favorites') ?? [];
     List<Map<String, dynamic>> updatedFavorites = widget.locations
-        .where((element) => favTitles.contains(element['titulo']))
+        .where((element) => favIds.contains(element['id_estacion'].toString()))
         .toList();
     setState(() {
       favorites = updatedFavorites;
+      _updateMarkers(); // Update markers to reflect favorites
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Mapa de Estaciones"),
-        backgroundColor: lightGreen,
-      ),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(
-            currentLatitude != 0.0 ? currentLatitude : 22.7561951,
-            currentLongitude != 0.0 ? currentLongitude : -102.4989123,
-          ),
-          zoom: zoomlevel,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ListPage()),
+        );
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Mapa de Estaciones"),
+          backgroundColor: lightGreen,
         ),
-        markers: markers,
-        onMapCreated: (GoogleMapController controller) {
-          mapController = controller;
-        },
+        body: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(
+              currentLatitude != 0.0 ? currentLatitude : 22.7561951,
+              currentLongitude != 0.0 ? currentLongitude : -102.4989123,
+            ),
+            zoom: zoomlevel,
+          ),
+          markers: markers,
+          onMapCreated: (GoogleMapController controller) {
+            mapController = controller;
+          },
+        ),
       ),
     );
   }
