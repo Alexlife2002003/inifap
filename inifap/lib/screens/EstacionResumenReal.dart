@@ -1,12 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:inifap/datos/Datos.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:diacritic/diacritic.dart';
-
-import 'dart:async';
 
 class EstacionResumenReal extends StatefulWidget {
   const EstacionResumenReal({Key? key}) : super(key: key);
@@ -20,6 +18,14 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
   List<Map<String, dynamic>> detailedInfo = [];
   List<Map<String, dynamic>> resumenEstaciones = [];
 
+  @override
+  void initState() {
+    super.initState();
+    loadResumenEstaciones().then((_) {
+      loadFavorites();
+    });
+  }
+
   Future<void> loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -29,7 +35,9 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     // Load detailed information for each favorite
     List<Map<String, dynamic>> infoList = [];
     if (favorites.isNotEmpty) {
-      Map<String, dynamic> info = getDataForEstacionAndMunicipio(favorites);
+      print("fav $favorites");
+      Map<String, dynamic> info = await getDataForEstacionAndMunicipio(favorites);
+      print("info $info");
       infoList.add(info);
     }
 
@@ -38,48 +46,30 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     });
   }
 
-  String getMonthName(int month) {
-    switch (month) {
-      case 1:
-        return "Enero";
-      case 2:
-        return "Febrero";
-      case 3:
-        return "Marzo";
-      case 4:
-        return "Abril";
-      case 5:
-        return "Mayo";
-      case 6:
-        return "June";
-      case 7:
-        return "July";
-      case 8:
-        return "August";
-      case 9:
-        return "September";
-      case 10:
-        return "October";
-      case 11:
-        return "November";
-      case 12:
-        return "December";
-      default:
-        return "Invalid month";
-    }
-  }
-
-  Map<String, dynamic> getDataForEstacionAndMunicipio(String id) {
+  Future<Map<String, dynamic>> getDataForEstacionAndMunicipio(String id) async {
+    print("resumen estaciones $resumenEstaciones");
+    // Ensure the data is loaded before accessing it
+    await loadResumenEstaciones();
     return resumenEstaciones.firstWhere(
       (data) => data['Id'].toString() == id,
       orElse: () => {},
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    loadFavorites();
+  Future<void> loadResumenEstaciones() async {
+    // Data from your provided list
+    const secureStorage = FlutterSecureStorage();
+    String? storedDataJson = await secureStorage.read(key: 'Resumen_tiempo_real');
+    print("stored json $storedDataJson");
+    if (storedDataJson != null) {
+      setState(() {
+        resumenEstaciones = List<Map<String, dynamic>>.from(json.decode(storedDataJson));
+      });
+    } else {
+      setState(() {
+        resumenEstaciones = [];
+      });
+    }
   }
 
   @override
@@ -93,71 +83,66 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
             children: [
               if (detailedInfo.isEmpty)
                 Column(
-                  children: [Text('No hay favoritos seleccionadosc')],
+                  children: [Text('No hay favoritos seleccionados')],
                 ),
               if (detailedInfo.isNotEmpty)
                 Column(
                   children: detailedInfo.map((info) {
                     return Column(
                       children: [
-                        SizedBox(
-                          height: 40,
-                        ),
+                        SizedBox(height: 40),
                         Image.asset(
                           'lib/assets/logo.png', // Replace with your image path
                           height: 40, // Adjust the height as needed
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          info['estacion'],
-                          style: TextStyle(
-                              fontSize: 36, fontWeight: FontWeight.bold),
+                          info['Est'] ?? 'N/A',
+                          style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          info['municipio'],
-                          style: TextStyle(
-                              fontSize: 28, fontWeight: FontWeight.bold),
+                          info['Est'] ?? 'N/A',
+                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Fecha de instalacion:\n ${info['Instalacion']}",
+                          "Fecha de instalacion:\n ${info['Instalacion'] ?? 'N/A'}",
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         WeatherCard(
                           icon: Icons.thermostat,
                           label: 'Temperatura',
-                          value: info['temperatura'],
-                          max: 'Max 24.9°C a las 13:30 hr',
-                          min: 'Min 10.6°C a las 07:00 hr',
-                          avg: 'Med 15.7°C',
+                          value: info['temperatura'] ?? 'N/A',
+                          max: 'Max ${info['TempMax']}°C a las ${info['HoraMaxTemp']} hr',
+                          min: 'Min ${info['TempMin']}°C a las ${info['HoraMinTemp']} hr',
+                          avg: 'Med ${info['TempMed']}°C',
                         ),
                         WeatherCard(
                           icon: Icons.water_drop,
                           label: 'Humedad\nrelativa',
-                          value: info['humedad'],
-                          max: 'Max 38.9% a las 06:15hr',
-                          min: 'Min 12.5% a las 14:30hr',
-                          avg: 'Med 25.6%',
+                          value: info['humedad'] ?? 'N/A',
+                          max: 'Max ${info['HumedadMax']}% a las ${info['HoraHumedadMax']} hr',
+                          min: 'Min ${info['HumedadMin']}% a las ${info['HoraHumedadMin']} hr',
+                          avg: 'Med ${info['HumedadMed']}%',
                         ),
                         WeatherCard(
                           icon: Icons.cloudy_snowing,
                           label: 'Precipitación',
-                          value: info['precipitacion'],
-                          total: 'Total acumulada\n0.0 mm',
+                          value: info['precipitacion'] ?? 'N/A',
+                          total: 'Total acumulada\n${info['Pre']} mm',
                         ),
                         WeatherCard(
                           icon: Icons.sunny,
                           label: 'Radiación',
-                          value: info['radiacion'],
-                          total: 'Total registrada\n12,413 W/m²',
+                          value: info['radiacion'] ?? 'N/A',
+                          total: 'Total registrada\n NA W/m²',
                         ),
                         WeatherCardViento(
                           icon: Icons.air,
                           label: 'Velocidad y\ndirección del\n viento',
-                          value: info['viento'],
-                          max:
-                              'Max 35 Km/hr proveniente del Sur a las 15:30 hr',
-                          min: 'Min 4 Km/hr proveniente del Sur a las 08:30 hr',
-                          avg: 'Med 17.5 Km/hr proveniente del SSO',
+                          value: info['viento'] ?? 'N/A',
+                          max: 'Max ${info['VelMax']} proveniente del N/A a las N/A hr',
+                          min: 'Min 4 Km/hr proveniente del N/A a las N/A hr',
+                          avg: 'Med 17.5 Km/hr proveniente del N/A',
                         ),
                         const SizedBox(height: 20),
                       ],
