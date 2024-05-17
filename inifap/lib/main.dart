@@ -14,23 +14,40 @@ import 'package:inifap/backend/fetchData.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   void startPeriodicTask() {
     // Schedule a periodic task using Timer.periodic
 
     Timer(const Duration(seconds: 3), () async {
+      final DateTime currentDate = DateTime.now();
+
+      String day = currentDate.day.toString();
+      String month = currentDate.month.toString();
+      String year = currentDate.year.toString();
       await fetchDataResumenReal();
       await fetchDataResumenDiaAnterior();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String id_est = prefs.getString('estacionActual') ?? "";
+      await fetchDataGraficaTemperatura(day, month, year, id_est);
       final fetchedData = await fetchDataAvanceMensual();
       if (fetchedData != "Error") {
       } else {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(minutes: 1), (Timer timer) async {//30 minutes
+    Timer.periodic(const Duration(minutes: 1), (Timer timer) async {
       //30 minutes
+      final DateTime currentDate = DateTime.now();
+
+      String day = currentDate.day.toString();
+      String month = currentDate.month.toString();
+      String year = currentDate.year.toString();
       // Fetch data
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String id_est = prefs.getString('estacionActual') ?? "";
+      await fetchDataGraficaTemperatura(day, month, year, id_est);
       final fetchedData = await fetchDataResumenReal();
       // Show notification with fetched data
       if (fetchedData != "Error") {
@@ -40,7 +57,8 @@ void main() async {
       }
     });
 
-    Timer.periodic(const Duration(minutes: 6), (Timer timer) async {//6 hours
+    Timer.periodic(const Duration(minutes: 6), (Timer timer) async {
+      //6 hours
       //6 hours
       // Fetch data
       final fetchedData = await fetchDataResumenDiaAnterior();
@@ -51,7 +69,8 @@ void main() async {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(minutes: 12), (Timer timer) async {//12 hours
+    Timer.periodic(const Duration(minutes: 12), (Timer timer) async {
+      //12 hours
       //12 hours
       final fetchedData = await fetchDataAvanceMensual();
       if (fetchedData != "Error") {
@@ -110,8 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    
-    EleccionFavoritaAVer(), 
+    EleccionFavoritaAVer(),
     ListPage(),
     const ResumenRealOrYesterday(),
     AppDetailsPage(),
@@ -165,4 +183,3 @@ class GraphScreen extends StatelessWidget {
     );
   }
 }
-

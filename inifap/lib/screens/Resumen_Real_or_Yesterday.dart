@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/screens/Grafica_temperatura.dart';
 import 'package:inifap/screens/resumenAvanceMensual.dart';
 import 'package:inifap/screens/resumenDiaAnterior.dart';
 import 'package:inifap/screens/resumenReal.dart';
@@ -52,6 +53,14 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => resumenAvanceMensual()),
+                        );
+                      }),
+                      _buildForecastCard(Icons.auto_graph_rounded, "Tempratura",
+                          Colors.brown, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GraficaTemperatura()),
                         );
                       })
                     ],
