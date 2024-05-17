@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/MapScreen.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/Colors.dart';
 
@@ -71,7 +69,6 @@ class _ListPageState extends State<ListPage> {
   }
 
   void _addToFavorites(int index) async {
-    print(index);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String id = index.toString();
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
@@ -98,8 +95,8 @@ class _ListPageState extends State<ListPage> {
     listTiles.addAll(favorites.map((fav) {
       return ListTile(
         tileColor: lightGreen,
-        title: Text(
-            "Estacion: ${fav['Estacion']}-Municipio: ${fav['Municipio']}"),
+        title:
+            Text("Estacion: ${fav['Estacion']}-Municipio: ${fav['Municipio']}"),
         trailing: IconButton(
           icon: const Icon(Icons.favorite),
           color: Colors.red,
@@ -125,50 +122,56 @@ class _ListPageState extends State<ListPage> {
       );
     }));
 
-    return AppWithDrawer(
-      content: Scaffold(
-        appBar: AppBar(
-          title: const Text("Lista de estaciones"),
-          backgroundColor: lightGreen,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.map),
-              onPressed: _openMapScreen,
+    return Scaffold(
+      backgroundColor: lightGreen,
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(""),
+                const Text(
+                  "Lista de estaciones",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.map),
+                  onPressed: _openMapScreen,
+                ),
+              ],
             ),
-          ],
-        ),
-        body: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: (value) {
-                  filterSearchResults(value);
-                },
-                controller: searchController,
-                decoration: InputDecoration(
-                  labelText: "Search",
-                  hintText: "Search",
-                  prefixIcon: const Icon(
-                    Icons.search,
-                  ),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(25.0)),
-                      borderSide: BorderSide(color: darkGreen)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
+              controller: searchController,
+              decoration: InputDecoration(
+                labelText: "Search",
+                hintText: "Search",
+                prefixIcon: const Icon(
+                  Icons.search,
+                ),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+                  borderSide: BorderSide(color: darkGreen),
                 ),
               ),
             ),
-            Expanded(
-              child: ListView(
-                children: listTiles,
-              ),
+          ),
+          Expanded(
+            child: ListView(
+              children: listTiles,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

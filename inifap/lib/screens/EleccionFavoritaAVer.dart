@@ -58,25 +58,23 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
 
   @override
   Widget build(BuildContext context) {
-    return AppWithDrawer(
-      content: Scaffold(
-        body: _buildScreenContent(),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: darkGreen,
-          currentIndex: _currentIndex,
-          selectedItemColor: lightGreen,
-          onTap: _selectTab,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.info),
-              label: 'Detalles',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favoritos',
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: _buildScreenContent(),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: darkGreen,
+        currentIndex: _currentIndex,
+        selectedItemColor: lightGreen,
+        onTap: _selectTab,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'Detalles',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favoritos',
+          ),
+        ],
       ),
     );
   }

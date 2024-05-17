@@ -16,17 +16,8 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    return AppWithDrawer(
-      content: Scaffold(
-        appBar: AppBar(
-          backgroundColor: lightGreen,
-          elevation: 0,
-          title: const Text(
-            "Datos en tiempo real",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-        ),
+    return Center(
+      child: Scaffold(
         body: Center(
           child: SingleChildScrollView(
             child: Container(
