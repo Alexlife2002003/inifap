@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
@@ -50,12 +49,9 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
     }
   }
 
-  Map<String, dynamic> getDataForEstacionAndMunicipio(
-      String estacion, String municipio) {
+  Map<String, dynamic> getDataForEstacionAndMunicipio(String id) {
     return resumenEstaciones.firstWhere(
-      (data) =>
-          removeDiacritics(data['Estacion']) == removeDiacritics(estacion) &&
-          removeDiacritics(data['Municipio']) == removeDiacritics(municipio),
+      (data) => data['Id'].toString() == id,
       orElse: () => {},
     );
   }
@@ -89,11 +85,9 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                   : ListView.builder(
                       itemCount: favorites.length,
                       itemBuilder: (BuildContext context, int index) {
-                        List<String> parts = favorites[index].split(' - ');
-                        String estacion = parts[0].split(': ')[1];
-                        String municipio = parts[1].split(': ')[1];
+                        String id = favorites[index];
                         Map<String, dynamic> data =
-                            getDataForEstacionAndMunicipio(estacion, municipio);
+                            getDataForEstacionAndMunicipio(id);
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Card(
@@ -109,7 +103,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  estacion_municipio(estacion, municipio),
+                                  estacion_municipio(data['Est'], data['Est']),
                                   if (data.isNotEmpty) ...[
                                     const SizedBox(height: 10),
                                     Row(
@@ -136,15 +130,15 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                     const SizedBox(height: 10),
                                     Temperatura(
                                       "Temperatura",
-                                      '${data["Max"]}°C',
-                                      '${data["Med"]}°C',
-                                      '${data["Min"]}°C',
+                                      '${data["TempMax"]}°C',
+                                      '${data["TempMed"]}°C',
+                                      '${data["TempMin"]}°C',
                                       Icons.thermostat,
                                     ),
                                     const SizedBox(height: 10),
                                     informacion_singular(
                                       "Precipitacion:",
-                                      "${data['Precipitacion']} mm",
+                                      "${data['Pre']} mm",
                                       Icons.cloudy_snowing,
                                     ),
                                     const SizedBox(height: 10),
@@ -185,7 +179,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                             RotatedIcon(
                                               icon: Icons.assistant_navigation,
                                               direction:
-                                                  '${data['Direccion']}', // Dirección basada en los datos proporcionados
+                                                  '${data['DirViento']}', // Dirección basada en los datos proporcionados
                                               size: 40,
                                             ),
                                             const Text(
@@ -193,7 +187,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data['Direccion']}',
+                                              '${data['DirViento']}',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),

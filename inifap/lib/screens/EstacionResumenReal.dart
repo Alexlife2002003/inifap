@@ -18,6 +18,7 @@ class EstacionResumenReal extends StatefulWidget {
 class _EstacionResumenRealState extends State<EstacionResumenReal> {
   String favorites = "";
   List<Map<String, dynamic>> detailedInfo = [];
+  List<Map<String, dynamic>> resumenEstaciones = [];
 
   Future<void> loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,14 +29,9 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     // Load detailed information for each favorite
     List<Map<String, dynamic>> infoList = [];
     if (favorites.isNotEmpty) {
-      
-      String estacion = "";
-      String municipio ="";
-      Map<String, dynamic> info =
-          fetchDataForEstacionAndMunicipio(estacion, municipio);
+      Map<String, dynamic> info = getDataForEstacionAndMunicipio(favorites);
       infoList.add(info);
     }
-   
 
     setState(() {
       detailedInfo = infoList;
@@ -73,29 +69,11 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     }
   }
 
-  // Simulated function to fetch detailed data based on estacion and municipio
-  Map<String, dynamic> fetchDataForEstacionAndMunicipio(
-      String estacion, String municipio) {
-    String instalacion = "";
-    for (var est in datosEstacions) {
-      if (removeDiacritics(est['Estacion']) == removeDiacritics(estacion) &&
-          removeDiacritics(est['Municipio']) == removeDiacritics(municipio)) {
-        instalacion = est['Instalacion'];
-        var instalacions = instalacion.split("-");
-        instalacion =
-            "${instalacions[2]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[0]}";
-      }
-    }
-    return {
-      'estacion': estacion,
-      'municipio': municipio,
-      'temperatura': '22.7 °C',
-      'humedad': '15.9 %',
-      'precipitacion': '0.0 mm',
-      'radiacion': '103.2 W/m²',
-      'viento': '21.3 Km/hr',
-      'Instalacion': instalacion,
-    };
+  Map<String, dynamic> getDataForEstacionAndMunicipio(String id) {
+    return resumenEstaciones.firstWhere(
+      (data) => data['Id'].toString() == id,
+      orElse: () => {},
+    );
   }
 
   @override
@@ -122,7 +100,9 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                   children: detailedInfo.map((info) {
                     return Column(
                       children: [
-                        SizedBox(height: 40,),
+                        SizedBox(
+                          height: 40,
+                        ),
                         Image.asset(
                           'lib/assets/logo.png', // Replace with your image path
                           height: 40, // Adjust the height as needed

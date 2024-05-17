@@ -4,7 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResumenReal extends StatefulWidget {
@@ -38,12 +37,10 @@ class _ResumenRealState extends State<ResumenReal> {
     const secureStorage = FlutterSecureStorage();
     String? storedDataJson =
         await secureStorage.read(key: 'Resumen_tiempo_real');
-    print("stored data json $storedDataJson");
     if (storedDataJson != null) {
       setState(() {
         resumenEstaciones =
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
-        print(resumenEstaciones);
       });
     } else {
       setState(() {
@@ -129,11 +126,8 @@ class _ResumenRealState extends State<ResumenReal> {
                         itemCount: favorites.length,
                         itemBuilder: (BuildContext context, int index) {
                           String id = favorites[index];
-                          
-                          print("data id $id");
                           Map<String, dynamic> data =
                               getDataForEstacionAndMunicipio(id);
-                              print("data$data");
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Card(

@@ -48,12 +48,9 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
     }
   }
 
-  Map<String, dynamic> getDataForEstacionAndMunicipio(
-      String estacion, String municipio) {
+  Map<String, dynamic> getDataForEstacionAndMunicipio(String id) {
     return resumenEstaciones.firstWhere(
-      (data) =>
-          removeDiacritics(data['Estacion']) == removeDiacritics(estacion) &&
-          removeDiacritics(data['Municipio']) == removeDiacritics(municipio),
+      (data) => data['Id'].toString() == id,
       orElse: () => {},
     );
   }
@@ -87,11 +84,9 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                   : ListView.builder(
                       itemCount: favorites.length,
                       itemBuilder: (BuildContext context, int index) {
-                        List<String> parts = favorites[index].split(' - ');
-                        String estacion = parts[0].split(': ')[1];
-                        String municipio = parts[1].split(': ')[1];
+                        String id = favorites[index];
                         Map<String, dynamic> data =
-                            getDataForEstacionAndMunicipio(estacion, municipio);
+                            getDataForEstacionAndMunicipio(id);
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Card(
@@ -107,20 +102,20 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  estacion_municipio(estacion, municipio),
+                                  estacion_municipio(data['Est'], data['Est']),
                                   if (data.isNotEmpty) ...[
                                     const SizedBox(height: 10),
                                     Temperatura(
                                       "Temperatura",
-                                      '${data["Temp_max"]}°C',
-                                      '${data["Temp_med"]}°C',
-                                      '${data["Temp_min"]}°C',
+                                      '${data["TempMax"]}°C',
+                                      '${data["TempMed"]}°C',
+                                      '${data["TempMin"]}°C',
                                       Icons.thermostat,
                                     ),
                                     const SizedBox(height: 10),
                                     informacion_singular(
                                       "Precipitacion:",
-                                      "${data['Precipitacion']} mm",
+                                      "${data['Pre']} mm",
                                       Icons.cloudy_snowing,
                                     ),
                                     const SizedBox(height: 10),
@@ -149,7 +144,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data['Viento_max']} km/hr | ${data['Viento_med']} km/hr',
+                                              '${data['VelMax']} km/hr | ${data['VelMed']} km/hr',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
@@ -184,7 +179,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data["Humedad_max"]}%',
+                                              '${data["HumRMax"]}%',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
@@ -202,7 +197,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data["Humedad_med"]}%',
+                                              '${data["HumRMed"]}%',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
@@ -219,7 +214,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(
-                                              '${data["Humedad_min"]}%',
+                                              '${data["HumRMin"]}%',
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.blue),
@@ -237,12 +232,12 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                       children: [
                                         informacion_singular(
                                           "Radiacion:",
-                                          "${data['Radiacion']} mm",
+                                          "${data['Rad']} W/m",
                                           Icons.cloudy_snowing,
                                         ),
                                         informacion_singular(
                                           "Evapotranspiracion:",
-                                          "${data['Evapotranspiracion']} mm",
+                                          "${data['Eto']} mm",
                                           Icons.cloudy_snowing,
                                         ),
                                       ],
