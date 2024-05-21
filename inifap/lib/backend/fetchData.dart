@@ -199,15 +199,37 @@ Future<String> fetchDataGraficaRadiacion(
   try {
     // Simulating an asynchronous API call to fetch data
     String api_url = dotenv.env['GRAFICA_RADIACION'] ?? "DEFAULT";
-    api_url =
-        "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
+    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
     final response = await http.get(Uri.parse(api_url));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
-      await secureStorage.write(
-          key: 'grafica_radiacion', value: response.body);
-      return 'Se han actualizado los datos'; 
+      await secureStorage.write(key: 'grafica_radiacion', value: response.body);
+      return 'Se han actualizado los datos';
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    return 'Error';
+  }
+}
+
+Future<String> fetchDataGraficaViento(
+    String day, String month, String year, String id_est) async {
+  bool internet = await conexionInternt();
+  if (internet == false) {
+    return "Sin conexión. Sin datos actualizados.";
+  }
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String api_url = dotenv.env['GRAFICA_VIENTO'] ?? "DEFAULT";
+    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
+    final response = await http.get(Uri.parse(api_url));
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      await secureStorage.write(key: 'grafica_viento', value: response.body);
+      return 'Se han actualizado los datos';
     } else {
       throw Exception('Failed to fetch data: ${response.statusCode}');
     }

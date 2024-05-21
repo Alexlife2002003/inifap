@@ -21,10 +21,12 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
   List<Map<String, dynamic>> resumenGraficaPrecipitacion = [];
   List<Map<String, dynamic>> resumenGraficaHumedad = [];
   List<Map<String, dynamic>> resumenGraficaRadiacion = [];
+  List<Map<String, dynamic>> resumenGraficaViento = [];
   double? lastTemperature;
   double? lastPrecipitation;
   double? lastHumedad;
   double? lastRadiacion;
+  double? lastViento;
 
   @override
   void initState() {
@@ -39,7 +41,8 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     List<dynamic> datosPrecipitacion = resumenGraficaPrecipitacion[0]['Datos'];
     List<dynamic> datosHumedad = resumenGraficaHumedad[0]['Datos'];
     List<dynamic> datosRadiacion = resumenGraficaRadiacion[0]['Datos'];
-    print("datos radiacion $datosRadiacion");
+    List<dynamic> datosViento = resumenGraficaViento[0]['Datos'];
+    print("datos viento $datosViento");
     if (datosTemperatura.isNotEmpty) {
       var lastItem = datosTemperatura.last;
       lastTemperature = double.parse(lastItem['Temp']);
@@ -60,6 +63,11 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
       lastRadiacion = double.parse(lastItem['Rad']);
       print("Last radiacion: $lastRadiacion");
     }
+    if (datosViento.isNotEmpty) {
+      var lastItem = datosViento.last;
+      lastViento = double.parse(lastItem['VelViento']);
+      print("Last viento: $lastViento");
+    }
   }
 
   Future<void> loadGrafica() async {
@@ -72,6 +80,8 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
         await secureStorage.read(key: 'grafica_humedad');
     String? storedDataJsonRadiacion =
         await secureStorage.read(key: 'grafica_radiacion');
+    String? storedDataJsonViento =
+        await secureStorage.read(key: 'grafica_viento');
 
     setState(() {
       if (storedDataJsonTemperatura != null) {
@@ -93,9 +103,15 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
       } else {
         resumenGraficaHumedad = [];
       }
-        if (storedDataJsonRadiacion != null) {
-        resumenGraficaRadiacion =
-            List<Map<String, dynamic>>.from(json.decode(storedDataJsonRadiacion));
+      if (storedDataJsonRadiacion != null) {
+        resumenGraficaRadiacion = List<Map<String, dynamic>>.from(
+            json.decode(storedDataJsonRadiacion));
+      } else {
+        resumenGraficaRadiacion = [];
+      }
+      if (storedDataJsonViento != null) {
+        resumenGraficaViento =
+            List<Map<String, dynamic>>.from(json.decode(storedDataJsonViento));
       } else {
         resumenGraficaRadiacion = [];
       }
@@ -228,7 +244,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                         WeatherCardViento(
                           icon: Icons.air,
                           label: 'Velocidad y\ndirección del\n viento',
-                          value: info['viento'] ?? 'N/A',
+                          value: lastViento.toString() ?? 'N/A',
                           max:
                               'Max ${info['VelMax']} proveniente del N/A a las N/A hr',
                           min: 'Min N/A Km/hr proveniente del N/A a las N/A hr',

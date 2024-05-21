@@ -160,6 +160,7 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
           await fetchDataGraficaPrecipitacion(day, month, year, id.toString());
           await fetchDataGraficaHumedad(day, month, year, id.toString());
           await fetchDataGraficaRadiacion(day, month, year, id.toString());
+          await fetchDataGraficaViento(day, month, year, id.toString());
           _navigateToDetails();
         },
       ),
