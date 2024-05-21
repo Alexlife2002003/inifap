@@ -125,8 +125,7 @@ Future<String> fetchDataGraficaTemperatura(
   try {
     // Simulating an asynchronous API call to fetch data
     String api_url = dotenv.env['GRAFICA_TEMPERATURA'] ?? "DEFAULT";
-    api_url =
-        "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
+    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
     final response = await http.get(Uri.parse(api_url));
     const secureStorage = FlutterSecureStorage();
 
@@ -134,6 +133,81 @@ Future<String> fetchDataGraficaTemperatura(
       await secureStorage.write(
           key: 'grafica_temperatura', value: response.body);
       return 'Se han actualizado los datos'; // Replace this with your actual data fetching logic
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    return 'Error';
+  }
+}
+
+Future<String> fetchDataGraficaPrecipitacion(
+    String day, String month, String year, String id_est) async {
+  bool internet = await conexionInternt();
+  if (internet == false) {
+    return "Sin conexión. Sin datos actualizados.";
+  }
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String api_url = dotenv.env['GRAFICA_PRECIPITACION'] ?? "DEFAULT";
+    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
+    final response = await http.get(Uri.parse(api_url));
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      await secureStorage.write(
+          key: 'grafica_precipitacion', value: response.body);
+      return 'Se han actualizado los datos';
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    return 'Error';
+  }
+}
+
+Future<String> fetchDataGraficaHumedad(
+    String day, String month, String year, String id_est) async {
+  bool internet = await conexionInternt();
+  if (internet == false) {
+    return "Sin conexión. Sin datos actualizados.";
+  }
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String api_url = dotenv.env['GRAFICA_HUMEDAD'] ?? "DEFAULT";
+    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
+    final response = await http.get(Uri.parse(api_url));
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      await secureStorage.write(key: 'grafica_humedad', value: response.body);
+      return 'Se han actualizado los datos';
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    return 'Error';
+  }
+}
+
+Future<String> fetchDataGraficaRadiacion(
+    String day, String month, String year, String id_est) async {
+  bool internet = await conexionInternt();
+  if (internet == false) {
+    return "Sin conexión. Sin datos actualizados.";
+  }
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String api_url = dotenv.env['GRAFICA_RADIACION'] ?? "DEFAULT";
+    api_url =
+        "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
+    final response = await http.get(Uri.parse(api_url));
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      await secureStorage.write(
+          key: 'grafica_radiacion', value: response.body);
+      return 'Se han actualizado los datos'; 
     } else {
       throw Exception('Failed to fetch data: ${response.statusCode}');
     }

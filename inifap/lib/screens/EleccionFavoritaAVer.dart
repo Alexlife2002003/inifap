@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/main.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/EstacionResumenReal.dart';
@@ -127,7 +128,8 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
             itemBuilder: (context, index) {
               final stationName =
                   "Estacion: ${favorites[index]['Estacion']}-Municipio: ${favorites[index]['Municipio']}";
-              return buildFavoriteStationCard(stationName);
+              return buildFavoriteStationCard(
+                  stationName, favorites[index]['id_estacion']);
             },
           ),
         ),
@@ -135,7 +137,7 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
     );
   }
 
-  Widget buildFavoriteStationCard(String stationName) {
+  Widget buildFavoriteStationCard(String stationName, int id) {
     return Card(
       color: lightGreen,
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -147,7 +149,17 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        onTap: () {
+        onTap: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('estacionActual', id.toString());
+          final DateTime currentDate = DateTime.now();
+          String day = currentDate.day.toString();
+          String month = currentDate.month.toString();
+          String year = currentDate.year.toString();
+          await fetchDataGraficaTemperatura(day, month, year, id.toString());
+          await fetchDataGraficaPrecipitacion(day, month, year, id.toString());
+          await fetchDataGraficaHumedad(day, month, year, id.toString());
+          await fetchDataGraficaRadiacion(day, month, year, id.toString());
           _navigateToDetails();
         },
       ),

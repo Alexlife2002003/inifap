@@ -31,6 +31,9 @@ void main() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String id_est = prefs.getString('estacionActual') ?? "";
       await fetchDataGraficaTemperatura(day, month, year, id_est);
+      await fetchDataGraficaPrecipitacion(day, month, year, id_est);
+      await fetchDataGraficaHumedad(day, month, year, id_est);
+      await fetchDataGraficaRadiacion(day, month, year, id_est);
       final fetchedData = await fetchDataAvanceMensual();
       if (fetchedData != "Error") {
       } else {
@@ -48,6 +51,9 @@ void main() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String id_est = prefs.getString('estacionActual') ?? "";
       await fetchDataGraficaTemperatura(day, month, year, id_est);
+      await fetchDataGraficaPrecipitacion(day, month, year, id_est);
+      await fetchDataGraficaHumedad(day, month, year, id_est);
+      await fetchDataGraficaRadiacion(day, month, year, id_est);
       final fetchedData = await fetchDataResumenReal();
       // Show notification with fetched data
       if (fetchedData != "Error") {
