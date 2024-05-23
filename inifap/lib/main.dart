@@ -22,19 +22,23 @@ void main() async {
 
     Timer(const Duration(seconds: 3), () async {
       final DateTime currentDate = DateTime.now();
-
       String day = currentDate.day.toString();
       String month = currentDate.month.toString();
       String year = currentDate.year.toString();
-      await fetchDataResumenReal();
-      await fetchDataResumenDiaAnterior();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String id_est = prefs.getString('estacionActual') ?? "";
-      await fetchDataGraficaTemperatura(day, month, year, id_est);
-      await fetchDataGraficaPrecipitacion(day, month, year, id_est);
-      await fetchDataGraficaHumedad(day, month, year, id_est);
-      await fetchDataGraficaRadiacion(day, month, year, id_est);
-      await fetchDataGraficaViento(day, month, year, id_est);
+
+      await Future.wait([
+        fetchDataResumenReal(),
+        fetchDataResumenDiaAnterior(),
+        fetchDataResumenReal(),
+        fetchDataResumenDiaAnterior(),
+        fetchDataGraficaTemperatura(day, month, year, id_est),
+        fetchDataGraficaPrecipitacion(day, month, year, id_est),
+        fetchDataGraficaHumedad(day, month, year, id_est),
+        fetchDataGraficaRadiacion(day, month, year, id_est),
+        fetchDataGraficaViento(day, month, year, id_est),
+      ]);
       final fetchedData = await fetchDataAvanceMensual();
       if (fetchedData != "Error") {
       } else {
@@ -51,11 +55,14 @@ void main() async {
       // Fetch data
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String id_est = prefs.getString('estacionActual') ?? "";
-      await fetchDataGraficaTemperatura(day, month, year, id_est);
-      await fetchDataGraficaPrecipitacion(day, month, year, id_est);
-      await fetchDataGraficaHumedad(day, month, year, id_est);
-      await fetchDataGraficaRadiacion(day, month, year, id_est);
-      await fetchDataGraficaViento(day, month, year, id_est);
+
+      await Future.wait([
+        fetchDataGraficaTemperatura(day, month, year, id_est),
+        fetchDataGraficaPrecipitacion(day, month, year, id_est),
+        fetchDataGraficaHumedad(day, month, year, id_est),
+        fetchDataGraficaRadiacion(day, month, year, id_est),
+        fetchDataGraficaViento(day, month, year, id_est),
+      ]);
       final fetchedData = await fetchDataResumenReal();
       // Show notification with fetched data
       if (fetchedData != "Error") {

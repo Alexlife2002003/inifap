@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:inifap/datos/Datos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
+import 'package:diacritic/diacritic.dart';
 
 class EstacionResumenReal extends StatefulWidget {
   const EstacionResumenReal({Key? key}) : super(key: key);
@@ -27,6 +29,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
   double? lastHumedad;
   double? lastRadiacion;
   double? lastViento;
+  String instalacion = "";
 
   @override
   void initState() {
@@ -133,14 +136,54 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
       print("fav $favorites");
       Map<String, dynamic> info =
           await getDataForEstacionAndMunicipio(favorites);
-      print("info $info");
       infoList.add(info);
     }
 
+    for (var est in datosEstacions) {
+      if (est['id_estacion'].toString() == favorites.toString()) {
+        instalacion = est['Instalacion'];
+        print(" fecha de instalacion 1 ${instalacion}");
+        var instalacions = instalacion.split("-");
+        instalacion =
+            "${instalacions[2]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[0]}";
+      }
+    }
+    print(" fecha de instalacion 2 ${instalacion}");
     setState(() {
       detailedInfo = infoList;
       loadGrafica();
     });
+  }
+
+  String getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return "Enero";
+      case 2:
+        return "Febrero";
+      case 3:
+        return "Marzo";
+      case 4:
+        return "Abril";
+      case 5:
+        return "Mayo";
+      case 6:
+        return "June";
+      case 7:
+        return "July";
+      case 8:
+        return "August";
+      case 9:
+        return "September";
+      case 10:
+        return "October";
+      case 11:
+        return "November";
+      case 12:
+        return "December";
+      default:
+        return "Invalid month";
+    }
   }
 
   Future<Map<String, dynamic>> getDataForEstacionAndMunicipio(String id) async {
@@ -187,6 +230,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
               if (detailedInfo.isNotEmpty)
                 Column(
                   children: detailedInfo.map((info) {
+                    List<String> splitResult = info['Est'].split(" - ");
                     return Column(
                       children: [
                         SizedBox(height: 40),
@@ -196,23 +240,31 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          info['Est'] ?? 'N/A',
+                          splitResult[1] ?? 'N/A',
                           style: TextStyle(
                               fontSize: 36, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          info['Est'] ?? 'N/A',
+                          splitResult[0] ?? 'N/A',
                           style: TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Fecha de instalacion:\n ${info['Instalacion'] ?? 'N/A'}",
+                          "Fecha de instalacion:\n${instalacion ?? 'N/A'}",
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
+                        Text(
+                          "Hora ultima actualizacion: ",
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
+                        Text(
+                          "${info['Hora'] ?? 'N/A'}",
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         WeatherCard(
                           icon: Icons.thermostat,
                           label: 'Temperatura',
-                          value: lastTemperature.toString() ?? 'N/A',
+                          value: "${lastTemperature.toString()} °C" ,
                           max:
                               'Max ${info['TempMax']}°C a las ${info['HoraMaxTemp']} hr',
                           min:
@@ -222,7 +274,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                         WeatherCard(
                           icon: Icons.water_drop,
                           label: 'Humedad\nrelativa',
-                          value: lastHumedad.toString() ?? 'N/A',
+                          value: "${lastHumedad.toString()} %",
                           max:
                               'Max ${info['HumedadMax']}% a las ${info['HoraHumedadMax']} hr',
                           min:
@@ -232,23 +284,26 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                         WeatherCard(
                           icon: Icons.cloudy_snowing,
                           label: 'Precipitación',
-                          value: lastPrecipitation.toString() ?? 'N/A',
+                          value: "${lastPrecipitation.toString()} mm",
                           total: 'Total acumulada\n${info['Pre']} mm',
                         ),
                         WeatherCard(
                           icon: Icons.sunny,
                           label: 'Radiación',
-                          value: lastRadiacion.toString() ?? 'N/A',
-                          total: 'Total registrada\n ${info['radiacionTotal']} W/m²',
+                          value: "${lastRadiacion.toString()} W/m²",
+                          total:
+                              'Total registrada\n ${info['radiacionTotal']} W/m²',
                         ),
                         WeatherCardViento(
                           icon: Icons.air,
                           label: 'Velocidad y\ndirección del\n viento',
-                          value: lastViento.toString() ?? 'N/A',
+                          value: "${lastViento.toString()} Km/hr",
                           max:
                               'Max ${info['VelMax']} proveniente del ${info['DirVelMax']} a las ${info['VelMaxHora']} hr',
-                          min: 'Min ${info['VelMin']} Km/hr proveniente del ${info['DirVelMin']} a las ${info['VelMinHora']} hr',
-                          avg: 'Med ${info['VelMed']} Km/hr proveniente del N/A',
+                          min:
+                              'Min ${info['VelMin']} Km/hr proveniente del ${info['DirVelMin']} a las ${info['VelMinHora']} hr',
+                          avg:
+                              'Med ${info['VelMed']} Km/hr proveniente del N/A',
                         ),
                         const SizedBox(height: 20),
                       ],

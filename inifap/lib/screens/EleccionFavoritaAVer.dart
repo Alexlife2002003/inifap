@@ -156,11 +156,14 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
           String day = currentDate.day.toString();
           String month = currentDate.month.toString();
           String year = currentDate.year.toString();
-          await fetchDataGraficaTemperatura(day, month, year, id.toString());
-          await fetchDataGraficaPrecipitacion(day, month, year, id.toString());
-          await fetchDataGraficaHumedad(day, month, year, id.toString());
-          await fetchDataGraficaRadiacion(day, month, year, id.toString());
-          await fetchDataGraficaViento(day, month, year, id.toString());
+          await Future.wait([
+            fetchDataGraficaTemperatura(day, month, year, id.toString()),
+            fetchDataGraficaPrecipitacion(day, month, year, id.toString()),
+            fetchDataGraficaHumedad(day, month, year, id.toString()),
+            fetchDataGraficaRadiacion(day, month, year, id.toString()),
+            fetchDataGraficaViento(day, month, year, id.toString())
+          ]);
+
           _navigateToDetails();
         },
       ),
