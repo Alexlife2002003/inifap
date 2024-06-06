@@ -130,10 +130,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ListPage()),
-        );
+        Navigator.pop(context);
         return true;
       },
       child: Scaffold(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
-import 'package:inifap/screens/Grafica_temperatura.dart';
+import 'package:inifap/screens/Grafica.dart';
 import 'package:inifap/screens/resumenAvanceMensual.dart';
 import 'package:inifap/screens/resumenDiaAnterior.dart';
 import 'package:inifap/screens/resumenReal.dart';
@@ -55,16 +55,80 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                               builder: (context) => resumenAvanceMensual()),
                         );
                       }),
-                      _buildForecastCard(Icons.auto_graph_rounded, "Tempratura",
-                          Colors.brown, () {
+                      _buildForecastCard(
+                          Icons.auto_graph_rounded, "Temperatura", Colors.brown,
+                          () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => GraficaTemperatura()),
+                              builder: (context) => Grafica(
+                                    title: 'Grafica Temperatura',
+                                    storageKey: 'grafica_temperatura',
+                                    yAxisTitle: 'Temperatura',
+                                    valueKey: 'Temp',
+                                  )),
                         );
+                      }),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _buildForecastCard(Icons.auto_graph_rounded,
+                          "Precipitacion", Colors.lightGreen, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Grafica(
+                                    title: 'Grafica Precipitacion',
+                                    storageKey: 'grafica_precipitacion',
+                                    yAxisTitle: 'Precipitacion',
+                                    valueKey: 'Pre',
+                                  )),
+                        );
+                      }),
+                      _buildForecastCard(
+                          Icons.auto_graph_rounded, "Humedad", Colors.lightBlue,
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Grafica(
+                                      title: 'Grafica Humedad',
+                                      storageKey: 'grafica_humedad',
+                                      yAxisTitle: 'Humedad',
+                                      valueKey: 'Humedad',
+                                    )));
                       })
                     ],
                   ),
+                  Row(
+                    children: [
+                      _buildForecastCard(Icons.auto_graph_rounded, "Radiacion",
+                          Colors.orangeAccent, () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Grafica(
+                                      title: 'Grafica Radiacion',
+                                      storageKey: 'grafica_radiacion',
+                                      yAxisTitle: 'Radiacion',
+                                      valueKey: 'Rad',
+                                    )));
+                      }),
+                      _buildForecastCard(Icons.auto_graph_rounded, "Viento",
+                          Colors.blueGrey, () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Grafica(
+                                      title: 'Grafica Viento',
+                                      storageKey: 'grafica_viento',
+                                      yAxisTitle: 'Viento',
+                                      valueKey: 'VelViento',
+                                    )));
+                      })
+                    ],
+                  )
                 ],
               ),
             ),
