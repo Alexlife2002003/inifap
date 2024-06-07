@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:inifap/backend/validaciones.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -55,8 +56,8 @@ Future<String> fetchDataResumenDiaAnterior() async {
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['DIA_ANTERIOR'] ?? "DEFAULT";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['DIA_ANTERIOR'] ?? "DEFAULT";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
@@ -78,8 +79,8 @@ Future<String> fetchDataResumenReal() async {
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['RESUMEN_TIEMPO_REAL'] ?? "DEFAULT";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['RESUMEN_TIEMPO_REAL'] ?? "DEFAULT";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
@@ -101,8 +102,8 @@ Future<String> fetchDataAvanceMensual() async {
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['AVANCE_MENSUAL'] ?? "DEFAULT";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['AVANCE_MENSUAL'] ?? "DEFAULT";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
@@ -117,16 +118,16 @@ Future<String> fetchDataAvanceMensual() async {
 }
 
 Future<String> fetchDataGraficaTemperatura(
-    String day, String month, String year, String id_est) async {
+    String day, String month, String year, String idEst) async {
   bool internet = await conexionInternt();
   if (internet == false) {
     return "Sin conexión. Sin datos actualizados.";
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['GRAFICA_TEMPERATURA'] ?? "DEFAULT";
-    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['GRAFICA_TEMPERATURA'] ?? "DEFAULT";
+    apiUrl = "$apiUrl&day=$day&month=$month&year=$year&id_est_given=$idEst";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
@@ -142,16 +143,16 @@ Future<String> fetchDataGraficaTemperatura(
 }
 
 Future<String> fetchDataGraficaPrecipitacion(
-    String day, String month, String year, String id_est) async {
+    String day, String month, String year, String idEst) async {
   bool internet = await conexionInternt();
   if (internet == false) {
     return "Sin conexión. Sin datos actualizados.";
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['GRAFICA_PRECIPITACION'] ?? "DEFAULT";
-    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['GRAFICA_PRECIPITACION'] ?? "DEFAULT";
+    apiUrl = "$apiUrl&day=$day&month=$month&year=$year&id_est_given=$idEst";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
@@ -167,16 +168,18 @@ Future<String> fetchDataGraficaPrecipitacion(
 }
 
 Future<String> fetchDataGraficaHumedad(
-    String day, String month, String year, String id_est) async {
+    String day, String month, String year,) async {
   bool internet = await conexionInternt();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String idEst = prefs.getString('estacionActual') ?? "";
   if (internet == false) {
     return "Sin conexión. Sin datos actualizados.";
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['GRAFICA_HUMEDAD'] ?? "DEFAULT";
-    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['GRAFICA_HUMEDAD'] ?? "DEFAULT";
+    apiUrl = "$apiUrl&day=$day&month=$month&year=$year&id_est_given=$idEst";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
@@ -191,16 +194,16 @@ Future<String> fetchDataGraficaHumedad(
 }
 
 Future<String> fetchDataGraficaRadiacion(
-    String day, String month, String year, String id_est) async {
+    String day, String month, String year, String idEst) async {
   bool internet = await conexionInternt();
   if (internet == false) {
     return "Sin conexión. Sin datos actualizados.";
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['GRAFICA_RADIACION'] ?? "DEFAULT";
-    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['GRAFICA_RADIACION'] ?? "DEFAULT";
+    apiUrl = "$apiUrl&day=$day&month=$month&year=$year&id_est_given=$idEst";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {
@@ -215,16 +218,16 @@ Future<String> fetchDataGraficaRadiacion(
 }
 
 Future<String> fetchDataGraficaViento(
-    String day, String month, String year, String id_est) async {
+    String day, String month, String year, String idEst) async {
   bool internet = await conexionInternt();
   if (internet == false) {
     return "Sin conexión. Sin datos actualizados.";
   }
   try {
     // Simulating an asynchronous API call to fetch data
-    String api_url = dotenv.env['GRAFICA_VIENTO'] ?? "DEFAULT";
-    api_url = "$api_url&day=$day&month=$month&year=$year&id_est_given=$id_est";
-    final response = await http.get(Uri.parse(api_url));
+    String apiUrl = dotenv.env['GRAFICA_VIENTO'] ?? "DEFAULT";
+    apiUrl = "$apiUrl&day=$day&month=$month&year=$year&id_est_given=$idEst";
+    final response = await http.get(Uri.parse(apiUrl));
     const secureStorage = FlutterSecureStorage();
 
     if (response.statusCode == 200) {

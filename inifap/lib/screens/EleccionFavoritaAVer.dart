@@ -67,11 +67,11 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
         selectedItemColor: lightGreen,
         onTap: _selectTab,
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
+          const BottomNavigationBarItem(
+            icon: const Icon(Icons.info),
             label: 'Detalles',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favoritos',
           ),
@@ -82,7 +82,7 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
 
   Widget _buildScreenContent() {
     if (_currentIndex == 0) {
-      return EstacionResumenReal(); // Content for 'Detalles' tab
+      return const EstacionResumenReal(); // Content for 'Detalles' tab
     } else {
       return _buildFavoritesScreen(); // Content for 'Favoritos' tab
     }
@@ -91,10 +91,10 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
   Widget _buildFavoritesScreen() {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
-        Text(
+        const Text(
           'Lista de estaciones',
           style: TextStyle(
             fontSize: 24,
@@ -111,12 +111,12 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
             decoration: InputDecoration(
               labelText: "Buscar estación...",
               hintText: "Buscar estación...",
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(
+              prefixIcon: const Icon(Icons.search),
+              border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                 borderSide: BorderSide(color: darkGreen),
               ),
             ),
@@ -140,11 +140,11 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
   Widget buildFavoriteStationCard(String stationName, int id) {
     return Card(
       color: lightGreen,
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
         title: Text(
           stationName,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -159,7 +159,7 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
           await Future.wait([
             fetchDataGraficaTemperatura(day, month, year, id.toString()),
             fetchDataGraficaPrecipitacion(day, month, year, id.toString()),
-            fetchDataGraficaHumedad(day, month, year, id.toString()),
+            fetchDataGraficaHumedad(day, month, year),
             fetchDataGraficaRadiacion(day, month, year, id.toString()),
             fetchDataGraficaViento(day, month, year, id.toString())
           ]);

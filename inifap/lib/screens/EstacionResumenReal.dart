@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
-import 'package:diacritic/diacritic.dart';
 
 class EstacionResumenReal extends StatefulWidget {
   const EstacionResumenReal({Key? key}) : super(key: key);
@@ -240,17 +238,17 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          splitResult[1] ?? 'N/A',
+                          splitResult[1],
                           style: TextStyle(
                               fontSize: 36, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          splitResult[0] ?? 'N/A',
+                          splitResult[0],
                           style: TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Fecha de instalacion:\n${instalacion ?? 'N/A'}",
+                          "Fecha de instalacion:\n${instalacion}",
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         Text(

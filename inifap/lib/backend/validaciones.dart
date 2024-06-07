@@ -1,4 +1,3 @@
-import "package:flutter/material.dart";
 import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,10 +9,7 @@ Future<bool> conexionInternt() async {
   } else {
     // Check Wi-Fi speed
     double responseTime = await checkNetworkResponseTime();
-    print('Network Response Time: $responseTime milliseconds');
-
     if (responseTime > 3000) {
-
       return false;
     } else {
       return true;
