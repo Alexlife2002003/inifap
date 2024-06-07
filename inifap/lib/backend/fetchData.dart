@@ -241,6 +241,32 @@ Future<String> fetchDataGraficaViento(
   }
 }
 
+Future<String> fetchDataGrafica(
+    String day, String month, String year, String storageKey, String dotenvname) async {
+  bool internet = await conexionInternt();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String idEst = prefs.getString('estacionActual') ?? "";
+  if (internet == false) {
+    return "Sin conexión. Sin datos actualizados.";
+  }
+  try {
+    // Simulating an asynchronous API call to fetch data
+    String apiUrl = dotenv.env[dotenvname] ?? "DEFAULT";
+    apiUrl = "$apiUrl&day=$day&month=$month&year=$year&id_est_given=$idEst";
+    final response = await http.get(Uri.parse(apiUrl));
+    const secureStorage = FlutterSecureStorage();
+
+    if (response.statusCode == 200) {
+      await secureStorage.write(key: storageKey, value: response.body);
+      return 'Se han actualizado los datos';
+    } else {
+      throw Exception('Failed to fetch data: ${response.statusCode}');
+    }
+  } catch (e) {
+    return 'Error';
+  }
+}
+
 Future<void> showNotificationAvanceMensual(String fetchedData) async {
   // Initialize the local notifications plugin with Android-specific initialization settings.
   const AndroidInitializationSettings initializationSettingsAndroid =

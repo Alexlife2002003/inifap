@@ -11,6 +11,7 @@ class Grafica extends StatefulWidget {
   final String storageKey;
   final String yAxisTitle;
   final String valueKey;
+  final String dotenvname;
 
   const Grafica({
     Key? key,
@@ -18,6 +19,7 @@ class Grafica extends StatefulWidget {
     required this.storageKey,
     required this.yAxisTitle,
     required this.valueKey,
+    required this.dotenvname,
   }) : super(key: key);
 
   @override
@@ -44,11 +46,13 @@ class _GraficaState extends State<Grafica> {
     DateTime endDate = DateTime.now();
     DateTime currentDate = startDate;
 
-    while (currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate)) {
+    while (currentDate.isBefore(endDate) ||
+        currentDate.isAtSameMomentAs(endDate)) {
       dateList.add(DateFormat('dd-MM-yyyy').format(currentDate));
       currentDate = currentDate.add(Duration(days: 1));
     }
-    dateList = dateList.reversed.toList(); // Reverse the list to have the most recent date on top
+    dateList = dateList.reversed
+        .toList(); // Reverse the list to have the most recent date on top
     selectedDate = dateList.first; // Select the most recent date
   }
 
@@ -56,7 +60,8 @@ class _GraficaState extends State<Grafica> {
     graphData.clear(); // Clear the graphData list before adding new data
     List<dynamic> datos = resumenGrafica[0]['Datos'];
     for (var item in datos) {
-      graphData.add(GraphData(item['Hora'], double.parse(item[widget.valueKey])));
+      graphData
+          .add(GraphData(item['Hora'], double.parse(item[widget.valueKey])));
     }
   }
 
@@ -65,7 +70,8 @@ class _GraficaState extends State<Grafica> {
     String? storedDataJson = await secureStorage.read(key: widget.storageKey);
     if (storedDataJson != null) {
       setState(() {
-        resumenGrafica = List<Map<String, dynamic>>.from(json.decode(storedDataJson));
+        resumenGrafica =
+            List<Map<String, dynamic>>.from(json.decode(storedDataJson));
       });
     } else {
       setState(() {
@@ -97,16 +103,17 @@ class _GraficaState extends State<Grafica> {
                 child: DropdownButton<String>(
                   value: selectedDate,
                   onChanged: (String? newValue) {
-                    setState(() {
+                    setState(() async {
                       selectedDate = newValue!;
-                      List<String> splitdate=selectedDate.split("-");
-                      graphData=[];
-                      resumenGrafica=[];
-                      fetchDataGraficaHumedad(splitdate[0], splitdate[1], splitdate[2]);
+                      List<String> splitdate = selectedDate.split("-");
+                      graphData = [];
+                      resumenGrafica = [];
+                      await fetchDataGrafica(splitdate[0], splitdate[1],
+                          splitdate[2], widget.storageKey, widget.dotenvname);
                       loadGrafica().then((_) {
                         loadDataTransformation();
                       });
-                      
+
                       print("dropdown ha sido usado para $selectedDate");
                     });
                   },

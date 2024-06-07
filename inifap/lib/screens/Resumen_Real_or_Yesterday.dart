@@ -66,6 +66,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                     storageKey: 'grafica_temperatura',
                                     yAxisTitle: 'Temperatura',
                                     valueKey: 'Temp',
+                                    dotenvname: 'GRAFICA_TEMPERATURA',
                                   )),
                         );
                       }),
@@ -83,6 +84,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                     storageKey: 'grafica_precipitacion',
                                     yAxisTitle: 'Precipitacion',
                                     valueKey: 'Pre',
+                                    dotenvname: 'GRAFICA_PRECIPITACION',
                                   )),
                         );
                       }),
@@ -97,6 +99,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                       storageKey: 'grafica_humedad',
                                       yAxisTitle: 'Humedad',
                                       valueKey: 'Humedad',
+                                      dotenvname: 'GRAFICA_HUMEDAD',
                                     )));
                       })
                     ],
@@ -113,6 +116,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                       storageKey: 'grafica_radiacion',
                                       yAxisTitle: 'Radiacion',
                                       valueKey: 'Rad',
+                                      dotenvname: 'GRAFICA_RADIACION',
                                     )));
                       }),
                       _buildForecastCard(Icons.auto_graph_rounded, "Viento",
@@ -125,6 +129,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                       storageKey: 'grafica_viento',
                                       yAxisTitle: 'Viento',
                                       valueKey: 'VelViento',
+                                      dotenvname: 'GRAFICA_VIENTO',
                                     )));
                       })
                     ],
