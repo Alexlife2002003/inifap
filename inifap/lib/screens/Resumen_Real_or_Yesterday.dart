@@ -50,7 +50,8 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const resumenAvanceMensual()),
+                              builder: (context) =>
+                                  const resumenAvanceMensual()),
                         );
                       }),
                       _buildForecastCard(

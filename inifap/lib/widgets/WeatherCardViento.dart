@@ -10,7 +10,8 @@ class WeatherCardViento extends StatelessWidget {
   final String? avg;
   final String? total;
 
-  const WeatherCardViento({super.key, 
+  const WeatherCardViento({
+    super.key,
     required this.icon,
     required this.label,
     required this.value,
