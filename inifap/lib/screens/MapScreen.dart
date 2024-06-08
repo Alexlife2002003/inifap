@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +47,7 @@ class _MapScreenState extends State<MapScreen> {
       markers.clear();
       markers.add(
         Marker(
-          markerId: MarkerId('currentLocation'),
+          markerId: const MarkerId('currentLocation'),
           position: LatLng(currentLatitude, currentLongitude),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         ),
@@ -81,11 +82,14 @@ class _MapScreenState extends State<MapScreen> {
                               "Estacion ${location['Estacion']}- Municipio ${location['Municipio']}"),
                           IconButton(
                             icon: Icon(
-                              isFavorite ? Icons.favorite : Icons.favorite_border,
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
                               color: isFavorite ? Colors.red : Colors.grey,
                             ),
                             onPressed: () {
-                              _toggleFavorite(location['id_estacion'].toString());
+                              _toggleFavorite(
+                                  location['id_estacion'].toString());
                               Navigator.pop(context); // Close the bottom sheet
                             },
                           ),
@@ -130,7 +134,14 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context);
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const AppWithDrawer(
+              content: ListPage(),
+            ),
+          ),
+          (route) => false,
+        );
         return true;
       },
       child: Scaffold(

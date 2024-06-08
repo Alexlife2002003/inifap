@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
 
 class EstacionResumenReal extends StatefulWidget {
-  const EstacionResumenReal({Key? key}) : super(key: key);
+  const EstacionResumenReal({super.key});
 
   @override
   State<EstacionResumenReal> createState() => _EstacionResumenRealState();
@@ -43,31 +44,27 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     List<dynamic> datosHumedad = resumenGraficaHumedad[0]['Datos'];
     List<dynamic> datosRadiacion = resumenGraficaRadiacion[0]['Datos'];
     List<dynamic> datosViento = resumenGraficaViento[0]['Datos'];
-    print("datos viento $datosViento");
     if (datosTemperatura.isNotEmpty) {
       var lastItem = datosTemperatura.last;
       lastTemperature = double.parse(lastItem['Temp']);
-      print('Last temperature: $lastTemperature'); // or do something with it
+      // or do something with it
     }
     if (datosPrecipitacion.isNotEmpty) {
       var lastItem = datosPrecipitacion.last;
       lastPrecipitation = double.parse(lastItem['Pre']);
-      print('Last Pre: $lastPrecipitation'); // or do something with it
+      // or do something with it
     }
     if (datosHumedad.isNotEmpty) {
       var lastItem = datosHumedad.last;
       lastHumedad = double.parse(lastItem['Humedad']);
-      print("Last humedad: $lastHumedad");
     }
     if (datosRadiacion.isNotEmpty) {
       var lastItem = datosRadiacion.last;
       lastRadiacion = double.parse(lastItem['Rad']);
-      print("Last radiacion: $lastRadiacion");
     }
     if (datosViento.isNotEmpty) {
       var lastItem = datosViento.last;
       lastViento = double.parse(lastItem['VelViento']);
-      print("Last viento: $lastViento");
     }
   }
 
@@ -131,7 +128,6 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     // Load detailed information for each favorite
     List<Map<String, dynamic>> infoList = [];
     if (favorites.isNotEmpty) {
-      print("fav $favorites");
       Map<String, dynamic> info =
           await getDataForEstacionAndMunicipio(favorites);
       infoList.add(info);
@@ -140,52 +136,18 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     for (var est in datosEstacions) {
       if (est['id_estacion'].toString() == favorites.toString()) {
         instalacion = est['Instalacion'];
-        print(" fecha de instalacion 1 ${instalacion}");
         var instalacions = instalacion.split("-");
         instalacion =
             "${instalacions[2]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[0]}";
       }
     }
-    print(" fecha de instalacion 2 ${instalacion}");
     setState(() {
       detailedInfo = infoList;
       loadGrafica();
     });
   }
 
-  String getMonthName(int month) {
-    switch (month) {
-      case 1:
-        return "Enero";
-      case 2:
-        return "Febrero";
-      case 3:
-        return "Marzo";
-      case 4:
-        return "Abril";
-      case 5:
-        return "Mayo";
-      case 6:
-        return "June";
-      case 7:
-        return "July";
-      case 8:
-        return "August";
-      case 9:
-        return "September";
-      case 10:
-        return "October";
-      case 11:
-        return "November";
-      case 12:
-        return "December";
-      default:
-        return "Invalid month";
-    }
-  }
-
   Future<Map<String, dynamic>> getDataForEstacionAndMunicipio(String id) async {
-    print("resumen estaciones $resumenEstaciones");
     // Ensure the data is loaded before accessing it
     await loadResumenEstaciones();
     return resumenEstaciones.firstWhere(
@@ -199,7 +161,6 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     const secureStorage = FlutterSecureStorage();
     String? storedDataJson =
         await secureStorage.read(key: 'Resumen_tiempo_real');
-    print("stored json $storedDataJson");
     if (storedDataJson != null) {
       setState(() {
         resumenEstaciones =
@@ -222,7 +183,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (detailedInfo.isEmpty)
-                Column(
+                const Column(
                   children: [Text('No hay favoritos seleccionados')],
                 ),
               if (detailedInfo.isNotEmpty)
@@ -231,7 +192,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                     List<String> splitResult = info['Est'].split(" - ");
                     return Column(
                       children: [
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         Image.asset(
                           'lib/assets/logo.png', // Replace with your image path
                           height: 40, // Adjust the height as needed
@@ -239,30 +200,32 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                         const SizedBox(height: 15),
                         Text(
                           splitResult[1],
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 36, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           splitResult[0],
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Fecha de instalacion:\n${instalacion}",
-                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                          "Fecha de instalacion:\n$instalacion",
+                          style:
+                              const TextStyle(fontSize: 20, color: Colors.grey),
                         ),
-                        Text(
+                        const Text(
                           "Hora ultima actualizacion: ",
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         Text(
                           "${info['Hora'] ?? 'N/A'}",
-                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         WeatherCard(
                           icon: Icons.thermostat,
                           label: 'Temperatura',
-                          value: "${lastTemperature.toString()} °C" ,
+                          value: "${lastTemperature.toString()} °C",
                           max:
                               'Max ${info['TempMax']}°C a las ${info['HoraMaxTemp']} hr',
                           min:

@@ -153,7 +153,6 @@ List<Map<String, dynamic>> estaciones = [
   }
 ];
 
-
 List<Map<String, dynamic>> datosEstacions = [
   {
     "id_estacion": 15922,

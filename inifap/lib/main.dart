@@ -5,12 +5,10 @@ import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/screens/AppDetailsPage.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/EleccionFavoritaAVer.dart';
-import 'package:inifap/screens/EstacionResumenReal.dart';
 import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inifap/backend/fetchData.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -59,7 +57,11 @@ void main() async {
       await Future.wait([
         fetchDataGraficaTemperatura(day, month, year, idEst),
         fetchDataGraficaPrecipitacion(day, month, year, idEst),
-        fetchDataGraficaHumedad(day, month, year, ),
+        fetchDataGraficaHumedad(
+          day,
+          month,
+          year,
+        ),
         fetchDataGraficaRadiacion(day, month, year, idEst),
         fetchDataGraficaViento(day, month, year, idEst),
       ]);
@@ -122,13 +124,15 @@ void main() async {
   fetchDataResumenDiaAnterior();
   fetchDataAvanceMensual();
   startPeriodicTask();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Inifap',
       home: AppWithDrawer(content: EleccionFavoritaAVer()),
     );
@@ -136,6 +140,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -144,10 +150,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    EleccionFavoritaAVer(),
-    ListPage(),
+    const EleccionFavoritaAVer(),
+    const ListPage(),
     const ResumenRealOrYesterday(),
-    AppDetailsPage(),
+    const AppDetailsPage(),
   ];
 
   @override
@@ -166,35 +172,26 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(
             backgroundColor: darkGreen,
-            icon: Icon(Icons.sunny_snowing),
+            icon: const Icon(Icons.sunny_snowing),
             label: 'Estaciones',
           ),
           BottomNavigationBarItem(
             backgroundColor: darkGreen,
-            icon: Icon(Icons.list),
+            icon: const Icon(Icons.list),
             label: 'Lista Estaciones',
           ),
           BottomNavigationBarItem(
             backgroundColor: darkGreen,
-            icon: Icon(Icons.access_time),
+            icon: const Icon(Icons.access_time),
             label: 'Tiempo real',
           ),
           BottomNavigationBarItem(
             backgroundColor: darkGreen,
-            icon: Icon(Icons.open_with_rounded),
+            icon: const Icon(Icons.open_with_rounded),
             label: 'Other',
           ),
         ],
       ),
-    );
-  }
-}
-
-class GraphScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Other'),
     );
   }
 }

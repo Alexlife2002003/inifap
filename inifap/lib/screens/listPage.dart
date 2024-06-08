@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/MapScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/Colors.dart';
 
 class ListPage extends StatefulWidget {
+  const ListPage({super.key});
+
   @override
   _ListPageState createState() => _ListPageState();
 }

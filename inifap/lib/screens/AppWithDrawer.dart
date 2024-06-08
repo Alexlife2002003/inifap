@@ -8,7 +8,7 @@ import 'package:inifap/widgets/Colors.dart';
 class AppWithDrawer extends StatefulWidget {
   final Widget content;
 
-  const AppWithDrawer({required this.content});
+  const AppWithDrawer({super.key, required this.content});
 
   @override
   _AppWithDrawerState createState() => _AppWithDrawerState();
@@ -60,7 +60,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
         iconTheme: IconThemeData(color: darkGreen),
         title: Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -97,53 +97,53 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
               ),
             ),
             ListTile(
-              title: Row(
+              title: const Row(
                 children: [
-                  const Text('Estaciones',
+                  Text('Estaciones',
                       style: TextStyle(color: Colors.white, fontSize: 33)),
                 ],
               ),
               onTap: () {
-                _updateContent(EleccionFavoritaAVer());
+                _updateContent(const EleccionFavoritaAVer());
               },
             ),
             ListTile(
-              title: Row(
+              title: const Row(
                 children: [
-                  const Text(
+                  Text(
                     'Lista Estaciones',
                     style: TextStyle(color: Colors.white, fontSize: 33),
                   ),
                 ],
               ),
               onTap: () {
-                _updateContent(ListPage());
+                _updateContent(const ListPage());
               },
             ),
             ListTile(
-              title: Row(
+              title: const Row(
                 children: [
-                  const Text(
+                  Text(
                     'Tiempo Real',
                     style: TextStyle(color: Colors.white, fontSize: 33),
                   ),
                 ],
               ),
               onTap: () {
-                _updateContent(ResumenRealOrYesterday());
+                _updateContent(const ResumenRealOrYesterday());
               },
             ),
             ListTile(
-              title: Row(
+              title: const Row(
                 children: [
-                  const Text(
+                  Text(
                     'Detalles apps',
                     style: TextStyle(color: Colors.white, fontSize: 33),
                   ),
                 ],
               ),
               onTap: () {
-                _updateContent(AppDetailsPage());
+                _updateContent(const AppDetailsPage());
               },
             ),
           ],

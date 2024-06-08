@@ -101,8 +101,9 @@ Temperatura(String title, String max, String med, String min, IconData icon) {
   );
 }
 
-estacion_municipio(String estacion, String municipio) {//modificar
-  List<String> data=estacion.split(" - ");
+estacion_municipio(String estacion, String municipio) {
+  //modificar
+  List<String> data = estacion.split(" - ");
   return Column(
     children: [
       Row(

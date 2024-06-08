@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
 
 class AppDetailsPage extends StatelessWidget {
+  const AppDetailsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -25,7 +26,7 @@ class AppDetailsPage extends StatelessWidget {
             Divider(height: 32.0),
             Text(
               'Institution (Labsol):',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),

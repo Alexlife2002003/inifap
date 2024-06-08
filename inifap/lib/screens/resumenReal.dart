@@ -7,6 +7,8 @@ import 'package:inifap/widgets/icons/RotatedIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResumenReal extends StatefulWidget {
+  const ResumenReal({super.key});
+
   @override
   _ResumenRealState createState() => _ResumenRealState();
 }
@@ -49,8 +51,7 @@ class _ResumenRealState extends State<ResumenReal> {
     }
   }
 
-  Map<String, dynamic> getDataForEstacionAndMunicipio(
-      String id) {
+  Map<String, dynamic> getDataForEstacionAndMunicipio(String id) {
     return resumenEstaciones.firstWhere(
       (data) => data['Id'].toString() == id,
       orElse: () => {},
@@ -100,7 +101,7 @@ class _ResumenRealState extends State<ResumenReal> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Resumen tiempo real',
             style: TextStyle(
               fontSize: 24,
@@ -143,7 +144,8 @@ class _ResumenRealState extends State<ResumenReal> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    estacion_municipio(data['Est'],data['Est']),
+                                    estacion_municipio(
+                                        data['Est'], data['Est']),
                                     if (data.isNotEmpty) ...[
                                       const SizedBox(height: 10),
                                       hora_fecha('${data['Hora']} hrs',

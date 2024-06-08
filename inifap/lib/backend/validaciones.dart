@@ -33,4 +33,3 @@ Future<double> checkNetworkResponseTime() async {
 
   return double.infinity; // Return a large value for failed requests
 }
-

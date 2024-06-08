@@ -5,7 +5,8 @@ class RotatedIcon extends StatelessWidget {
   final double size;
   final String direction;
 
-  RotatedIcon({required this.icon, required this.size, required this.direction});
+  const RotatedIcon(
+      {super.key, required this.icon, required this.size, required this.direction});
 
   @override
   Widget build(BuildContext context) {

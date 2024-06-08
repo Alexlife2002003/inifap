@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/backend/fetchData.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:intl/intl.dart';
@@ -32,10 +33,15 @@ class _GraficaState extends State<Grafica> {
   double _chartOffset = 0.0;
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
   List<String> dateList = [];
+  String? estacion = "";
+  String? municipio = "";
+  String fechalarga = "";
+
   @override
   void initState() {
     super.initState();
     generateDateList();
+    getEstacionNameAndMunicipio();
     loadGrafica().then((_) {
       loadDataTransformation();
     });
@@ -49,20 +55,23 @@ class _GraficaState extends State<Grafica> {
     while (currentDate.isBefore(endDate) ||
         currentDate.isAtSameMomentAs(endDate)) {
       dateList.add(DateFormat('dd-MM-yyyy').format(currentDate));
-      currentDate = currentDate.add(Duration(days: 1));
+      currentDate = currentDate.add(const Duration(days: 1));
     }
     dateList = dateList.reversed
         .toList(); // Reverse the list to have the most recent date on top
     selectedDate = dateList.first; // Select the most recent date
   }
 
-  void loadDataTransformation() {
+  void loadDataTransformation() async {
     graphData.clear(); // Clear the graphData list before adding new data
     List<dynamic> datos = resumenGrafica[0]['Datos'];
     for (var item in datos) {
       graphData
           .add(GraphData(item['Hora'], double.parse(item[widget.valueKey])));
     }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    estacion = prefs.getString('Estacion');
+    municipio = prefs.getString('Municipio');
   }
 
   Future<void> loadGrafica() async {
@@ -78,6 +87,9 @@ class _GraficaState extends State<Grafica> {
         resumenGrafica = [];
       });
     }
+    List<String> splitdate = selectedDate.split("-");
+    fechalarga =
+        "${splitdate[0]} de ${getMonthName(int.parse(splitdate[1]))} del ${splitdate[2]}";
   }
 
   @override
@@ -86,7 +98,7 @@ class _GraficaState extends State<Grafica> {
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -95,9 +107,29 @@ class _GraficaState extends State<Grafica> {
       ),
       body: Center(
         child: Container(
-          height: 500,
           child: Column(
             children: [
+              Text(
+                estacion ?? "NA",
+                style:
+                    const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                municipio ?? "NA",
+                style:
+                    const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                "Fecha:",
+                style: TextStyle(fontSize: 20, color: Colors.grey),
+              ),
+              Text(
+                "$fechalarga",
+                style: const TextStyle(fontSize: 20, color: Colors.grey),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButton<String>(
@@ -113,8 +145,6 @@ class _GraficaState extends State<Grafica> {
                       loadGrafica().then((_) {
                         loadDataTransformation();
                       });
-
-                      print("dropdown ha sido usado para $selectedDate");
                     });
                   },
                   items: dateList.map<DropdownMenuItem<String>>((String date) {
@@ -149,7 +179,7 @@ class _GraficaState extends State<Grafica> {
                               enablePinching: false,
                               enableSelectionZooming: false,
                             ),
-                            primaryXAxis: CategoryAxis(
+                            primaryXAxis: const CategoryAxis(
                               title: AxisTitle(text: 'Hora'),
                             ),
                             primaryYAxis: NumericAxis(
@@ -161,7 +191,7 @@ class _GraficaState extends State<Grafica> {
                                 name: widget.title,
                                 xValueMapper: (GraphData data, _) => data.hour,
                                 yValueMapper: (GraphData data, _) => data.value,
-                                markerSettings: MarkerSettings(
+                                markerSettings: const MarkerSettings(
                                   isVisible: true,
                                   shape: DataMarkerType.circle,
                                   color: Colors.red,
@@ -178,8 +208,8 @@ class _GraficaState extends State<Grafica> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Desliza horizontalmente para ver la grafica entera',
                   style: TextStyle(fontSize: 16, color: Colors.black54),

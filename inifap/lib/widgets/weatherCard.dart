@@ -10,7 +10,7 @@ class WeatherCard extends StatelessWidget {
   final String? avg;
   final String? total;
 
-  const WeatherCard({
+  const WeatherCard({super.key, 
     required this.icon,
     required this.label,
     required this.value,
@@ -91,6 +91,3 @@ class WeatherCard extends StatelessWidget {
     );
   }
 }
-
-
-

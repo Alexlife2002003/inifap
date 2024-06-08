@@ -4,9 +4,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:diacritic/diacritic.dart';
 
 class resumenAvanceMensual extends StatefulWidget {
+  const resumenAvanceMensual({super.key});
+
   @override
   _resumenAvanceMensualState createState() => _resumenAvanceMensualState();
 }
@@ -59,7 +60,7 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Avance mensual',
           style: TextStyle(
             fontSize: 24,

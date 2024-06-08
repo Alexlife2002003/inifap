@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart';
 import 'package:inifap/backend/validaciones.dart';
+import 'package:inifap/datos/Datos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -168,7 +165,10 @@ Future<String> fetchDataGraficaPrecipitacion(
 }
 
 Future<String> fetchDataGraficaHumedad(
-    String day, String month, String year,) async {
+  String day,
+  String month,
+  String year,
+) async {
   bool internet = await conexionInternt();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String idEst = prefs.getString('estacionActual') ?? "";
@@ -241,8 +241,8 @@ Future<String> fetchDataGraficaViento(
   }
 }
 
-Future<String> fetchDataGrafica(
-    String day, String month, String year, String storageKey, String dotenvname) async {
+Future<String> fetchDataGrafica(String day, String month, String year,
+    String storageKey, String dotenvname) async {
   bool internet = await conexionInternt();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String idEst = prefs.getString('estacionActual') ?? "";
@@ -373,4 +373,46 @@ Future<void> showNotificationDiaAnterior(String fetchedData) async {
       ),
     ),
   );
+}
+
+String getMonthName(int month) {
+  switch (month) {
+    case 1:
+      return "Enero";
+    case 2:
+      return "Febrero";
+    case 3:
+      return "Marzo";
+    case 4:
+      return "Abril";
+    case 5:
+      return "Mayo";
+    case 6:
+      return "Junio";
+    case 7:
+      return "Julio";
+    case 8:
+      return "Agosto";
+    case 9:
+      return "Septiembre";
+    case 10:
+      return "Octubre";
+    case 11:
+      return "Noviembre";
+    case 12:
+      return "Diciembre";
+    default:
+      return "Mes Invalido";
+  }
+}
+
+void getEstacionNameAndMunicipio() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String idEst = prefs.getString('estacionActual') ?? "";
+  for (var datos in datosEstacions) {
+    if (datos['id_estacion'].toString() == idEst) {
+      prefs.setString('Municipio', datos['Municipio']);
+      prefs.setString('Estacion', datos['Estacion']);
+    }
+  }
 }

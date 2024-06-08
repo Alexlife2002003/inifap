@@ -5,9 +5,10 @@ import 'package:inifap/View/widgets.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:diacritic/diacritic.dart';
 
 class ResumenDiaAnterior extends StatefulWidget {
+  const ResumenDiaAnterior({super.key});
+
   @override
   _ResumenDiaAnteriorState createState() => _ResumenDiaAnteriorState();
 }
@@ -60,7 +61,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Resumen dia anterior',
           style: TextStyle(
             fontSize: 24,

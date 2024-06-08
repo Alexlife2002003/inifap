@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/Grafica.dart';
 import 'package:inifap/screens/resumenAvanceMensual.dart';
 import 'package:inifap/screens/resumenDiaAnterior.dart';
 import 'package:inifap/screens/resumenReal.dart';
-import 'package:inifap/widgets/Colors.dart';
 
 class ResumenRealOrYesterday extends StatefulWidget {
   const ResumenRealOrYesterday({super.key});
@@ -32,7 +30,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ResumenReal()),
+                              builder: (context) => const ResumenReal()),
                         );
                       }),
                       _buildForecastCard(Icons.calendar_today,
@@ -40,7 +38,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ResumenDiaAnterior()),
+                              builder: (context) => const ResumenDiaAnterior()),
                         );
                       }),
                     ],
@@ -52,7 +50,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => resumenAvanceMensual()),
+                              builder: (context) => const resumenAvanceMensual()),
                         );
                       }),
                       _buildForecastCard(
@@ -61,7 +59,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Grafica(
+                              builder: (context) => const Grafica(
                                     title: 'Grafica Temperatura',
                                     storageKey: 'grafica_temperatura',
                                     yAxisTitle: 'Temperatura',
@@ -79,7 +77,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Grafica(
+                              builder: (context) => const Grafica(
                                     title: 'Grafica Precipitacion',
                                     storageKey: 'grafica_precipitacion',
                                     yAxisTitle: 'Precipitacion',
@@ -94,7 +92,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Grafica(
+                                builder: (context) => const Grafica(
                                       title: 'Grafica Humedad',
                                       storageKey: 'grafica_humedad',
                                       yAxisTitle: 'Humedad',
@@ -111,7 +109,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Grafica(
+                                builder: (context) => const Grafica(
                                       title: 'Grafica Radiacion',
                                       storageKey: 'grafica_radiacion',
                                       yAxisTitle: 'Radiacion',
@@ -119,12 +117,13 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                       dotenvname: 'GRAFICA_RADIACION',
                                     )));
                       }),
-                      _buildForecastCard(Icons.auto_graph_rounded, "Viento",
-                          Colors.blueGrey, () {
+                      _buildForecastCard(
+                          Icons.auto_graph_rounded, "Viento", Colors.blueGrey,
+                          () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Grafica(
+                                builder: (context) => const Grafica(
                                       title: 'Grafica Viento',
                                       storageKey: 'grafica_viento',
                                       yAxisTitle: 'Viento',

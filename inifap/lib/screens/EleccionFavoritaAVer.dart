@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/backend/fetchData.dart';
-import 'package:inifap/main.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/EstacionResumenReal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/widgets/Colors.dart';
 
 class EleccionFavoritaAVer extends StatefulWidget {
+  const EleccionFavoritaAVer({super.key});
+
   @override
   _EleccionFavoritaAVerState createState() => _EleccionFavoritaAVerState();
 }
@@ -32,7 +32,6 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
     setState(() {
-      print(favTitles);
       favorites = originalData
           .where((element) =>
               favTitles.contains(element['id_estacion'].toString()))
@@ -66,12 +65,12 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
         currentIndex: _currentIndex,
         selectedItemColor: lightGreen,
         onTap: _selectTab,
-        items: [
-          const BottomNavigationBarItem(
-            icon: const Icon(Icons.info),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
             label: 'Detalles',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favoritos',
           ),
@@ -183,12 +182,14 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
 }
 
 class EleccionFavoritaAVerNavigator extends StatelessWidget {
+  const EleccionFavoritaAVerNavigator({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
       onGenerateRoute: (routeSettings) {
         return MaterialPageRoute(
-          builder: (context) => EleccionFavoritaAVer(),
+          builder: (context) => const EleccionFavoritaAVer(),
         );
       },
     );
