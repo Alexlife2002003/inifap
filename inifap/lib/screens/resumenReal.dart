@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
+import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:inifap/widgets/icons/RotatedIcon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,6 +94,17 @@ class _ResumenRealState extends State<ResumenReal> {
     );
   }
 
+  void botonListPage() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const AppWithDrawer(
+          content: ListPage(),
+        ),
+      ),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -117,10 +130,23 @@ class _ResumenRealState extends State<ResumenReal> {
             children: <Widget>[
               Expanded(
                 child: favorites.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'No hay favoritos seleccionados',
-                          style: TextStyle(fontSize: 20),
+                    ?  Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'No hay favoritos seleccionados',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            ElevatedButton(
+                              onPressed: botonListPage,
+                              child: Text("Seleccionar Favoritos"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: lightGreen,
+                                foregroundColor: darkGreen,
+                              ),
+                            )
+                          ],
                         ),
                       )
                     : ListView.builder(

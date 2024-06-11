@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/datos/Datos.dart';
+import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/screens/listPage.dart';
+import 'package:inifap/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/WeatherCardViento.dart';
 import 'package:inifap/widgets/weatherCard.dart';
@@ -173,6 +176,17 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     }
   }
 
+  void botonListPage() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const AppWithDrawer(
+          content: ListPage(),
+        ),
+      ),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,8 +197,18 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (detailedInfo.isEmpty)
-                const Column(
-                  children: [Text('No hay favoritos seleccionados')],
+                Column(
+                  children: [
+                    Text('No hay favoritos seleccionados'),
+                    ElevatedButton(
+                      onPressed: botonListPage,
+                      child: Text("Seleccionar Favoritos"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: lightGreen, 
+                        foregroundColor: darkGreen, 
+                      ),
+                    )
+                  ],
                 ),
               if (detailedInfo.isNotEmpty)
                 Column(
