@@ -18,11 +18,18 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
     return Center(
       child: Scaffold(
         body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              height: screenHeight,
+          child: Container(
+            height: screenHeight,
+            child: SingleChildScrollView(
               child: Column(
                 children: [
+                  const Text(
+                    'Resumen',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       _buildForecastCard(Icons.today, "Resumen en tiempo real",
@@ -54,22 +61,17 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                   const resumenAvanceMensual()),
                         );
                       }),
-                      _buildForecastCard(
-                          Icons.auto_graph_rounded, "Temperatura", Colors.brown,
-                          () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Grafica(
-                                    title: 'Grafica Temperatura',
-                                    storageKey: 'grafica_temperatura',
-                                    yAxisTitle: 'Temperatura',
-                                    valueKey: 'Temp',
-                                    dotenvname: 'GRAFICA_TEMPERATURA',
-                                  )),
-                        );
-                      }),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Resumen',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Row(
                     children: [
@@ -132,6 +134,26 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                       dotenvname: 'GRAFICA_VIENTO',
                                     )));
                       })
+                    ],
+                  ),
+                  
+                  Row(
+                    children: [
+                      _buildForecastCard(
+                          Icons.auto_graph_rounded, "Temperatura", Colors.brown,
+                          () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Grafica(
+                                    title: 'Grafica Temperatura',
+                                    storageKey: 'grafica_temperatura',
+                                    yAxisTitle: 'Temperatura',
+                                    valueKey: 'Temp',
+                                    dotenvname: 'GRAFICA_TEMPERATURA',
+                                  )),
+                        );
+                      }),
                     ],
                   )
                 ],

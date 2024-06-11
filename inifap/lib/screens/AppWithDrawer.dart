@@ -53,6 +53,11 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double imageSize = screenWidth * 0.25;
+    double fontSize = screenWidth * 0.08;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: lightGreen,
@@ -60,7 +65,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
         iconTheme: IconThemeData(color: darkGreen),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize),
         ),
         centerTitle: true,
       ),
@@ -69,27 +74,21 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 180,
+              height: screenHeight * 0.25,
               child: DrawerHeader(
                 decoration: BoxDecoration(
                   color: darkGreen,
                 ),
                 child: InkWell(
                   onTap: () {},
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Inifap',
-                        style: TextStyle(
-                          color: Color(0xFFFFEDBD),
-                          fontSize: 40,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Divider(
-                        color: Colors.white,
+                      Image.asset(
+                        'lib/assets/logo2.jpeg',
+                        width: imageSize,
+                        height: imageSize,
                       ),
                     ],
                   ),
@@ -97,10 +96,12 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
               ),
             ),
             ListTile(
-              title: const Row(
+              title: Row(
                 children: [
-                  Text('Estaciones',
-                      style: TextStyle(color: Colors.white, fontSize: 33)),
+                  Text(
+                    'Estaciones',
+                    style: TextStyle(color: Colors.white, fontSize: fontSize),
+                  ),
                 ],
               ),
               onTap: () {
@@ -108,11 +109,11 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
               },
             ),
             ListTile(
-              title: const Row(
+              title: Row(
                 children: [
                   Text(
                     'Lista Estaciones',
-                    style: TextStyle(color: Colors.white, fontSize: 33),
+                    style: TextStyle(color: Colors.white, fontSize: fontSize),
                   ),
                 ],
               ),
@@ -121,11 +122,11 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
               },
             ),
             ListTile(
-              title: const Row(
+              title: Row(
                 children: [
                   Text(
                     'Tiempo Real',
-                    style: TextStyle(color: Colors.white, fontSize: 33),
+                    style: TextStyle(color: Colors.white, fontSize: fontSize),
                   ),
                 ],
               ),
@@ -134,11 +135,11 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
               },
             ),
             ListTile(
-              title: const Row(
+              title: Row(
                 children: [
                   Text(
                     'Detalles apps',
-                    style: TextStyle(color: Colors.white, fontSize: 33),
+                    style: TextStyle(color: Colors.white, fontSize: fontSize),
                   ),
                 ],
               ),

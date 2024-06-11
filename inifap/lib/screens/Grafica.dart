@@ -52,13 +52,11 @@ class _GraficaState extends State<Grafica> {
     DateTime endDate = DateTime.now();
     DateTime currentDate = startDate;
 
-    while (currentDate.isBefore(endDate) ||
-        currentDate.isAtSameMomentAs(endDate)) {
+    while (currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate)) {
       dateList.add(DateFormat('dd-MM-yyyy').format(currentDate));
       currentDate = currentDate.add(const Duration(days: 1));
     }
-    dateList = dateList.reversed
-        .toList(); // Reverse the list to have the most recent date on top
+    dateList = dateList.reversed.toList(); // Reverse the list to have the most recent date on top
     selectedDate = dateList.first; // Select the most recent date
   }
 
@@ -66,8 +64,7 @@ class _GraficaState extends State<Grafica> {
     graphData.clear(); // Clear the graphData list before adding new data
     List<dynamic> datos = resumenGrafica[0]['Datos'];
     for (var item in datos) {
-      graphData
-          .add(GraphData(item['Hora'], double.parse(item[widget.valueKey])));
+      graphData.add(GraphData(item['Hora'], double.parse(item[widget.valueKey])));
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     estacion = prefs.getString('Estacion');
@@ -79,8 +76,7 @@ class _GraficaState extends State<Grafica> {
     String? storedDataJson = await secureStorage.read(key: widget.storageKey);
     if (storedDataJson != null) {
       setState(() {
-        resumenGrafica =
-            List<Map<String, dynamic>>.from(json.decode(storedDataJson));
+        resumenGrafica = List<Map<String, dynamic>>.from(json.decode(storedDataJson));
       });
     } else {
       setState(() {
@@ -88,18 +84,20 @@ class _GraficaState extends State<Grafica> {
       });
     }
     List<String> splitdate = selectedDate.split("-");
-    fechalarga =
-        "${splitdate[0]} de ${getMonthName(int.parse(splitdate[1]))} del ${splitdate[2]}";
+    fechalarga = "${splitdate[0]} de ${getMonthName(int.parse(splitdate[1]))} del ${splitdate[2]}";
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: const TextStyle(
-            fontSize: 24,
+          style: TextStyle(
+            fontSize: screenWidth * 0.06,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -107,31 +105,36 @@ class _GraficaState extends State<Grafica> {
       ),
       body: Center(
         child: Container(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
           child: Column(
             children: [
               Text(
                 estacion ?? "NA",
-                style:
-                    const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: screenWidth * 0.09,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Text(
                 municipio ?? "NA",
-                style:
-                    const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: screenWidth * 0.07,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const SizedBox(
-                height: 15,
+              SizedBox(
+                height: screenHeight * 0.02,
               ),
-              const Text(
+              Text(
                 "Fecha:",
-                style: TextStyle(fontSize: 20, color: Colors.grey),
+                style: TextStyle(fontSize: screenWidth * 0.05, color: Colors.grey),
               ),
               Text(
                 "$fechalarga",
-                style: const TextStyle(fontSize: 20, color: Colors.grey),
+                style: TextStyle(fontSize: screenWidth * 0.05, color: Colors.grey),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(screenWidth * 0.02),
                 child: DropdownButton<String>(
                   value: selectedDate,
                   onChanged: (String? newValue) {
@@ -140,8 +143,7 @@ class _GraficaState extends State<Grafica> {
                       List<String> splitdate = selectedDate.split("-");
                       graphData = [];
                       resumenGrafica = [];
-                      await fetchDataGrafica(splitdate[0], splitdate[1],
-                          splitdate[2], widget.storageKey, widget.dotenvname);
+                      await fetchDataGrafica(splitdate[0], splitdate[1], splitdate[2], widget.storageKey, widget.dotenvname);
                       loadGrafica().then((_) {
                         loadDataTransformation();
                       });
@@ -150,7 +152,10 @@ class _GraficaState extends State<Grafica> {
                   items: dateList.map<DropdownMenuItem<String>>((String date) {
                     return DropdownMenuItem<String>(
                       value: date,
-                      child: Text(date),
+                      child: Text(
+                        date,
+                        style: TextStyle(fontSize: screenWidth * 0.04),
+                      ),
                     );
                   }).toList(),
                 ),
@@ -167,13 +172,14 @@ class _GraficaState extends State<Grafica> {
                         shadowColor: Colors.grey.withOpacity(0.5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
+                          side: const BorderSide(color: Colors.black, width: 2), // Black outline
                         ),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: lightGreen,
                           ),
-                          width: MediaQuery.of(context).size.width * 2,
+                          width: screenWidth * 2,
                           child: SfCartesianChart(
                             zoomPanBehavior: ZoomPanBehavior(
                               enablePinching: false,
@@ -208,11 +214,11 @@ class _GraficaState extends State<Grafica> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: EdgeInsets.all(screenWidth * 0.02),
                 child: Text(
                   'Desliza horizontalmente para ver la grafica entera',
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  style: TextStyle(fontSize: screenWidth * 0.04, color: Colors.black54),
                 ),
               ),
             ],
@@ -228,3 +234,12 @@ class GraphData {
   final String hour;
   final double value;
 }
+
+String getMonthName(int monthNumber) {
+  List<String> months = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+  return months[monthNumber - 1];
+}
+

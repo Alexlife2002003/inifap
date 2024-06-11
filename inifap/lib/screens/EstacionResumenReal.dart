@@ -209,18 +209,23 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Fecha de instalacion:\n$instalacion",
+                          "Fecha de instalacion:",
                           style:
-                              const TextStyle(fontSize: 20, color: Colors.grey),
+                              const TextStyle(fontSize: 24, color: Colors.grey),
+                        ),
+                        Text(
+                          instalacion,
+                          style:
+                              const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                         const Text(
                           "Hora ultima actualizacion: ",
-                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                          style: TextStyle(fontSize: 24, color: Colors.grey),
                         ),
                         Text(
                           "${info['Hora'] ?? 'N/A'}",
                           style:
-                              const TextStyle(fontSize: 20, color: Colors.grey),
+                              const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                         WeatherCard(
                           icon: Icons.thermostat,
