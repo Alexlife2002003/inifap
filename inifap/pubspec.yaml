@@ -75,6 +75,7 @@ flutter:
     - lib/assets/logo.png
     - lib/assets/logo2.jpeg
     - lib/assets/puntos_cardinales/norte.png
+    - lib/assets/favicon.ico
     - .env
 
   # assets:

@@ -96,7 +96,8 @@ class WeatherCard extends StatelessWidget {
                                 fit: BoxFit.scaleDown,
                                 child: Text(
                                   max!,
-                                  style: TextStyle(fontSize: screenWidth * 0.035),
+                                  style:
+                                      TextStyle(fontSize: screenWidth * 0.035),
                                 ),
                               ),
                             if (min != null)
@@ -104,7 +105,8 @@ class WeatherCard extends StatelessWidget {
                                 fit: BoxFit.scaleDown,
                                 child: Text(
                                   min!,
-                                  style: TextStyle(fontSize: screenWidth * 0.035),
+                                  style:
+                                      TextStyle(fontSize: screenWidth * 0.035),
                                 ),
                               ),
                             if (avg != null)
@@ -112,7 +114,8 @@ class WeatherCard extends StatelessWidget {
                                 fit: BoxFit.scaleDown,
                                 child: Text(
                                   avg!,
-                                  style: TextStyle(fontSize: screenWidth * 0.035),
+                                  style:
+                                      TextStyle(fontSize: screenWidth * 0.035),
                                 ),
                               ),
                             if (total != null)
@@ -120,7 +123,8 @@ class WeatherCard extends StatelessWidget {
                                 fit: BoxFit.scaleDown,
                                 child: Text(
                                   total!,
-                                  style: TextStyle(fontSize: screenWidth * 0.035),
+                                  style:
+                                      TextStyle(fontSize: screenWidth * 0.035),
                                 ),
                               ),
                           ],

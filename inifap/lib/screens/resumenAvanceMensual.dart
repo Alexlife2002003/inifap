@@ -71,12 +71,14 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double fontSizeTitle = screenWidth * 0.05;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Avance mensual',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: fontSizeTitle,
             fontWeight: FontWeight.bold,
           ),
         ),

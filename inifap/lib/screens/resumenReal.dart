@@ -107,6 +107,8 @@ class _ResumenRealState extends State<ResumenReal> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double fontSizeTitle = screenWidth * 0.05;
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
@@ -114,10 +116,10 @@ class _ResumenRealState extends State<ResumenReal> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Resumen tiempo real',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: fontSizeTitle,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -130,7 +132,7 @@ class _ResumenRealState extends State<ResumenReal> {
             children: <Widget>[
               Expanded(
                 child: favorites.isEmpty
-                    ?  Center(
+                    ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

@@ -67,76 +67,12 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                     height: 10,
                   ),
                   const Text(
-                    'Resumen',
+                    'Graficas',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    children: [
-                      _buildForecastCard(Icons.auto_graph_rounded,
-                          "Precipitacion", Colors.lightGreen, () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Grafica(
-                                    title: 'Grafica Precipitacion',
-                                    storageKey: 'grafica_precipitacion',
-                                    yAxisTitle: 'Precipitacion',
-                                    valueKey: 'Pre',
-                                    dotenvname: 'GRAFICA_PRECIPITACION',
-                                  )),
-                        );
-                      }),
-                      _buildForecastCard(
-                          Icons.auto_graph_rounded, "Humedad", Colors.lightBlue,
-                          () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Grafica(
-                                      title: 'Grafica Humedad',
-                                      storageKey: 'grafica_humedad',
-                                      yAxisTitle: 'Humedad',
-                                      valueKey: 'Humedad',
-                                      dotenvname: 'GRAFICA_HUMEDAD',
-                                    )));
-                      })
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      _buildForecastCard(Icons.auto_graph_rounded, "Radiacion",
-                          Colors.orangeAccent, () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Grafica(
-                                      title: 'Grafica Radiacion',
-                                      storageKey: 'grafica_radiacion',
-                                      yAxisTitle: 'Radiacion',
-                                      valueKey: 'Rad',
-                                      dotenvname: 'GRAFICA_RADIACION',
-                                    )));
-                      }),
-                      _buildForecastCard(
-                          Icons.auto_graph_rounded, "Viento", Colors.blueGrey,
-                          () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Grafica(
-                                      title: 'Grafica Viento',
-                                      storageKey: 'grafica_viento',
-                                      yAxisTitle: 'Viento',
-                                      valueKey: 'VelViento',
-                                      dotenvname: 'GRAFICA_VIENTO',
-                                    )));
-                      })
-                    ],
-                  ),
-                  
                   Row(
                     children: [
                       _buildForecastCard(
@@ -154,8 +90,71 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                                   )),
                         );
                       }),
+                      _buildForecastCard(Icons.auto_graph_rounded,
+                          "Precipitacion", Colors.lightGreen, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Grafica(
+                                    title: 'Grafica Precipitacion',
+                                    storageKey: 'grafica_precipitacion',
+                                    yAxisTitle: 'Precipitacion',
+                                    valueKey: 'Pre',
+                                    dotenvname: 'GRAFICA_PRECIPITACION',
+                                  )),
+                        );
+                      }),
                     ],
-                  )
+                  ),
+                  Row(
+                    children: [
+                      _buildForecastCard(
+                          Icons.auto_graph_rounded, "Humedad", Colors.lightBlue,
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Grafica(
+                                      title: 'Grafica Humedad',
+                                      storageKey: 'grafica_humedad',
+                                      yAxisTitle: 'Humedad',
+                                      valueKey: 'Humedad',
+                                      dotenvname: 'GRAFICA_HUMEDAD',
+                                    )));
+                      }),
+                      _buildForecastCard(Icons.auto_graph_rounded, "Radiacion",
+                          Colors.orangeAccent, () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Grafica(
+                                      title: 'Grafica Radiacion',
+                                      storageKey: 'grafica_radiacion',
+                                      yAxisTitle: 'Radiacion',
+                                      valueKey: 'Rad',
+                                      dotenvname: 'GRAFICA_RADIACION',
+                                    )));
+                      }),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _buildForecastCard(
+                          Icons.auto_graph_rounded, "Viento", Colors.blueGrey,
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Grafica(
+                                      title: 'Grafica Viento',
+                                      storageKey: 'grafica_viento',
+                                      yAxisTitle: 'Viento',
+                                      valueKey: 'VelViento',
+                                      dotenvname: 'GRAFICA_VIENTO',
+                                    )));
+                      })
+                    ],
+                  ),
                 ],
               ),
             ),

@@ -216,9 +216,7 @@ class _GraficaState extends State<Grafica> {
                               shadowColor: Colors.grey.withOpacity(0.5),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                side: const BorderSide(
-                                    color: Colors.black,
-                                    width: 2), // Black outline
+                                side: BorderSide(color: darkGreen, width: 2),
                               ),
                               child: Container(
                                 decoration: BoxDecoration(

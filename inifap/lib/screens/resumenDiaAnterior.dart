@@ -59,7 +59,6 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
     );
   }
 
-
   void botonListPage() {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
@@ -73,12 +72,14 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double fontSizeTitle = screenWidth * 0.05;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Resumen dia anterior',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: fontSizeTitle,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -91,7 +92,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
           children: <Widget>[
             Expanded(
               child: favorites.isEmpty
-                  ?  Center(
+                  ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -100,13 +101,13 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                             style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
-                              onPressed: botonListPage,
-                              child: Text("Seleccionar Favoritos"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: lightGreen,
-                                foregroundColor: darkGreen,
-                              ),
-                            )
+                            onPressed: botonListPage,
+                            child: Text("Seleccionar Favoritos"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: lightGreen,
+                              foregroundColor: darkGreen,
+                            ),
+                          )
                         ],
                       ),
                     )

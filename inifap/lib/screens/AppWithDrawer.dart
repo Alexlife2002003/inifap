@@ -55,8 +55,10 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double imageSize = screenWidth * 0.25;
-    double fontSize = screenWidth * 0.08;
+    double headerImageSize = screenWidth * 0.25;
+    double faviconSize = screenWidth * 0.06;
+    double fontSize = screenWidth * 0.06;
+    double fontSizeTitle = screenWidth * 0.05;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,19 +67,20 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
         iconTheme: IconThemeData(color: darkGreen),
         title: Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize),
+          style:
+              TextStyle(fontWeight: FontWeight.bold, fontSize: fontSizeTitle),
         ),
         centerTitle: true,
       ),
       drawer: Drawer(
-        backgroundColor: darkGreen,
+        backgroundColor: Colors.white,
         child: Column(
           children: <Widget>[
             SizedBox(
               height: screenHeight * 0.25,
               child: DrawerHeader(
                 decoration: BoxDecoration(
-                  color: darkGreen,
+                  color: Colors.white,
                 ),
                 child: InkWell(
                   onTap: () {},
@@ -86,9 +89,10 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'lib/assets/logo2.jpeg',
-                        width: imageSize,
-                        height: imageSize,
+                        'lib/assets/logo.png',
+                        width: headerImageSize,
+                        height: headerImageSize,
+                        fit: BoxFit.scaleDown,
                       ),
                     ],
                   ),
@@ -98,9 +102,19 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
             ListTile(
               title: Row(
                 children: [
-                  Text(
-                    'Estaciones',
-                    style: TextStyle(color: Colors.white, fontSize: fontSize),
+                  Image.asset(
+                    'lib/assets/favicon.ico',
+                    width: faviconSize,
+                    height: faviconSize,
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(
+                      width: 8), // Add some space between the icon and text
+                  Flexible(
+                    child: Text(
+                      'Estaciones',
+                      style: TextStyle(color: darkGreen, fontSize: fontSize),
+                    ),
                   ),
                 ],
               ),
@@ -111,9 +125,19 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
             ListTile(
               title: Row(
                 children: [
-                  Text(
-                    'Lista Estaciones',
-                    style: TextStyle(color: Colors.white, fontSize: fontSize),
+                  Image.asset(
+                    'lib/assets/favicon.ico',
+                    width: faviconSize,
+                    height: faviconSize,
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(
+                      width: 8), // Add some space between the icon and text
+                  Flexible(
+                    child: Text(
+                      'Lista Estaciones',
+                      style: TextStyle(color: darkGreen, fontSize: fontSize),
+                    ),
                   ),
                 ],
               ),
@@ -124,9 +148,19 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
             ListTile(
               title: Row(
                 children: [
-                  Text(
-                    'Tiempo Real',
-                    style: TextStyle(color: Colors.white, fontSize: fontSize),
+                  Image.asset(
+                    'lib/assets/favicon.ico',
+                    width: faviconSize,
+                    height: faviconSize,
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(
+                      width: 8), // Add some space between the icon and text
+                  Flexible(
+                    child: Text(
+                      'Tiempo Real',
+                      style: TextStyle(color: darkGreen, fontSize: fontSize),
+                    ),
                   ),
                 ],
               ),
@@ -137,9 +171,40 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
             ListTile(
               title: Row(
                 children: [
-                  Text(
-                    'Detalles apps',
-                    style: TextStyle(color: Colors.white, fontSize: fontSize),
+                  Image.asset(
+                    'lib/assets/favicon.ico',
+                    width: faviconSize,
+                    height: faviconSize,
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(
+                      width: 8), // Add some space between the icon and text
+                  Flexible(
+                    child: Text(
+                      'Detalles apps',
+                      style: TextStyle(color: darkGreen, fontSize: fontSize),
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                _updateContent(const AppDetailsPage());
+              },
+            ),
+            ListTile(
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    size: faviconSize,
+                    color: Colors.red,
+                  ),
+                  SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      'Acerca de la app',
+                      style: TextStyle(color: darkGreen, fontSize: fontSize),
+                    ),
                   ),
                 ],
               ),

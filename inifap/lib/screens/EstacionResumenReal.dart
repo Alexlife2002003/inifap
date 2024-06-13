@@ -204,8 +204,8 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                       onPressed: botonListPage,
                       child: Text("Seleccionar Favoritos"),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: lightGreen, 
-                        foregroundColor: darkGreen, 
+                        backgroundColor: lightGreen,
+                        foregroundColor: darkGreen,
                       ),
                     )
                   ],
