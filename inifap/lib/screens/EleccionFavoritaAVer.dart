@@ -151,18 +151,6 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
         onTap: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('estacionActual', id.toString());
-          final DateTime currentDate = DateTime.now();
-          String day = currentDate.day.toString();
-          String month = currentDate.month.toString();
-          String year = currentDate.year.toString();
-          await Future.wait([
-            fetchDataGraficaTemperatura(day, month, year, id.toString()),
-            fetchDataGraficaPrecipitacion(day, month, year, id.toString()),
-            fetchDataGraficaHumedad(day, month, year),
-            fetchDataGraficaRadiacion(day, month, year, id.toString()),
-            fetchDataGraficaViento(day, month, year, id.toString())
-          ]);
-
           _navigateToDetails();
         },
       ),

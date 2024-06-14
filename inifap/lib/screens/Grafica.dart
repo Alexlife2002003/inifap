@@ -40,7 +40,6 @@ class _GraficaState extends State<Grafica> {
   String fechalarga = "";
   bool _isLoading = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -61,13 +60,12 @@ class _GraficaState extends State<Grafica> {
       dateList.add(DateFormat('dd-MM-yyyy').format(currentDate));
       currentDate = currentDate.add(const Duration(days: 1));
     }
-    dateList = dateList.reversed
-        .toList(); // Reverse the list to have the most recent date on top
-    selectedDate = dateList.first; // Select the most recent date
+    dateList = dateList.reversed.toList();
+    selectedDate = dateList.first;
   }
 
   void loadDataTransformation() async {
-    graphData.clear(); // Clear the graphData list before adding new data
+    graphData.clear();
     if (resumenGrafica.isNotEmpty) {
       List<dynamic> datos = resumenGrafica[0]['Datos'];
       for (var item in datos) {
@@ -78,18 +76,23 @@ class _GraficaState extends State<Grafica> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     estacion = prefs.getString('Estacion');
     municipio = prefs.getString('Municipio');
- 
+
     setState(() {
-      _isLoading = false; // Set loading to false after data is transformed
+      _isLoading = false;
     });
   }
 
   Future<void> loadGrafica() async {
-   SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> splitdate = selectedDate.split("-");
+    fechalarga =
+        "${splitdate[0]} de ${getMonthName(int.parse(splitdate[1]))} del ${splitdate[2]}";
+    await fetchDataGrafica(splitdate[0], splitdate[1], splitdate[2],
+        widget.storageKey, widget.dotenvname);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String idEst = prefs.getString('estacionActual') ?? "";
     const secureStorage = FlutterSecureStorage();
     String? storedDataJson = await secureStorage.read(key: widget.storageKey);
-    if (storedDataJson != null && idEst!="") {
+    if (storedDataJson != null && idEst != "") {
       setState(() {
         resumenGrafica =
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
@@ -99,9 +102,6 @@ class _GraficaState extends State<Grafica> {
         resumenGrafica = [];
       });
     }
-    List<String> splitdate = selectedDate.split("-");
-    fechalarga =
-        "${splitdate[0]} de ${getMonthName(int.parse(splitdate[1]))} del ${splitdate[2]}";
   }
 
   void botonListPage() {
@@ -136,16 +136,16 @@ class _GraficaState extends State<Grafica> {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
           child: _isLoading
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : resumenGrafica.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('No hay favoritos seleccionados'),
-                        SizedBox(height: 20),
+                        const Text('No hay favoritos seleccionados'),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: botonListPage,
-                          child: Text("Seleccionar Favoritos"),
+                          child: const Text("Seleccionar Favoritos"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: lightGreen,
                             foregroundColor: darkGreen,

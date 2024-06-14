@@ -45,26 +45,6 @@ void main() async {
     });
     Timer.periodic(const Duration(minutes: 1), (Timer timer) async {
       //30 minutes
-      final DateTime currentDate = DateTime.now();
-
-      String day = currentDate.day.toString();
-      String month = currentDate.month.toString();
-      String year = currentDate.year.toString();
-      // Fetch data
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String idEst = prefs.getString('estacionActual') ?? "";
-
-      await Future.wait([
-        fetchDataGraficaTemperatura(day, month, year, idEst),
-        fetchDataGraficaPrecipitacion(day, month, year, idEst),
-        fetchDataGraficaHumedad(
-          day,
-          month,
-          year,
-        ),
-        fetchDataGraficaRadiacion(day, month, year, idEst),
-        fetchDataGraficaViento(day, month, year, idEst),
-      ]);
       final fetchedData = await fetchDataResumenReal();
       // Show notification with fetched data
       if (fetchedData != "Error") {

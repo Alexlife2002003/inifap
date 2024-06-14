@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/screens/Grafica.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,13 +96,13 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'No hay favoritos seleccionados',
                             style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
                             onPressed: botonListPage,
-                            child: Text("Seleccionar Favoritos"),
+                            child: const Text("Seleccionar Favoritos"),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: lightGreen,
                               foregroundColor: darkGreen,
@@ -133,6 +134,23 @@ class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
                                 children: [
                                   estacion_municipio(data['Est'], data['Est']),
                                   if (data.isNotEmpty) ...[
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          const Icon(Icons.calendar_month,
+                                              size: 50, color: Colors.black),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            '${getMonthName(int.parse(data['Mes']))}',
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.blue),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     const SizedBox(height: 10),
                                     Temperatura(
                                       "Temperatura",

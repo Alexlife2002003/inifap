@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/datos/Datos.dart';
 import 'package:inifap/screens/AppDetailsPage.dart';
 import 'package:inifap/screens/EleccionFavoritaAVer.dart';
+import 'package:inifap/screens/MapScreen2.dart';
+
 import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
@@ -33,7 +36,9 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
     } else if (content is ResumenRealOrYesterday) {
       return 'Datos en tiempo real';
     } else if (content is AppDetailsPage) {
-      return 'Detalles apps';
+      return 'Acerca de la app';
+    } else if (content is MapScreen2) {
+      return 'Mapa';
     } else {
       return 'Inifap';
     }
@@ -53,6 +58,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> filteredMarcadores = List.from(datosEstacions);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double headerImageSize = screenWidth * 0.25;
@@ -79,7 +85,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
             SizedBox(
               height: screenHeight * 0.25,
               child: DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: InkWell(
@@ -108,7 +114,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
                     height: faviconSize,
                     fit: BoxFit.contain,
                   ),
-                  SizedBox(
+                  const SizedBox(
                       width: 8), // Add some space between the icon and text
                   Flexible(
                     child: Text(
@@ -131,7 +137,30 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
                     height: faviconSize,
                     fit: BoxFit.contain,
                   ),
-                  SizedBox(
+                  const SizedBox(
+                      width: 8), // Add some space between the icon and text
+                  Flexible(
+                    child: Text(
+                      'Mapa',
+                      style: TextStyle(color: darkGreen, fontSize: fontSize),
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                _updateContent(MapScreen2(locations: filteredMarcadores));
+              },
+            ),
+            ListTile(
+              title: Row(
+                children: [
+                  Image.asset(
+                    'lib/assets/favicon.ico',
+                    width: faviconSize,
+                    height: faviconSize,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(
                       width: 8), // Add some space between the icon and text
                   Flexible(
                     child: Text(
@@ -154,7 +183,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
                     height: faviconSize,
                     fit: BoxFit.contain,
                   ),
-                  SizedBox(
+                  const SizedBox(
                       width: 8), // Add some space between the icon and text
                   Flexible(
                     child: Text(
@@ -171,35 +200,12 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
             ListTile(
               title: Row(
                 children: [
-                  Image.asset(
-                    'lib/assets/favicon.ico',
-                    width: faviconSize,
-                    height: faviconSize,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBox(
-                      width: 8), // Add some space between the icon and text
-                  Flexible(
-                    child: Text(
-                      'Detalles apps',
-                      style: TextStyle(color: darkGreen, fontSize: fontSize),
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                _updateContent(const AppDetailsPage());
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: [
                   Icon(
                     Icons.info_outline,
                     size: faviconSize,
                     color: Colors.red,
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Flexible(
                     child: Text(
                       'Acerca de la app',

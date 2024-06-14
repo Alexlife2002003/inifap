@@ -96,13 +96,13 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'No hay favoritos seleccionados',
                             style: TextStyle(fontSize: 20),
                           ),
                           ElevatedButton(
                             onPressed: botonListPage,
-                            child: Text("Seleccionar Favoritos"),
+                            child: const Text("Seleccionar Favoritos"),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: lightGreen,
                               foregroundColor: darkGreen,

@@ -199,10 +199,10 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
               if (detailedInfo.isEmpty)
                 Column(
                   children: [
-                    Text('No hay favoritos seleccionados'),
+                    const Text('No hay favoritos seleccionados'),
                     ElevatedButton(
                       onPressed: botonListPage,
-                      child: Text("Seleccionar Favoritos"),
+                      child: const Text("Seleccionar Favoritos"),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: lightGreen,
                         foregroundColor: darkGreen,
@@ -232,10 +232,10 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                           style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
-                        Text(
+                        const Text(
                           "Fecha de instalacion:",
                           style:
-                              const TextStyle(fontSize: 24, color: Colors.grey),
+                              TextStyle(fontSize: 24, color: Colors.grey),
                         ),
                         Text(
                           instalacion,
