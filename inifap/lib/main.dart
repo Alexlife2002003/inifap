@@ -19,23 +19,11 @@ void main() async {
     // Schedule a periodic task using Timer.periodic
 
     Timer(const Duration(seconds: 3), () async {
-      final DateTime currentDate = DateTime.now();
-      String day = currentDate.day.toString();
-      String month = currentDate.month.toString();
-      String year = currentDate.year.toString();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String idEst = prefs.getString('estacionActual') ?? "";
-
       await Future.wait([
         fetchDataResumenReal(),
         fetchDataResumenDiaAnterior(),
         fetchDataResumenReal(),
         fetchDataResumenDiaAnterior(),
-        fetchDataGraficaTemperatura(day, month, year, idEst),
-        fetchDataGraficaPrecipitacion(day, month, year, idEst),
-        fetchDataGraficaHumedad(day, month, year),
-        fetchDataGraficaRadiacion(day, month, year, idEst),
-        fetchDataGraficaViento(day, month, year, idEst),
       ]);
       final fetchedData = await fetchDataAvanceMensual();
       if (fetchedData != "Error") {
