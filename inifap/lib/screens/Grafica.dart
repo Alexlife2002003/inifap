@@ -38,6 +38,8 @@ class _GraficaState extends State<Grafica> {
   String? estacion = "";
   String? municipio = "";
   String fechalarga = "";
+  bool _isLoading = true;
+
 
   @override
   void initState() {
@@ -76,12 +78,18 @@ class _GraficaState extends State<Grafica> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     estacion = prefs.getString('Estacion');
     municipio = prefs.getString('Municipio');
+ 
+    setState(() {
+      _isLoading = false; // Set loading to false after data is transformed
+    });
   }
 
   Future<void> loadGrafica() async {
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+    String idEst = prefs.getString('estacionActual') ?? "";
     const secureStorage = FlutterSecureStorage();
     String? storedDataJson = await secureStorage.read(key: widget.storageKey);
-    if (storedDataJson != null) {
+    if (storedDataJson != null && idEst!="") {
       setState(() {
         resumenGrafica =
             List<Map<String, dynamic>>.from(json.decode(storedDataJson));
@@ -111,7 +119,8 @@ class _GraficaState extends State<Grafica> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
+    double fontSizeTitle = screenWidth * 0.08;
+    double fontSizeTitle2 = screenWidth * 0.06;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -126,152 +135,160 @@ class _GraficaState extends State<Grafica> {
       body: Center(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-          child: resumenGrafica.isEmpty
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('No hay favoritos seleccionados'),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: botonListPage,
-                      child: Text("Seleccionar Favoritos"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: lightGreen,
-                        foregroundColor: darkGreen,
-                      ),
-                    )
-                  ],
-                )
-              : Column(
-                  children: [
-                    Text(
-                      estacion ?? "NA",
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.09,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      municipio ?? "NA",
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.07,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: screenHeight * 0.02,
-                    ),
-                    Text(
-                      "Fecha:",
-                      style: TextStyle(
-                          fontSize: screenWidth * 0.05, color: Colors.grey),
-                    ),
-                    Text(
-                      "$fechalarga",
-                      style: TextStyle(
-                          fontSize: screenWidth * 0.05, color: Colors.grey),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(screenWidth * 0.02),
-                      child: DropdownButton<String>(
-                        value: selectedDate,
-                        onChanged: (String? newValue) {
-                          setState(() async {
-                            selectedDate = newValue!;
-                            List<String> splitdate = selectedDate.split("-");
-                            graphData = [];
-                            resumenGrafica = [];
-                            await fetchDataGrafica(
-                                splitdate[0],
-                                splitdate[1],
-                                splitdate[2],
-                                widget.storageKey,
-                                widget.dotenvname);
-                            loadGrafica().then((_) {
-                              loadDataTransformation();
-                            });
-                          });
-                        },
-                        items: dateList
-                            .map<DropdownMenuItem<String>>((String date) {
-                          return DropdownMenuItem<String>(
-                            value: date,
-                            child: Text(
-                              date,
-                              style: TextStyle(fontSize: screenWidth * 0.04),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Transform.translate(
-                            offset: Offset(_chartOffset, 0.0),
-                            child: Card(
-                              elevation: 10,
-                              shadowColor: Colors.grey.withOpacity(0.5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(color: darkGreen, width: 2),
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: lightGreen,
-                                ),
-                                width: screenWidth * 2,
-                                child: SfCartesianChart(
-                                  zoomPanBehavior: ZoomPanBehavior(
-                                    enablePinching: false,
-                                    enableSelectionZooming: false,
-                                  ),
-                                  primaryXAxis: const CategoryAxis(
-                                    title: AxisTitle(text: 'Hora'),
-                                  ),
-                                  primaryYAxis: NumericAxis(
-                                    title: AxisTitle(text: widget.yAxisTitle),
-                                  ),
-                                  series: <LineSeries<GraphData, String>>[
-                                    LineSeries<GraphData, String>(
-                                      dataSource: graphData,
-                                      name: widget.title,
-                                      xValueMapper: (GraphData data, _) =>
-                                          data.hour,
-                                      yValueMapper: (GraphData data, _) =>
-                                          data.value,
-                                      markerSettings: const MarkerSettings(
-                                        isVisible: true,
-                                        shape: DataMarkerType.circle,
-                                        color: Colors.red,
-                                        borderColor: Colors.black,
-                                        borderWidth: 2,
-                                      ),
-                                    ),
-                                  ],
-                                  tooltipBehavior:
-                                      TooltipBehavior(enable: true),
-                                ),
-                              ),
-                            ),
+          child: _isLoading
+              ? CircularProgressIndicator()
+              : resumenGrafica.isEmpty
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('No hay favoritos seleccionados'),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: botonListPage,
+                          child: Text("Seleccionar Favoritos"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: lightGreen,
+                            foregroundColor: darkGreen,
                           ),
-                        ],
-                      ),
+                        )
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Text(
+                          estacion ?? "NA",
+                          style: TextStyle(
+                            fontSize: fontSizeTitle,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          municipio ?? "NA",
+                          style: TextStyle(
+                            fontSize: fontSizeTitle2,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.02,
+                        ),
+                        Text(
+                          "Fecha:",
+                          style: TextStyle(
+                              fontSize: screenWidth * 0.05, color: Colors.grey),
+                        ),
+                        Text(
+                          "$fechalarga",
+                          style: TextStyle(
+                              fontSize: screenWidth * 0.05, color: Colors.grey),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(screenWidth * 0.02),
+                          child: DropdownButton<String>(
+                            value: selectedDate,
+                            onChanged: (String? newValue) {
+                              setState(() async {
+                                _isLoading =
+                                    true; // Set loading to true when date changes
+                                selectedDate = newValue!;
+                                List<String> splitdate =
+                                    selectedDate.split("-");
+                                graphData = [];
+                                resumenGrafica = [];
+                                await fetchDataGrafica(
+                                    splitdate[0],
+                                    splitdate[1],
+                                    splitdate[2],
+                                    widget.storageKey,
+                                    widget.dotenvname);
+                                loadGrafica().then((_) {
+                                  loadDataTransformation();
+                                });
+                              });
+                            },
+                            items: dateList
+                                .map<DropdownMenuItem<String>>((String date) {
+                              return DropdownMenuItem<String>(
+                                value: date,
+                                child: Text(
+                                  date,
+                                  style:
+                                      TextStyle(fontSize: screenWidth * 0.04),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Transform.translate(
+                                offset: Offset(_chartOffset, 0.0),
+                                child: Card(
+                                  elevation: 10,
+                                  shadowColor: Colors.grey.withOpacity(0.5),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    side:
+                                        BorderSide(color: darkGreen, width: 2),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: lightGreen,
+                                    ),
+                                    width: screenWidth * 2,
+                                    child: SfCartesianChart(
+                                      zoomPanBehavior: ZoomPanBehavior(
+                                        enablePinching: false,
+                                        enableSelectionZooming: false,
+                                      ),
+                                      primaryXAxis: const CategoryAxis(
+                                        title: AxisTitle(text: 'Hora'),
+                                      ),
+                                      primaryYAxis: NumericAxis(
+                                        title:
+                                            AxisTitle(text: widget.yAxisTitle),
+                                      ),
+                                      series: <LineSeries<GraphData, String>>[
+                                        LineSeries<GraphData, String>(
+                                          dataSource: graphData,
+                                          name: widget.title,
+                                          xValueMapper: (GraphData data, _) =>
+                                              data.hour,
+                                          yValueMapper: (GraphData data, _) =>
+                                              data.value,
+                                          markerSettings: const MarkerSettings(
+                                            isVisible: true,
+                                            shape: DataMarkerType.circle,
+                                            color: Colors.red,
+                                            borderColor: Colors.black,
+                                            borderWidth: 2,
+                                          ),
+                                        ),
+                                      ],
+                                      tooltipBehavior:
+                                          TooltipBehavior(enable: true),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(screenWidth * 0.02),
+                          child: Text(
+                            'Desliza horizontalmente para ver la grafica entera',
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: Colors.black54),
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(screenWidth * 0.02),
-                      child: Text(
-                        'Desliza horizontalmente para ver la grafica entera',
-                        style: TextStyle(
-                            fontSize: screenWidth * 0.04,
-                            color: Colors.black54),
-                      ),
-                    ),
-                  ],
-                ),
         ),
       ),
     );
