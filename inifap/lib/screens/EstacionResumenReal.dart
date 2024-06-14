@@ -50,12 +50,10 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
     if (datosTemperatura.isNotEmpty) {
       var lastItem = datosTemperatura.last;
       lastTemperature = double.parse(lastItem['Temp']);
-      // or do something with it
     }
     if (datosPrecipitacion.isNotEmpty) {
       var lastItem = datosPrecipitacion.last;
       lastPrecipitation = double.parse(lastItem['Pre']);
-      // or do something with it
     }
     if (datosHumedad.isNotEmpty) {
       var lastItem = datosHumedad.last;
@@ -135,15 +133,11 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
           await getDataForEstacionAndMunicipio(favorites);
       infoList.add(info);
     }
-
-    for (var est in datosEstacions) {
-      if (est['id_estacion'].toString() == favorites.toString()) {
-        instalacion = est['Instalacion'];
-        var instalacions = instalacion.split("-");
-        instalacion =
-            "${instalacions[2]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[0]}";
-      }
-    }
+    instalacion=infoList[0]['fecha'];
+    var instalacions=instalacion.split("-");
+    instalacion =
+            "${instalacions[0]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[2]}";
+   
     setState(() {
       detailedInfo = infoList;
       loadGrafica();
@@ -233,9 +227,8 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         const Text(
-                          "Fecha de instalacion:",
-                          style:
-                              TextStyle(fontSize: 24, color: Colors.grey),
+                          "Fecha:",
+                          style: TextStyle(fontSize: 24, color: Colors.grey),
                         ),
                         Text(
                           instalacion,
@@ -243,11 +236,11 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                               const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                         const Text(
-                          "Hora ultima actualizacion: ",
+                          "Ultima actualizacion: ",
                           style: TextStyle(fontSize: 24, color: Colors.grey),
                         ),
                         Text(
-                          "${info['Hora'] ?? 'N/A'}",
+                          "${info['Hora'] ?? 'N/A'} hrs",
                           style:
                               const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
