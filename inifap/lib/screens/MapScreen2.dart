@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
@@ -122,9 +123,24 @@ class _MapScreen2State extends State<MapScreen2> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favIds = prefs.getStringList('favorites') ?? [];
     if (favIds.contains(idEstacion)) {
-      favIds.remove(idEstacion); // Remove from favorites
+      favIds.remove(idEstacion);
     } else {
-      favIds.add(idEstacion); // Add to favorites
+      favIds.add(idEstacion);
+      if (favIds.length == 1) {
+        final DateTime currentDate = DateTime.now();
+        String day = currentDate.day.toString();
+        String month = currentDate.month.toString();
+        String year = currentDate.year.toString();
+        fetchDataGrafica(
+            day, month, year, 'grafica_temperatura', 'GRAFICA_TEMPERATURA');
+        fetchDataGrafica(
+            day, month, year, 'grafica_precipitacion', 'GRAFICA_PRECIPITACION');
+        fetchDataGrafica(
+            day, month, year, 'grafica_humedad', 'GRAFICA_HUMEDAD');
+        fetchDataGrafica(
+            day, month, year, 'grafica_radiacion', 'GRAFICA_RADIACION');
+        fetchDataGrafica(day, month, year, 'grafica_viento', 'GRAFICA_VIENTO');
+      }
     }
     await prefs.setStringList('favorites', favIds);
     _loadFavorites();
@@ -138,7 +154,7 @@ class _MapScreen2State extends State<MapScreen2> {
         .toList();
     setState(() {
       favorites = updatedFavorites;
-      _updateMarkers(); // Update markers to reflect favorites
+      _updateMarkers();
     });
   }
 

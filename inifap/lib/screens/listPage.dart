@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/screens/MapScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/datos/Datos.dart';
@@ -60,6 +61,18 @@ class _ListPageState extends State<ListPage> {
     if (favorites.length == 1) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('estacionActual', favTitles[0]);
+      final DateTime currentDate = DateTime.now();
+      String day = currentDate.day.toString();
+      String month = currentDate.month.toString();
+      String year = currentDate.year.toString();
+      fetchDataGrafica(
+          day, month, year, 'grafica_temperatura', 'GRAFICA_TEMPERATURA');
+      fetchDataGrafica(
+          day, month, year, 'grafica_precipitacion', 'GRAFICA_PRECIPITACION');
+      fetchDataGrafica(day, month, year, 'grafica_humedad', 'GRAFICA_HUMEDAD');
+      fetchDataGrafica(
+          day, month, year, 'grafica_radiacion', 'GRAFICA_RADIACION');
+      fetchDataGrafica(day, month, year, 'grafica_viento', 'GRAFICA_VIENTO');
     } else {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String temporal = await prefs.getString('estacionActual') ?? "";

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inifap/backend/fetchData.dart';
 import 'package:inifap/screens/AppWithDrawer.dart';
 import 'package:inifap/screens/listPage.dart';
 import 'package:inifap/widgets/Colors.dart';
@@ -18,11 +19,11 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   Set<Marker> markers = {};
-   double currentLatitude = 22.76843;
+  double currentLatitude = 22.76843;
   double currentLongitude = -102.58141;
   double zoomlevel = 8.0;
   List<Map<String, dynamic>> favorites = [];
-  
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,7 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       currentLatitude = position.latitude;
       currentLongitude = position.longitude;
-      zoomlevel = 10.0; 
+      zoomlevel = 10.0;
       _updateMarkers();
       _updateCameraPosition();
     });
@@ -127,6 +128,21 @@ class _MapScreenState extends State<MapScreen> {
       favIds.remove(idEstacion);
     } else {
       favIds.add(idEstacion);
+      if (favIds.length == 1) {
+        final DateTime currentDate = DateTime.now();
+        String day = currentDate.day.toString();
+        String month = currentDate.month.toString();
+        String year = currentDate.year.toString();
+        fetchDataGrafica(
+            day, month, year, 'grafica_temperatura', 'GRAFICA_TEMPERATURA');
+        fetchDataGrafica(
+            day, month, year, 'grafica_precipitacion', 'GRAFICA_PRECIPITACION');
+        fetchDataGrafica(
+            day, month, year, 'grafica_humedad', 'GRAFICA_HUMEDAD');
+        fetchDataGrafica(
+            day, month, year, 'grafica_radiacion', 'GRAFICA_RADIACION');
+        fetchDataGrafica(day, month, year, 'grafica_viento', 'GRAFICA_VIENTO');
+      }
     }
     await prefs.setStringList('favorites', favIds);
     _loadFavorites();
