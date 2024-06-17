@@ -129,6 +129,8 @@ class _MapScreenState extends State<MapScreen> {
     } else {
       favIds.add(idEstacion);
       if (favIds.length == 1) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('estacionActual', favIds[0]);
         final DateTime currentDate = DateTime.now();
         String day = currentDate.day.toString();
         String month = currentDate.month.toString();
