@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:inifap/backend/fetchData.dart';
-import 'package:inifap/datos/Datos.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/backend/fetch_data.dart';
+import 'package:inifap/screens/app_with_drawer.dart';
 import 'package:inifap/screens/listPage.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:inifap/widgets/WeatherCardViento.dart';
-import 'package:inifap/widgets/weatherCard.dart';
+import 'package:inifap/widgets/weather_card_viento.dart';
+import 'package:inifap/widgets/weather_card.dart';
 
 class EstacionResumenReal extends StatefulWidget {
   const EstacionResumenReal({super.key});
@@ -196,11 +195,11 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                     const Text('No hay favoritos seleccionados'),
                     ElevatedButton(
                       onPressed: botonListPage,
-                      child: const Text("Seleccionar Favoritos"),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: lightGreen,
                         foregroundColor: darkGreen,
                       ),
+                      child: const Text("Seleccionar Favoritos"),
                     )
                   ],
                 ),

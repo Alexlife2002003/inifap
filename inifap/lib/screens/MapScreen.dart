@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inifap/backend/fetchData.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/backend/fetch_data.dart';
+import 'package:inifap/screens/app_with_drawer.dart';
 import 'package:inifap/screens/listPage.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreen extends StatefulWidget {
   final List<Map<String, dynamic>> locations;
 
-  const MapScreen({Key? key, required this.locations}) : super(key: key);
+  const MapScreen({super.key, required this.locations});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -46,8 +46,6 @@ class _MapScreenState extends State<MapScreen> {
 
   void _updateMarkers() {
     setState(() {
-      print("location $currentLatitude");
-      print("location $currentLongitude");
       markers.clear();
       markers.add(
         Marker(
@@ -76,7 +74,7 @@ class _MapScreenState extends State<MapScreen> {
                 builder: (BuildContext context) {
                   bool isFavorite = favorites.any((element) =>
                       element['id_estacion'] == location['id_estacion']);
-                  return Container(
+                  return SizedBox(
                     height: 100,
                     child: Center(
                       child: Column(

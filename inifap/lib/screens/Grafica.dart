@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:inifap/backend/fetchData.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/backend/fetch_data.dart';
+import 'package:inifap/screens/app_with_drawer.dart';
 import 'package:inifap/screens/listPage.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
@@ -17,13 +17,13 @@ class Grafica extends StatefulWidget {
   final String dotenvname;
 
   const Grafica({
-    Key? key,
+    super.key,
     required this.title,
     required this.storageKey,
     required this.yAxisTitle,
     required this.valueKey,
     required this.dotenvname,
-  }) : super(key: key);
+  });
 
   @override
   _GraficaState createState() => _GraficaState();
@@ -32,7 +32,6 @@ class Grafica extends StatefulWidget {
 class _GraficaState extends State<Grafica> {
   List<Map<String, dynamic>> resumenGrafica = [];
   List<GraphData> graphData = [];
-  double _chartOffset = 0.0;
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
   List<String> dateList = [];
   String? estacion = "";
@@ -145,11 +144,11 @@ class _GraficaState extends State<Grafica> {
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: botonListPage,
-                          child: const Text("Seleccionar Favoritos"),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: lightGreen,
                             foregroundColor: darkGreen,
                           ),
+                          child: const Text("Seleccionar Favoritos"),
                         )
                       ],
                     )
@@ -225,7 +224,7 @@ class _GraficaState extends State<Grafica> {
                             scrollDirection: Axis.horizontal,
                             children: [
                               Transform.translate(
-                                offset: Offset(_chartOffset, 0.0),
+                                offset: const Offset(0.0, 0.0),
                                 child: Card(
                                   elevation: 10,
                                   shadowColor: Colors.grey.withOpacity(0.5),

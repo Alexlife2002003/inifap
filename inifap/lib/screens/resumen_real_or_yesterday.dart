@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/screens/Grafica.dart';
-import 'package:inifap/screens/resumenAvanceMensual.dart';
-import 'package:inifap/screens/resumenDiaAnterior.dart';
-import 'package:inifap/screens/resumenReal.dart';
+import 'package:inifap/screens/resumen_avance_mensual.dart';
+import 'package:inifap/screens/resumen_dia_anterior.dart';
+import 'package:inifap/screens/resumen_real.dart';
 
 class ResumenRealOrYesterday extends StatefulWidget {
   const ResumenRealOrYesterday({super.key});
@@ -18,7 +18,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
     return Center(
       child: Scaffold(
         body: Center(
-          child: Container(
+          child: SizedBox(
             height: screenHeight,
             child: SingleChildScrollView(
               child: Column(

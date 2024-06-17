@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/backend/fetchData.dart';
-import 'package:inifap/screens/EstacionResumenReal.dart';
+import 'package:inifap/backend/fetch_data.dart';
+import 'package:inifap/screens/estacion_resumen_real.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:inifap/datos/Datos.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/datos/datos.dart';
+import 'package:inifap/widgets/colors.dart';
 
 class EleccionFavoritaAVer extends StatefulWidget {
   const EleccionFavoritaAVer({super.key});

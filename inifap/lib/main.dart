@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inifap/backend/fetchData.dart';
-import 'package:inifap/screens/AppDetailsPage.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
-import 'package:inifap/screens/EleccionFavoritaAVer.dart';
-import 'package:inifap/screens/Resumen_Real_or_Yesterday.dart';
+import 'package:inifap/backend/fetch_data.dart';
+import 'package:inifap/screens/app_details_page.dart';
+import 'package:inifap/screens/app_with_drawer.dart';
+import 'package:inifap/screens/eleccion_favorita_a_ver.dart';
+import 'package:inifap/screens/resumen_real_or_yesterday.dart';
 import 'package:inifap/screens/listPage.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/widgets/colors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 

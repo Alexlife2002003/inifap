@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inifap/backend/fetchData.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
-import 'package:inifap/screens/listPage.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/backend/fetch_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreen2 extends StatefulWidget {
   final List<Map<String, dynamic>> locations;
 
-  const MapScreen2({Key? key, required this.locations}) : super(key: key);
+  const MapScreen2({super.key, required this.locations});
 
   @override
   _MapScreen2State createState() => _MapScreen2State();
@@ -85,7 +82,7 @@ class _MapScreen2State extends State<MapScreen2> {
                 builder: (BuildContext context) {
                   bool isFavorite = favorites.any((element) =>
                       element['id_estacion'] == location['id_estacion']);
-                  return Container(
+                  return SizedBox(
                     height: 100,
                     child: Center(
                       child: Column(

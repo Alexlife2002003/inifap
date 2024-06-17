@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/backend/fetchData.dart';
+import 'package:inifap/backend/fetch_data.dart';
 import 'package:inifap/screens/MapScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:inifap/datos/Datos.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/datos/datos.dart';
+import 'package:inifap/widgets/colors.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
@@ -75,7 +75,7 @@ class _ListPageState extends State<ListPage> {
       fetchDataGrafica(day, month, year, 'grafica_viento', 'GRAFICA_VIENTO');
     } else {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String temporal = await prefs.getString('estacionActual') ?? "";
+      String temporal = prefs.getString('estacionActual') ?? "";
       if (!favTitles.contains(temporal)) {
         await prefs.setString('estacionActual', "");
       }

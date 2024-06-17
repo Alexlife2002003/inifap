@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/widgets/Colors.dart';
+import 'package:inifap/widgets/colors.dart';
 
 class WeatherCard extends StatelessWidget {
   final IconData icon;

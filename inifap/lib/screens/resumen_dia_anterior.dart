@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
-import 'package:inifap/screens/AppWithDrawer.dart';
+import 'package:inifap/screens/app_with_drawer.dart';
 import 'package:inifap/screens/listPage.dart';
-import 'package:inifap/widgets/Colors.dart';
-import 'package:inifap/widgets/icons/RotatedIcon.dart';
+import 'package:inifap/widgets/colors.dart';
+import 'package:inifap/widgets/icons/rotated_icon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResumenDiaAnterior extends StatefulWidget {
@@ -102,11 +102,11 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                           ),
                           ElevatedButton(
                             onPressed: botonListPage,
-                            child: const Text("Seleccionar Favoritos"),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: lightGreen,
                               foregroundColor: darkGreen,
                             ),
+                            child: const Text("Seleccionar Favoritos"),
                           )
                         ],
                       ),
