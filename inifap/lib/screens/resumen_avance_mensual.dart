@@ -143,7 +143,8 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                                             height: 5,
                                           ),
                                           Text(
-                                            getMonthName(int.parse(data['Mes'])),
+                                            getMonthName(
+                                                int.parse(data['Mes'])),
                                             style: const TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.blue),

@@ -14,6 +14,7 @@ class EleccionFavoritaAVer extends StatefulWidget {
 
 class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
   int _currentIndex = 0;
+  List<Map<String, dynamic>> filteredFavorites = [];
   List<Map<String, dynamic>> favorites = [];
   List<Map<String, dynamic>> originalData = [];
   TextEditingController searchController = TextEditingController();
@@ -21,39 +22,62 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
   @override
   void initState() {
     super.initState();
-    _loadFavorites();
     originalData = List.from(datosEstacions);
+    _loadFavorites();
     searchController.addListener(() {
       filterSearchResults(searchController.text);
     });
   }
 
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void filterSearchResults(String query) {
+    if (query.isNotEmpty) {
+      List<Map<String, dynamic>> dummyListData = [];
+      for (var item in originalData) {
+        if (item['Municipio'].toLowerCase().contains(query.toLowerCase()) ||
+            item['Estacion'].toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      }
+      setState(() {
+        filteredFavorites = dummyListData
+            .where((element) => favorites.contains(element))
+            .toList();
+      });
+    } else {
+      setState(() {
+        filteredFavorites = List.from(favorites);
+      });
+    }
+  }
+
   void _loadFavorites() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favTitles = prefs.getStringList('favorites') ?? [];
+    Set<String> favTitles = prefs.getStringList('favorites')?.toSet() ?? {};
     setState(() {
       favorites = originalData
-          .where((element) =>
-              favTitles.contains(element['id_estacion'].toString()))
+          .where((element) => favTitles.contains(element['id_estacion'].toString()))
           .toList();
+      filteredFavorites = List.from(favorites);
     });
   }
 
-  void filterSearchResults(String query) async {
+  void _addToFavorites(int id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favTitles = prefs.getStringList('favorites') ?? [];
-    List<Map<String, dynamic>> filteredList = originalData
-        .where((element) =>
-            element['Estacion'].toLowerCase().contains(query.toLowerCase()) ||
-            element['Municipio'].toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    setState(() {
-      favorites = filteredList
-          .where((element) =>
-              favTitles.contains(element['Estacion']) ||
-              favTitles.contains(element['Municipio']))
-          .toList();
-    });
+    String idStr = id.toString();
+    Set<String> favTitles = prefs.getStringList('favorites')?.toSet() ?? {};
+    if (favTitles.contains(idStr)) {
+      favTitles.remove(idStr);
+    } else {
+      favTitles.add(idStr);
+    }
+    await prefs.setStringList('favorites', favTitles.toList());
+    _loadFavorites();
   }
 
   @override
@@ -123,12 +147,12 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: favorites.length,
+            itemCount: filteredFavorites.length,
             itemBuilder: (context, index) {
               final stationName =
-                  "Estacion: ${favorites[index]['Estacion']}-Municipio: ${favorites[index]['Municipio']}";
+                  "Estacion: ${filteredFavorites[index]['Estacion']}-Municipio: ${filteredFavorites[index]['Municipio']}";
               return buildFavoriteStationCard(
-                  stationName, favorites[index]['id_estacion']);
+                  stationName, filteredFavorites[index]['id_estacion']);
             },
           ),
         ),
@@ -178,20 +202,5 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
         day, month, year, 'grafica_radiacion', 'GRAFICA_RADIACION');
     fetchDataGrafica(day, month, year, 'grafica_viento', 'GRAFICA_VIENTO');
     _selectTab(0);
-  }
-}
-
-class EleccionFavoritaAVerNavigator extends StatelessWidget {
-  const EleccionFavoritaAVerNavigator({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (routeSettings) {
-        return MaterialPageRoute(
-          builder: (context) => const EleccionFavoritaAVer(),
-        );
-      },
-    );
   }
 }

@@ -30,12 +30,12 @@ class _ListPageState extends State<ListPage> {
   void filterSearchResults(String query) {
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> dummyListData = [];
-      originalData.forEach((item) {
+      for (var item in originalData) {
         if (item['Municipio'].toLowerCase().contains(query.toLowerCase()) ||
             item['Estacion'].toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);
         }
-      });
+      }
       setState(() {
         filteredMarcadores.clear();
         filteredMarcadores.addAll(dummyListData);
