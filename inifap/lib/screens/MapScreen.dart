@@ -18,11 +18,11 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   Set<Marker> markers = {};
-  double currentLatitude = 0.0;
-  double currentLongitude = 0.0;
-  double zoomlevel = 10.0;
+   double currentLatitude = 22.76843;
+  double currentLongitude = -102.58141;
+  double zoomlevel = 8.0;
   List<Map<String, dynamic>> favorites = [];
-
+  
   @override
   void initState() {
     super.initState();
@@ -30,20 +30,23 @@ class _MapScreenState extends State<MapScreen> {
     _loadFavorites();
   }
 
-  void _getCurrentLocation() async {
+  Future<void> _getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
     setState(() {
       currentLatitude = position.latitude;
       currentLongitude = position.longitude;
-      zoomlevel = 10.0;
+      zoomlevel = 10.0; 
       _updateMarkers();
+      _updateCameraPosition();
     });
   }
 
   void _updateMarkers() {
     setState(() {
+      print("location $currentLatitude");
+      print("location $currentLongitude");
       markers.clear();
       markers.add(
         Marker(
@@ -106,13 +109,24 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
+  void _updateCameraPosition() {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(currentLatitude, currentLongitude),
+          zoom: zoomlevel,
+        ),
+      ),
+    );
+  }
+
   void _toggleFavorite(String idEstacion) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favIds = prefs.getStringList('favorites') ?? [];
     if (favIds.contains(idEstacion)) {
-      favIds.remove(idEstacion); // Remove from favorites
+      favIds.remove(idEstacion);
     } else {
-      favIds.add(idEstacion); // Add to favorites
+      favIds.add(idEstacion);
     }
     await prefs.setStringList('favorites', favIds);
     _loadFavorites();
@@ -126,7 +140,7 @@ class _MapScreenState extends State<MapScreen> {
         .toList();
     setState(() {
       favorites = updatedFavorites;
-      _updateMarkers(); // Update markers to reflect favorites
+      _updateMarkers();
     });
   }
 
@@ -152,8 +166,8 @@ class _MapScreenState extends State<MapScreen> {
         body: GoogleMap(
           initialCameraPosition: CameraPosition(
             target: LatLng(
-              currentLatitude != 0.0 ? currentLatitude : 22.7561951,
-              currentLongitude != 0.0 ? currentLongitude : -102.4989123,
+              currentLatitude,
+              currentLongitude,
             ),
             zoom: zoomlevel,
           ),

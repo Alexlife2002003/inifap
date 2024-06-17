@@ -18,9 +18,9 @@ class MapScreen2 extends StatefulWidget {
 class _MapScreen2State extends State<MapScreen2> {
   late GoogleMapController mapController;
   Set<Marker> markers = {};
-  double currentLatitude = 0.0;
-  double currentLongitude = 0.0;
-  double zoomlevel = 10.0;
+  double currentLatitude = 22.76843;
+  double currentLongitude = -102.58141;
+  double zoomlevel = 8.0;
   List<Map<String, dynamic>> favorites = [];
 
   @override
@@ -39,7 +39,19 @@ class _MapScreen2State extends State<MapScreen2> {
       currentLongitude = position.longitude;
       zoomlevel = 10.0;
       _updateMarkers();
+      _updateCameraPosition();
     });
+  }
+
+  void _updateCameraPosition() {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(currentLatitude, currentLongitude),
+          zoom: zoomlevel,
+        ),
+      ),
+    );
   }
 
   void _updateMarkers() {
