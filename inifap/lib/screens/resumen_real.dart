@@ -12,7 +12,7 @@ class ResumenReal extends StatefulWidget {
   const ResumenReal({super.key});
 
   @override
-  _ResumenRealState createState() => _ResumenRealState();
+  State createState() => _ResumenRealState();
 }
 
 class _ResumenRealState extends State<ResumenReal> {

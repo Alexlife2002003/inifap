@@ -12,7 +12,7 @@ class ResumenDiaAnterior extends StatefulWidget {
   const ResumenDiaAnterior({super.key});
 
   @override
-  _ResumenDiaAnteriorState createState() => _ResumenDiaAnteriorState();
+  State createState() => _ResumenDiaAnteriorState();
 }
 
 class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {

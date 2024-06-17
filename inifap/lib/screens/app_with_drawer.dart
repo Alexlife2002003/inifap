@@ -14,7 +14,7 @@ class AppWithDrawer extends StatefulWidget {
   const AppWithDrawer({super.key, required this.content});
 
   @override
-  _AppWithDrawerState createState() => _AppWithDrawerState();
+  State createState() => _AppWithDrawerState();
 }
 
 class _AppWithDrawerState extends State<AppWithDrawer> {

@@ -9,7 +9,7 @@ class ListPage extends StatefulWidget {
   const ListPage({super.key});
 
   @override
-  _ListPageState createState() => _ListPageState();
+  State createState() => _ListPageState();
 }
 
 class _ListPageState extends State<ListPage> {

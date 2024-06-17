@@ -26,7 +26,7 @@ class Grafica extends StatefulWidget {
   });
 
   @override
-  _GraficaState createState() => _GraficaState();
+  State createState() => _GraficaState();
 }
 
 class _GraficaState extends State<Grafica> {
@@ -177,7 +177,7 @@ class _GraficaState extends State<Grafica> {
                               fontSize: screenWidth * 0.05, color: Colors.grey),
                         ),
                         Text(
-                          "$fechalarga",
+                          fechalarga,
                           style: TextStyle(
                               fontSize: screenWidth * 0.05, color: Colors.grey),
                         ),

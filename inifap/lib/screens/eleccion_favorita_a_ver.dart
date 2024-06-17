@@ -9,7 +9,7 @@ class EleccionFavoritaAVer extends StatefulWidget {
   const EleccionFavoritaAVer({super.key});
 
   @override
-  _EleccionFavoritaAVerState createState() => _EleccionFavoritaAVerState();
+  State createState() => _EleccionFavoritaAVerState();
 }
 
 class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
