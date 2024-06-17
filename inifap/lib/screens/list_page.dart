@@ -86,7 +86,7 @@ class _ListPageState extends State<ListPage> {
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
     if (favTitles.contains(id)) {
       favTitles.remove(id);
-      if (favTitles.length == 0) {
+      if (favTitles.isEmpty) {
         await prefs.setString('estacionActual', "");
       }
     } else {

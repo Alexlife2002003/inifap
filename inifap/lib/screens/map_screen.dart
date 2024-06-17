@@ -124,7 +124,7 @@ class _MapScreenState extends State<MapScreen> {
     List<String> favIds = prefs.getStringList('favorites') ?? [];
     if (favIds.contains(idEstacion)) {
       favIds.remove(idEstacion);
-      if (favIds.length == 0) {
+      if (favIds.isEmpty) {
         await prefs.setString('estacionActual', "");
       }
     } else {
