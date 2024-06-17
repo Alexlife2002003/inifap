@@ -59,7 +59,6 @@ class _ListPageState extends State<ListPage> {
           .toList();
     });
     if (favorites.length == 1) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('estacionActual', favTitles[0]);
       final DateTime currentDate = DateTime.now();
       String day = currentDate.day.toString();
@@ -74,7 +73,6 @@ class _ListPageState extends State<ListPage> {
           day, month, year, 'grafica_radiacion', 'GRAFICA_RADIACION');
       fetchDataGrafica(day, month, year, 'grafica_viento', 'GRAFICA_VIENTO');
     } else {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       String temporal = prefs.getString('estacionActual') ?? "";
       if (!favTitles.contains(temporal)) {
         await prefs.setString('estacionActual', "");
@@ -87,9 +85,12 @@ class _ListPageState extends State<ListPage> {
     String id = index.toString();
     List<String> favTitles = prefs.getStringList('favorites') ?? [];
     if (favTitles.contains(id)) {
-      favTitles.remove(id); // Remove from favorites
+      favTitles.remove(id);
+      if (favTitles.length == 0) {
+        await prefs.setString('estacionActual', "");
+      }
     } else {
-      favTitles.add(id); // Add to favorites
+      favTitles.add(id);
     }
     await prefs.setStringList('favorites', favTitles);
     _loadFavorites();

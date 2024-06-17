@@ -124,10 +124,12 @@ class _MapScreenState extends State<MapScreen> {
     List<String> favIds = prefs.getStringList('favorites') ?? [];
     if (favIds.contains(idEstacion)) {
       favIds.remove(idEstacion);
+      if (favIds.length == 0) {
+        await prefs.setString('estacionActual', "");
+      }
     } else {
       favIds.add(idEstacion);
       if (favIds.length == 1) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('estacionActual', favIds[0]);
         final DateTime currentDate = DateTime.now();
         String day = currentDate.day.toString();
