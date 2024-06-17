@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
 import 'package:inifap/screens/app_with_drawer.dart';
-import 'package:inifap/screens/Grafica.dart';
-import 'package:inifap/screens/listPage.dart';
+import 'package:inifap/screens/grafica.dart';
+import 'package:inifap/screens/list_page.dart';
 import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class resumenAvanceMensual extends StatefulWidget {
-  const resumenAvanceMensual({super.key});
+class ResumenAvanceMensual extends StatefulWidget {
+  const ResumenAvanceMensual({super.key});
 
   @override
-  _resumenAvanceMensualState createState() => _resumenAvanceMensualState();
+  _ResumenAvanceMensualState createState() => _ResumenAvanceMensualState();
 }
 
-class _resumenAvanceMensualState extends State<resumenAvanceMensual> {
+class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
   List<String> favorites = [];
   List<Map<String, dynamic>> resumenEstaciones = [];
 

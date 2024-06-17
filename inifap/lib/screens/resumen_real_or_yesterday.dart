@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inifap/screens/Grafica.dart';
+import 'package:inifap/screens/grafica.dart';
 import 'package:inifap/screens/resumen_avance_mensual.dart';
 import 'package:inifap/screens/resumen_dia_anterior.dart';
 import 'package:inifap/screens/resumen_real.dart';
@@ -58,7 +58,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const resumenAvanceMensual()),
+                                  const ResumenAvanceMensual()),
                         );
                       }),
                     ],

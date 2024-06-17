@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:inifap/backend/fetch_data.dart';
 import 'package:inifap/screens/app_with_drawer.dart';
-import 'package:inifap/screens/listPage.dart';
+import 'package:inifap/screens/list_page.dart';
 import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:inifap/datos/datos.dart';
 import 'package:inifap/screens/app_details_page.dart';
 import 'package:inifap/screens/eleccion_favorita_a_ver.dart';
-import 'package:inifap/screens/MapScreen2.dart';
+import 'package:inifap/screens/map_screen_2.dart';
 
 import 'package:inifap/screens/resumen_real_or_yesterday.dart';
-import 'package:inifap/screens/listPage.dart';
+import 'package:inifap/screens/list_page.dart';
 import 'package:inifap/widgets/colors.dart';
 
 class AppWithDrawer extends StatefulWidget {

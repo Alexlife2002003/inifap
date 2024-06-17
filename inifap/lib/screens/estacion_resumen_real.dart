@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/backend/fetch_data.dart';
 import 'package:inifap/screens/app_with_drawer.dart';
-import 'package:inifap/screens/listPage.dart';
+import 'package:inifap/screens/list_page.dart';
 import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/weather_card_viento.dart';
@@ -132,11 +132,11 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
           await getDataForEstacionAndMunicipio(favorites);
       infoList.add(info);
     }
-    instalacion=infoList[0]['fecha'];
-    var instalacions=instalacion.split("-");
+    instalacion = infoList[0]['fecha'];
+    var instalacions = instalacion.split("-");
     instalacion =
-            "${instalacions[0]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[2]}";
-   
+        "${instalacions[0]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[2]}";
+
     setState(() {
       detailedInfo = infoList;
       loadGrafica();
