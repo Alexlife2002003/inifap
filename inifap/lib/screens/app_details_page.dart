@@ -28,11 +28,11 @@ class AppDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             const Text(
-              'M.G. Jose Israel Casas Flores\ncasas.israel@inifap.gob.mx\nExt: 82330\n',
+              'M.G. José Israel Casas Flores\ncasas.israel@inifap.gob.mx\nExt: 82330\n',
               style: TextStyle(fontSize: 16.0),
             ),
             const Text(
-              'Dr. Guillermo Medina Garcia\nmedina.guillermo@inifap.gob.mx\nExt: 82306',
+              'Dr. Guillermo Medina García\nmedina.guillermo@inifap.gob.mx\nExt: 82306',
               style: TextStyle(fontSize: 16.0),
             ),
 
@@ -46,7 +46,7 @@ class AppDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             const Text(
-              'Alexia Hernandez Martinez\nhernandezmtzalexia@gmail.com',
+              'Alexia Hernández Martínez\nhernandezmtzalexia@gmail.com',
               style: TextStyle(fontSize: 16.0),
             ),
             const SizedBox(height: 8.0),

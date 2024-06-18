@@ -91,7 +91,7 @@ class _MapScreen2State extends State<MapScreen2> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              "Estacion ${location['Estacion']}- Municipio ${location['Municipio']}"),
+                              "Estación ${location['Estacion']}- Municipio ${location['Municipio']}"),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

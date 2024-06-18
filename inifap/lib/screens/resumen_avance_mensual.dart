@@ -106,7 +106,7 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                               backgroundColor: lightGreen,
                               foregroundColor: darkGreen,
                             ),
-                            child: const Text("Seleccionar Favoritos"),
+                            child: const Text("Seleccionar favoritos"),
                           )
                         ],
                       ),
@@ -279,12 +279,12 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         informacion_singular(
-                                          "Radiacion:",
+                                          "Radiación:",
                                           "${data['Rad']} W/m",
                                           Icons.cloudy_snowing,
                                         ),
                                         informacion_singular(
-                                          "Evapotranspiracion:",
+                                          "Evapotranspiración:",
                                           "${data['Eto']} mm",
                                           Icons.cloudy_snowing,
                                         ),

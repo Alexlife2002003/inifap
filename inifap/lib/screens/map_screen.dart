@@ -82,7 +82,7 @@ class _MapScreenState extends State<MapScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              "Estacion ${location['Estacion']}- Municipio ${location['Municipio']}"),
+                              "Estación ${location['Estacion']}- Municipio ${location['Municipio']}"),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -97,7 +97,7 @@ class _MapScreenState extends State<MapScreen> {
                                   _toggleFavorite(
                                       location['id_estacion'].toString());
                                   Navigator.pop(
-                                      context); // Close the bottom sheet
+                                      context); 
                                 },
                               ),
                               IconButton(
@@ -201,7 +201,7 @@ class _MapScreenState extends State<MapScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Mapa de Estaciones"),
+          title: const Text("Mapa de estaciones"),
           backgroundColor: lightGreen,
         ),
         body: GoogleMap(

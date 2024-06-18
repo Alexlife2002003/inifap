@@ -146,7 +146,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                 backgroundColor: lightGreen,
                                 foregroundColor: darkGreen,
                               ),
-                              child: const Text("Seleccionar Favoritos"),
+                              child: const Text("Seleccionar favoritos"),
                             )
                           ],
                         ),
@@ -161,7 +161,7 @@ class _ResumenRealState extends State<ResumenReal> {
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Card(
                               color: lightGreen,
-                              elevation: 0, // No shadow
+                              elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 side: const BorderSide(
@@ -188,7 +188,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                       ),
                                       const SizedBox(height: 10),
                                       informacion_singular(
-                                        "Precipitacion:",
+                                        "Precipitación:",
                                         "${data['Pre']} mm",
                                         Icons.cloudy_snowing,
                                       ),
@@ -235,7 +235,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                                 size: 40,
                                               ),
                                               const Text(
-                                                'Direccion',
+                                                'Dirección',
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                               Text(

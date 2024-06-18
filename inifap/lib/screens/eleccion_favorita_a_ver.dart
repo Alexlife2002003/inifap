@@ -104,9 +104,9 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
 
   Widget _buildScreenContent() {
     if (_currentIndex == 0) {
-      return const EstacionResumenReal(); // Content for 'Detalles' tab
+      return const EstacionResumenReal(); 
     } else {
-      return _buildFavoritesScreen(); // Content for 'Favoritos' tab
+      return _buildFavoritesScreen(); 
     }
   }
 
@@ -149,7 +149,7 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
             itemCount: filteredFavorites.length,
             itemBuilder: (context, index) {
               final stationName =
-                  "Estacion: ${filteredFavorites[index]['Estacion']}-Municipio: ${filteredFavorites[index]['Municipio']}";
+                  "Estación: ${filteredFavorites[index]['Estacion']}-Municipio: ${filteredFavorites[index]['Municipio']}";
               return buildFavoriteStationCard(
                   stationName, filteredFavorites[index]['id_estacion']);
             },
@@ -187,8 +187,6 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
   }
 
   void _navigateToDetails() {
-    // Navigate to 'Detalles' tab (index 0)
-   
     _selectTab(0);
   }
 }

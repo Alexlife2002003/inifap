@@ -223,8 +223,8 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                       children: [
                         const SizedBox(height: 40),
                         Image.asset(
-                          'lib/assets/logo.png', // Replace with your image path
-                          height: 40, // Adjust the height as needed
+                          'lib/assets/logo.png', 
+                          height: 40, 
                         ),
                         const SizedBox(height: 15),
                         Text(
@@ -247,7 +247,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                               const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                         const Text(
-                          "Ultima actualizacion: ",
+                          "Última actualización: ",
                           style: TextStyle(fontSize: 24, color: Colors.grey),
                         ),
                         Text(

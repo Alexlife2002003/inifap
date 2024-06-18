@@ -110,7 +110,7 @@ estacion_municipio(String estacion, String municipio) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const Text(
-            'Estacion:',
+            'Estación:',
             style: TextStyle(fontSize: 20),
           ),
           Text(

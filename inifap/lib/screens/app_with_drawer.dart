@@ -164,7 +164,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
                       width: 8), // Add some space between the icon and text
                   Flexible(
                     child: Text(
-                      'Lista Estaciones',
+                      'Lista estaciones',
                       style: TextStyle(color: darkGreen, fontSize: fontSize),
                     ),
                   ),
@@ -187,7 +187,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
                       width: 8), // Add some space between the icon and text
                   Flexible(
                     child: Text(
-                      'Tiempo Real',
+                      'Tiempo real',
                       style: TextStyle(color: darkGreen, fontSize: fontSize),
                     ),
                   ),

@@ -111,7 +111,7 @@ class _ListPageState extends State<ListPage> {
       return ListTile(
         tileColor: lightGreen,
         title:
-            Text("Estacion: ${fav['Estacion']}-Municipio: ${fav['Municipio']}"),
+            Text("Estación: ${fav['Estacion']}-Municipio: ${fav['Municipio']}"),
         trailing: IconButton(
           icon: const Icon(Icons.favorite),
           color: Colors.red,
@@ -127,7 +127,7 @@ class _ListPageState extends State<ListPage> {
       return ListTile(
         tileColor: lightGreen,
         title: Text(
-            "Estacion: ${item['Estacion']}-Municipio: ${item['Municipio']}"),
+            "Estación: ${item['Estacion']}-Municipio: ${item['Municipio']}"),
         trailing: IconButton(
           icon: const Icon(Icons.favorite_border),
           onPressed: () {

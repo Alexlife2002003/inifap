@@ -41,7 +41,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         );
                       }),
                       _buildForecastCard(Icons.calendar_today,
-                          "Resumen dia anterior", Colors.orangeAccent, () {
+                          "Resumen día anterior", Colors.orangeAccent, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -67,7 +67,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                     height: 10,
                   ),
                   const Text(
-                    'Graficas',
+                    'Gráficas',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
@@ -82,7 +82,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Grafica(
-                                    title: 'Grafica Temperatura',
+                                    title: 'Gráfica Temperatura',
                                     storageKey: 'grafica_temperatura',
                                     yAxisTitle: 'Temperatura',
                                     valueKey: 'Temp',
@@ -91,14 +91,14 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         );
                       }),
                       _buildForecastCard(Icons.auto_graph_rounded,
-                          "Precipitacion", Colors.lightGreen, () {
+                          "Precipitación", Colors.lightGreen, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Grafica(
-                                    title: 'Grafica Precipitacion',
+                                    title: 'Gráfica Precipitación',
                                     storageKey: 'grafica_precipitacion',
-                                    yAxisTitle: 'Precipitacion',
+                                    yAxisTitle: 'Precipitación',
                                     valueKey: 'Pre',
                                     dotenvname: 'GRAFICA_PRECIPITACION',
                                   )),
@@ -115,22 +115,22 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Grafica(
-                                      title: 'Grafica Humedad',
+                                      title: 'Gráfica Humedad',
                                       storageKey: 'grafica_humedad',
                                       yAxisTitle: 'Humedad',
                                       valueKey: 'Humedad',
                                       dotenvname: 'GRAFICA_HUMEDAD',
                                     )));
                       }),
-                      _buildForecastCard(Icons.auto_graph_rounded, "Radiacion",
+                      _buildForecastCard(Icons.auto_graph_rounded, "Radiación",
                           Colors.orangeAccent, () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Grafica(
-                                      title: 'Grafica Radiacion',
+                                      title: 'Gráfica Radiación',
                                       storageKey: 'grafica_radiacion',
-                                      yAxisTitle: 'Radiacion',
+                                      yAxisTitle: 'Radiación',
                                       valueKey: 'Rad',
                                       dotenvname: 'GRAFICA_RADIACION',
                                     )));
@@ -146,7 +146,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Grafica(
-                                      title: 'Grafica Viento',
+                                      title: 'Gráfica Viento',
                                       storageKey: 'grafica_viento',
                                       yAxisTitle: 'Viento',
                                       valueKey: 'VelViento',
@@ -170,7 +170,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
       onTap: (onPressed),
       child: SizedBox(
         width: MediaQuery.of(context).size.width *
-            0.5, // Set width to half of the screen size
+            0.5,
         child: Card(
           color: color,
           elevation: 4,

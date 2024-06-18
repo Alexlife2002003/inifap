@@ -77,7 +77,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Resumen dia anterior',
+          'Resumen día anterior',
           style: TextStyle(
             fontSize: fontSizeTitle,
             fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                               backgroundColor: lightGreen,
                               foregroundColor: darkGreen,
                             ),
-                            child: const Text("Seleccionar Favoritos"),
+                            child: const Text("Seleccionar favoritos"),
                           )
                         ],
                       ),
@@ -166,7 +166,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                     ),
                                     const SizedBox(height: 10),
                                     informacion_singular(
-                                      "Precipitacion:",
+                                      "Precipitación:",
                                       "${data['Pre']} mm",
                                       Icons.cloudy_snowing,
                                     ),
@@ -212,7 +212,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                               size: 40,
                                             ),
                                             const Text(
-                                              'Direccion',
+                                              'Dirección',
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             Text(

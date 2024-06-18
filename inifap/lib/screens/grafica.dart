@@ -148,7 +148,7 @@ class _GraficaState extends State<Grafica> {
                             backgroundColor: lightGreen,
                             foregroundColor: darkGreen,
                           ),
-                          child: const Text("Seleccionar Favoritos"),
+                          child: const Text("Seleccionar favoritos"),
                         )
                       ],
                     )
@@ -280,7 +280,7 @@ class _GraficaState extends State<Grafica> {
                         Padding(
                           padding: EdgeInsets.all(screenWidth * 0.02),
                           child: Text(
-                            'Desliza horizontalmente para ver la grafica entera',
+                            'Desliza horizontalmente para ver la gráfica entera',
                             style: TextStyle(
                                 fontSize: screenWidth * 0.04,
                                 color: Colors.black54),
