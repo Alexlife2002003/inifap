@@ -110,7 +110,7 @@ class _MapScreen2State extends State<MapScreen2> {
                                 },
                               ),
                               IconButton(
-                                icon: Icon(Icons.visibility),
+                                icon: const Icon(Icons.visibility),
                                 onPressed: () async {
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
@@ -119,7 +119,7 @@ class _MapScreen2State extends State<MapScreen2> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => AppWithDrawer(
+                                      builder: (context) => const AppWithDrawer(
                                           content: EstacionResumenReal()),
                                     ),
                                   );
