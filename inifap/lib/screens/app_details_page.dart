@@ -20,7 +20,7 @@ class AppDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Partner Institution (INIFAP):',
+              'INIFAP C.E. Zacatecas\n55-38-71-87-00 Ext:82328',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
@@ -28,7 +28,11 @@ class AppDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             const Text(
-              'INIFAP Information Goes Here\nMission\nServices Provided\nContact Details',
+              'M.G. Jose Israel Casas Flores\ncasas.israel@inifap.gob.mx\nExt: 82330\n',
+              style: TextStyle(fontSize: 16.0),
+            ),
+            const Text(
+              'Dr. Guillermo Medina Garcia\nmedina.guillermo@inifap.gob.mx\nExt: 82306',
               style: TextStyle(fontSize: 16.0),
             ),
 
@@ -59,9 +63,17 @@ class AppDetailsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Image.asset('lib/assets/Logos_Labsol.png',height: 200,width: 300,),
+            Image.asset(
+              'lib/assets/Logos_Labsol.png',
+              height: 200,
+              width: 300,
+            ),
             const SizedBox(height: 8.0),
-            Image.asset('lib/assets/GPLv3_Logo.svg.png',height:200,width: 300,), // GPL Logo
+            Image.asset(
+              'lib/assets/GPLv3_Logo.svg.png',
+              height: 200,
+              width: 300,
+            ), // GPL Logo
           ],
         ),
       ),
