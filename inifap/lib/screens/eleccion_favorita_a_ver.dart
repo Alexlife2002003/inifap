@@ -189,18 +189,7 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
 
   void _navigateToDetails() {
     // Navigate to 'Detalles' tab (index 0)
-    final DateTime currentDate = DateTime.now();
-    String day = currentDate.day.toString();
-    String month = currentDate.month.toString();
-    String year = currentDate.year.toString();
-    fetchDataGrafica(
-        day, month, year, 'grafica_temperatura', 'GRAFICA_TEMPERATURA');
-    fetchDataGrafica(
-        day, month, year, 'grafica_precipitacion', 'GRAFICA_PRECIPITACION');
-    fetchDataGrafica(day, month, year, 'grafica_humedad', 'GRAFICA_HUMEDAD');
-    fetchDataGrafica(
-        day, month, year, 'grafica_radiacion', 'GRAFICA_RADIACION');
-    fetchDataGrafica(day, month, year, 'grafica_viento', 'GRAFICA_VIENTO');
+   
     _selectTab(0);
   }
 }
