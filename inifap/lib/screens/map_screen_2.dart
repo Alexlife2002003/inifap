@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:inifap/backend/fetch_data.dart';
+import 'package:inifap/screens/app_with_drawer.dart';
+import 'package:inifap/screens/estacion_resumen_real.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreen2 extends StatefulWidget {
@@ -90,18 +92,40 @@ class _MapScreen2State extends State<MapScreen2> {
                         children: [
                           Text(
                               "Estacion ${location['Estacion']}- Municipio ${location['Municipio']}"),
-                          IconButton(
-                            icon: Icon(
-                              isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: isFavorite ? Colors.red : Colors.grey,
-                            ),
-                            onPressed: () {
-                              _toggleFavorite(
-                                  location['id_estacion'].toString());
-                              Navigator.pop(context); // Close the bottom sheet
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isFavorite ? Colors.red : Colors.grey,
+                                ),
+                                onPressed: () {
+                                  _toggleFavorite(
+                                      location['id_estacion'].toString());
+                                  Navigator.pop(
+                                      context); // Close the bottom sheet
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.visibility),
+                                onPressed: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setString('estacionActual',
+                                      location['id_estacion'].toString());
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AppWithDrawer(
+                                          content: EstacionResumenReal()),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
