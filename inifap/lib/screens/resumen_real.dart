@@ -173,14 +173,13 @@ class _ResumenRealState extends State<ResumenReal> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    estacion_municipio(
-                                        data['Est'], data['Est']),
+                                    estacionMunicipio(data['Est'], data['Est']),
                                     if (data.isNotEmpty) ...[
                                       const SizedBox(height: 10),
                                       hora_fecha('${data['Hora']} hrs',
                                           '${data['Fecha']}'),
                                       const SizedBox(height: 10),
-                                      Temperatura(
+                                      temperatura(
                                         "Temperatura:",
                                         '${data["TempMax"]}°C',
                                         '${data["TempMed"]}°C',
@@ -188,7 +187,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                         Icons.thermostat,
                                       ),
                                       const SizedBox(height: 10),
-                                      informacion_singular(
+                                      informacionSingular(
                                         "Precipitación:",
                                         "${data['Pre']} mm",
                                         CupertinoIcons.cloud_rain_fill,

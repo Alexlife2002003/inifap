@@ -60,7 +60,7 @@ Future<String> fetchDataResumenDiaAnterior() async {
     if (response.statusCode == 200) {
       await secureStorage.write(key: 'dia_anterior', value: response.body);
 
-      return 'Se han actualizado los datos'; // Replace this with your actual data fetching logic
+      return 'Se han actualizado los datos';
     } else {
       throw Exception('Failed to fetch data: ${response.statusCode}');
     }

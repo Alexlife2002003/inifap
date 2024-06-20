@@ -133,7 +133,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  estacion_municipio(data['Est'], data['Est']),
+                                  estacionMunicipio(data['Est'], data['Est']),
                                   if (data.isNotEmpty) ...[
                                     const SizedBox(height: 10),
                                     Row(
@@ -158,7 +158,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                       ],
                                     ),
                                     const SizedBox(height: 10),
-                                    Temperatura(
+                                    temperatura(
                                       "Temperatura",
                                       '${data["TempMax"]}°C',
                                       '${data["TempMed"]}°C',
@@ -166,7 +166,7 @@ class _ResumenDiaAnteriorState extends State<ResumenDiaAnterior> {
                                       Icons.thermostat,
                                     ),
                                     const SizedBox(height: 10),
-                                    informacion_singular(
+                                    informacionSingular(
                                       "Precipitación:",
                                       "${data['Pre']} mm",
                                       CupertinoIcons.cloud_rain_fill,

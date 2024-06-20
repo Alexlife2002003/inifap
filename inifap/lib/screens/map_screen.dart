@@ -96,8 +96,7 @@ class _MapScreenState extends State<MapScreen> {
                                 onPressed: () {
                                   _toggleFavorite(
                                       location['id_estacion'].toString());
-                                  Navigator.pop(
-                                      context); 
+                                  Navigator.pop(context);
                                 },
                               ),
                               IconButton(

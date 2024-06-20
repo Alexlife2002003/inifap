@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-informacion_singular(String titulo, String valor, IconData icon) {
+informacionSingular(String titulo, String valor, IconData icon) {
   return Column(
     children: [
       Center(
@@ -33,7 +33,7 @@ informacion_singular(String titulo, String valor, IconData icon) {
   );
 }
 
-Temperatura(String title, String max, String med, String min, IconData icon) {
+temperatura(String title, String max, String med, String min, IconData icon) {
   return Column(
     children: [
       Center(
@@ -101,7 +101,7 @@ Temperatura(String title, String max, String med, String min, IconData icon) {
   );
 }
 
-estacion_municipio(String estacion, String municipio) {
+estacionMunicipio(String estacion, String municipio) {
   //modificar
   List<String> data = estacion.split(" - ");
   return Column(

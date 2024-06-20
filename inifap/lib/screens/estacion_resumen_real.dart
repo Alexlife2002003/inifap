@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/weather_card_viento.dart';
 import 'package:inifap/widgets/weather_card.dart';
 import 'package:flutter/cupertino.dart';
+
 class EstacionResumenReal extends StatefulWidget {
   const EstacionResumenReal({super.key});
 
@@ -223,8 +224,8 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                       children: [
                         const SizedBox(height: 40),
                         Image.asset(
-                          'lib/assets/logo.png', 
-                          height: 40, 
+                          'lib/assets/logo.png',
+                          height: 40,
                         ),
                         const SizedBox(height: 15),
                         Text(

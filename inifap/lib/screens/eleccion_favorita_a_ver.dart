@@ -60,23 +60,11 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
     Set<String> favTitles = prefs.getStringList('favorites')?.toSet() ?? {};
     setState(() {
       favorites = originalData
-          .where((element) => favTitles.contains(element['id_estacion'].toString()))
+          .where((element) =>
+              favTitles.contains(element['id_estacion'].toString()))
           .toList();
       filteredFavorites = List.from(favorites);
     });
-  }
-
-  void _addToFavorites(int id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String idStr = id.toString();
-    Set<String> favTitles = prefs.getStringList('favorites')?.toSet() ?? {};
-    if (favTitles.contains(idStr)) {
-      favTitles.remove(idStr);
-    } else {
-      favTitles.add(idStr);
-    }
-    await prefs.setStringList('favorites', favTitles.toList());
-    _loadFavorites();
   }
 
   @override
@@ -104,9 +92,9 @@ class _EleccionFavoritaAVerState extends State<EleccionFavoritaAVer> {
 
   Widget _buildScreenContent() {
     if (_currentIndex == 0) {
-      return const EstacionResumenReal(); 
+      return const EstacionResumenReal();
     } else {
-      return _buildFavoritesScreen(); 
+      return _buildFavoritesScreen();
     }
   }
 

@@ -133,7 +133,7 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  estacion_municipio(data['Est'], data['Est']),
+                                  estacionMunicipio(data['Est'], data['Est']),
                                   if (data.isNotEmpty) ...[
                                     Center(
                                       child: Column(
@@ -154,7 +154,7 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                                       ),
                                     ),
                                     const SizedBox(height: 10),
-                                    Temperatura(
+                                    temperatura(
                                       "Temperatura",
                                       '${data["TempMax"]}°C',
                                       '${data["TempMed"]}°C',
@@ -162,7 +162,7 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                                       Icons.thermostat,
                                     ),
                                     const SizedBox(height: 10),
-                                    informacion_singular(
+                                    informacionSingular(
                                       "Precipitacion:",
                                       "${data['Pre']} mm",
                                       CupertinoIcons.cloud_rain_fill,
@@ -279,12 +279,12 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        informacion_singular(
+                                        informacionSingular(
                                           "Radiación:",
                                           "${data['Rad']} W/m",
                                           CupertinoIcons.sun_max,
                                         ),
-                                        informacion_singular(
+                                        informacionSingular(
                                           "Evapotranspiración:",
                                           "${data['Eto']} mm",
                                           Icons.cloudy_snowing,

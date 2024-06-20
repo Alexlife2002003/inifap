@@ -169,8 +169,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
     return GestureDetector(
       onTap: (onPressed),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width *
-            0.5,
+        width: MediaQuery.of(context).size.width * 0.5,
         child: Card(
           color: color,
           elevation: 4,

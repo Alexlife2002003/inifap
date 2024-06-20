@@ -2,15 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inifap/backend/fetch_data.dart';
-import 'package:inifap/screens/app_details_page.dart';
 import 'package:inifap/screens/app_with_drawer.dart';
 import 'package:inifap/screens/eleccion_favorita_a_ver.dart';
-import 'package:inifap/screens/resumen_real_or_yesterday.dart';
-import 'package:inifap/screens/list_page.dart';
-import 'package:inifap/widgets/colors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -19,8 +14,6 @@ void main() async {
 
     Timer(const Duration(seconds: 3), () async {
       await Future.wait([
-        fetchDataResumenReal(),
-        fetchDataResumenDiaAnterior(),
         fetchDataResumenReal(),
         fetchDataResumenDiaAnterior(),
       ]);
@@ -68,8 +61,7 @@ void main() async {
   void requestNotificationPermission() async {
     // Request notification permission
     final PermissionStatus status = await Permission.notification.request();
-    if (status != PermissionStatus.granted) {
-    }
+    if (status != PermissionStatus.granted) {}
 
     // Ensure permissions are granted before accessing location
     LocationPermission permission = await Geolocator.checkPermission();
