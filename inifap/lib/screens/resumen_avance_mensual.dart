@@ -282,7 +282,7 @@ class _ResumenAvanceMensualState extends State<ResumenAvanceMensual> {
                                         informacion_singular(
                                           "Radiación:",
                                           "${data['Rad']} W/m",
-                                          Icons.cloudy_snowing,
+                                          CupertinoIcons.sun_max,
                                         ),
                                         informacion_singular(
                                           "Evapotranspiración:",
