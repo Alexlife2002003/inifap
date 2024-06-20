@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/View/widgets.dart';
@@ -190,7 +191,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                       informacion_singular(
                                         "Precipitación:",
                                         "${data['Pre']} mm",
-                                        Icons.cloudy_snowing,
+                                        CupertinoIcons.cloud_rain_fill,
                                       ),
                                       const SizedBox(height: 10),
                                       const Center(

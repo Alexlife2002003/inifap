@@ -8,7 +8,7 @@ import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/weather_card_viento.dart';
 import 'package:inifap/widgets/weather_card.dart';
-
+import 'package:flutter/cupertino.dart';
 class EstacionResumenReal extends StatefulWidget {
   const EstacionResumenReal({super.key});
 
@@ -276,7 +276,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                           avg: 'Med ${info['HumedadMed']}%',
                         ),
                         WeatherCard(
-                          icon: Icons.cloudy_snowing,
+                          icon: CupertinoIcons.cloud_rain_fill,
                           label: 'Precipitación',
                           value: "${lastPrecipitation.toString()} mm",
                           total: 'Total acumulada\n${info['Pre']} mm',
