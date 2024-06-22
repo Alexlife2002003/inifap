@@ -186,8 +186,9 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (result) async {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => const AppWithDrawer(
@@ -196,7 +197,6 @@ class _MapScreenState extends State<MapScreen> {
           ),
           (route) => false,
         );
-        return true;
       },
       child: Scaffold(
         appBar: AppBar(

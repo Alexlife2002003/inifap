@@ -61,7 +61,7 @@ class _ResumenRealState extends State<ResumenReal> {
     );
   }
 
-  hora_fecha(String hora, String fecha) {
+  horaFecha(String hora, String fecha) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -110,10 +110,10 @@ class _ResumenRealState extends State<ResumenReal> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double fontSizeTitle = screenWidth * 0.05;
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (result) async {
         Navigator.pop(context);
-        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -176,7 +176,7 @@ class _ResumenRealState extends State<ResumenReal> {
                                     estacionMunicipio(data['Est'], data['Est']),
                                     if (data.isNotEmpty) ...[
                                       const SizedBox(height: 10),
-                                      hora_fecha('${data['Hora']} hrs',
+                                      horaFecha('${data['Hora']} hrs',
                                           '${data['Fecha']}'),
                                       const SizedBox(height: 10),
                                       temperatura(
