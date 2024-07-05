@@ -4,7 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/backend/fetch_data.dart';
 import 'package:inifap/screens/app_with_drawer.dart';
 import 'package:inifap/screens/list_page.dart';
-import 'package:inifap/screens/slider.dart';
 import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/weather_card_viento.dart';
