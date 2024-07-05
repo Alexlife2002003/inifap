@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:inifap/screens/slider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class AppDetailsPage extends StatelessWidget {
   const AppDetailsPage({super.key});
@@ -13,13 +15,14 @@ class AppDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double _value = 40.0;
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+             const Text(
               'INIFAP C.E. Zacatecas\n55-38-71-87-00 Ext:82328',
               style: TextStyle(
                 fontSize: 18.0,

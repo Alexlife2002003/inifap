@@ -23,7 +23,7 @@ void main() async {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(minutes: 1), (Timer timer) async {
+    Timer.periodic(const Duration(minutes: 30), (Timer timer) async {
       //30 minutes
       final fetchedData = await fetchDataResumenReal();
       // Show notification with fetched data
@@ -34,7 +34,7 @@ void main() async {
       }
     });
 
-    Timer.periodic(const Duration(minutes: 6), (Timer timer) async {
+    Timer.periodic(const Duration(hours: 6), (Timer timer) async {
       //6 hours
       //6 hours
       // Fetch data
@@ -46,7 +46,7 @@ void main() async {
         await showNotificationError();
       }
     });
-    Timer.periodic(const Duration(minutes: 12), (Timer timer) async {
+    Timer.periodic(const Duration(hours: 12), (Timer timer) async {
       //12 hours
       //12 hours
       final fetchedData = await fetchDataAvanceMensual();

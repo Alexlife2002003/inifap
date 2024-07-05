@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inifap/backend/fetch_data.dart';
 import 'package:inifap/screens/app_with_drawer.dart';
 import 'package:inifap/screens/list_page.dart';
+import 'package:inifap/screens/slider.dart';
 import 'package:inifap/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inifap/widgets/weather_card_viento.dart';
@@ -222,6 +223,8 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
                     List<String> splitResult = info['Est'].split(" - ");
                     return Column(
                       children: [
+                        
+                       
                         const SizedBox(height: 40),
                         Image.asset(
                           'lib/assets/logo.png',
