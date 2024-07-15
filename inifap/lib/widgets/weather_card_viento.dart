@@ -43,39 +43,36 @@ class WeatherCardViento extends StatelessWidget {
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Center the row contents
                   children: [
-                    Icon(
+                    Row(
+                      children: [
+                      Icon(
                       icon,
                       color: Colors.blue,
                       size: 32.0,
                     ),
-                    const SizedBox(width: 5.0),
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              label,
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              value,
-                              style: const TextStyle(fontSize: 16.0),
-                            ),
-                          ],
+                    SizedBox(width: 20,),
+                    Text(
+                          label,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ],
-                    ),
+                    ],),
+                    
+                    Text(
+                          value,
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
                   ],
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, // Align the text to the start
                   children: [
                     const Text(
                       'Resumen registrado:',

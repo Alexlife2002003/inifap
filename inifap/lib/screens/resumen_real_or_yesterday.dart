@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inifap/screens/grafica.dart';
+import 'package:inifap/screens/grafica_precipitacion.dart';
 import 'package:inifap/screens/resumen_avance_mensual.dart';
 import 'package:inifap/screens/resumen_dia_anterior.dart';
 import 'package:inifap/screens/resumen_real.dart';
+import 'package:inifap/widgets/weather_card_viento.dart';
 
 class ResumenRealOrYesterday extends StatefulWidget {
   const ResumenRealOrYesterday({super.key});
@@ -95,7 +97,7 @@ class _ResumenRealOrYesterdayState extends State<ResumenRealOrYesterday> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Grafica(
+                              builder: (context) => const GraficaPrecipitacion(
                                     title: 'Gráfica Precipitación',
                                     storageKey: 'grafica_precipitacion',
                                     yAxisTitle: 'Precipitación',

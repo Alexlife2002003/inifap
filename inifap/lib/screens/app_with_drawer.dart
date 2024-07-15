@@ -63,7 +63,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
     double screenHeight = MediaQuery.of(context).size.height;
     double headerImageSize = screenWidth * 0.25;
     double faviconSize = screenWidth * 0.06;
-    double fontSize = screenWidth * 0.06;
+    double fontSize = screenWidth * 0.05;
     double fontSizeTitle = screenWidth * 0.05;
 
     return Scaffold(
@@ -83,7 +83,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: screenHeight * 0.25,
+              height: 100,
               child: DrawerHeader(
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -96,9 +96,7 @@ class _AppWithDrawerState extends State<AppWithDrawer> {
                     children: [
                       Image.asset(
                         'lib/assets/logo.png',
-                        width: headerImageSize,
-                        height: headerImageSize,
-                        fit: BoxFit.scaleDown,
+                        fit: BoxFit.contain,
                       ),
                     ],
                   ),
