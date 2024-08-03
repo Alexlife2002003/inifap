@@ -48,6 +48,7 @@ dependencies:
   syncfusion_flutter_charts: ^25.2.4
   interactive_chart: ^0.3.5
   syncfusion_flutter_sliders: ^25.2.7
+  workmanager: ^0.5.2
 
 dev_dependencies:
   flutter_test:

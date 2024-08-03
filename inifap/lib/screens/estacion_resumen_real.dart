@@ -54,7 +54,7 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
   }
 
   void loadDataTransformation() {
-    List<dynamic> datosTemperatura = resumenGraficaTemperatura[0]['Datos'];
+  List<dynamic> datosTemperatura = resumenGraficaTemperatura[0]['Datos'];
     List<dynamic> datosPrecipitacion = resumenGraficaPrecipitacion[0]['Datos'];
     List<dynamic> datosHumedad = resumenGraficaHumedad[0]['Datos'];
     List<dynamic> datosRadiacion = resumenGraficaRadiacion[0]['Datos'];
@@ -95,16 +95,17 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
         await secureStorage.read(key: 'grafica_viento');
 
     setState(() {
-      if (storedDataJsonTemperatura != null) {
+      print(storedDataJsonTemperatura);
+      if (storedDataJsonTemperatura != "null") {
         resumenGraficaTemperatura = List<Map<String, dynamic>>.from(
-            json.decode(storedDataJsonTemperatura));
+            json.decode(storedDataJsonTemperatura!));
       } else {
         resumenGraficaTemperatura = [];
       }
 
-      if (storedDataJsonPrecipitacion != null) {
+      if (storedDataJsonPrecipitacion != "null") {
         resumenGraficaPrecipitacion = List<Map<String, dynamic>>.from(
-            json.decode(storedDataJsonPrecipitacion));
+            json.decode(storedDataJsonPrecipitacion!));
       } else {
         resumenGraficaPrecipitacion = [];
       }
@@ -128,7 +129,10 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
       }
 
       // Call loadDataTransformation() once after both conditions are evaluated
-      loadDataTransformation();
+      if(resumenGraficaHumedad.isNotEmpty){
+        loadDataTransformation();
+      }
+      
     });
   }
 
@@ -145,10 +149,14 @@ class _EstacionResumenRealState extends State<EstacionResumenReal> {
           await getDataForEstacionAndMunicipio(favorites);
       infoList.add(info);
     }
-    instalacion = infoList[0]['fecha'];
+    print(infoList);
+    if(infoList.isNotEmpty){
+      instalacion = infoList[0]['fecha'];
     var instalacions = instalacion.split("-");
     instalacion =
         "${instalacions[0]} de ${getMonthName(int.parse(instalacions[1]))} del ${instalacions[2]}";
+    }
+    
 
     setState(() {
       detailedInfo = infoList;

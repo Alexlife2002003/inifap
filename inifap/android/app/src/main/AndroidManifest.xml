@@ -2,13 +2,23 @@
 <uses-permission android:name="android.permission.INTERNET"/> 
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
     
         android:label="inifap"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <receiver
+    android:name="com.transistorsoft.flutter.backgroundfetch.HeadlessBroadcastReceiver"
+    android:permission="android.permission.BIND_JOB_SERVICE"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="com.transistorsoft.flutter.backgroundfetch.FETCH_JOB_SERVICE" />
+    </intent-filter>
+</receiver>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDN11O4fVIFFK4DZUdMFKdlv40gIZFn9x4" />
