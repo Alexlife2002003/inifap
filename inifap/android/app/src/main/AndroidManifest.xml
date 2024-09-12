@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDN11O4fVIFFK4DZUdMFKdlv40gIZFn9x4" />
+            android:value="Coloca API KEY" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

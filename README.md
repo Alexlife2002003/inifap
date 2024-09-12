@@ -1,6 +1,15 @@
 # Inifap
 Es una aplicaciòn desarrollada en flutter, la cual se apoya con apis, para realizar un apoyo en la obtención de datos recientes de las estaciones meteorológicas, orientado a personas con dedicación a la agricultura.
 
+# Recursos necesarios para su funcionamiento
+Como parte de su funcionamiento se tienen mapas por parte de google, para el correcto funcionamiento de dichos mapas, se debe proporcionar un api key al codigo, el api key se colocara en android/app/src/main/AndroidManifest.xml en la linea numero 24  en el android value , a continuacion dejo como se ve la linea
+
+```
+android:name="com.google.android.geo.API_KEY"
+android:value="AQUI SE COLOCA EL API KEY" />
+```
+
+
 # Download Link
 
 ## 📸 Screenshots
