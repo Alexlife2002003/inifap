@@ -4,7 +4,6 @@ import 'package:inifap/screens/grafica_precipitacion.dart';
 import 'package:inifap/screens/resumen_avance_mensual.dart';
 import 'package:inifap/screens/resumen_dia_anterior.dart';
 import 'package:inifap/screens/resumen_real.dart';
-import 'package:inifap/widgets/weather_card_viento.dart';
 
 class ResumenRealOrYesterday extends StatefulWidget {
   const ResumenRealOrYesterday({super.key});

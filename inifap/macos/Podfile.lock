@@ -1,0 +1,67 @@
+PODS:
+  - connectivity_macos (0.0.1):
+    - FlutterMacOS
+    - Reachability
+  - flutter_local_notifications (0.0.1):
+    - FlutterMacOS
+  - flutter_secure_storage_macos (6.1.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+  - geolocator_apple (1.2.0):
+    - FlutterMacOS
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - Reachability (3.7.6)
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - url_launcher_macos (0.0.1):
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - connectivity_macos (from `Flutter/ephemeral/.symlinks/plugins/connectivity_macos/macos`)
+  - flutter_local_notifications (from `Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos`)
+  - flutter_secure_storage_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - geolocator_apple (from `Flutter/ephemeral/.symlinks/plugins/geolocator_apple/macos`)
+  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
+  - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
+
+SPEC REPOS:
+  trunk:
+    - Reachability
+
+EXTERNAL SOURCES:
+  connectivity_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/connectivity_macos/macos
+  flutter_local_notifications:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos
+  flutter_secure_storage_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  geolocator_apple:
+    :path: Flutter/ephemeral/.symlinks/plugins/geolocator_apple/macos
+  path_provider_foundation:
+    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
+  shared_preferences_foundation:
+    :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin
+  url_launcher_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
+
+SPEC CHECKSUMS:
+  connectivity_macos: e483b0f0e6284d7e0cfcc89701876b4e3aec4cba
+  flutter_local_notifications: 453432cd6399a07d072885bc7828fb2307868856
+  flutter_secure_storage_macos: 3dacac420d84c4d0dc5e868194ee43c8664ec797
+  FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
+  geolocator_apple: ccfb79d5250de3a295f5093cd03e76aa8836a416
+  path_provider_foundation: 608fcb11be570ce83519b076ab6a1fffe2474f05
+  Reachability: fd0ecd23705e2599e4cceeb943222ae02296cbc6
+  shared_preferences_foundation: 0b09b969fb36da5551c0bc4a2dbd9d0ff9387478
+  url_launcher_macos: de10e46d8d8b9e3a7b8a133e8de92b104379f05e
+
+PODFILE CHECKSUM: 54d867c82ac51cbd61b565781b9fada492027009
+
+COCOAPODS: 1.16.2

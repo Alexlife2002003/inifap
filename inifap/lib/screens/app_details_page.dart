@@ -13,7 +13,7 @@ class AppDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _value = 40.0;
+    double value = 40.0;
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

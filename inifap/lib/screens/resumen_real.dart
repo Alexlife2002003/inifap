@@ -61,7 +61,7 @@ class _ResumenRealState extends State<ResumenReal> {
     );
   }
 
-  horaFecha(String hora, String fecha) {
+  Row horaFecha(String hora, String fecha) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
