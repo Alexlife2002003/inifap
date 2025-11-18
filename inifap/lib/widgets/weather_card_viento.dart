@@ -8,7 +8,6 @@ class WeatherCardViento extends StatelessWidget {
   final String? max;
   final String? min;
   final String? avg;
-  final String? total;
 
   const WeatherCardViento({
     super.key,
@@ -18,80 +17,94 @@ class WeatherCardViento extends StatelessWidget {
     this.max,
     this.min,
     this.avg,
-    this.total,
   });
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth = screenWidth - 40;
+    final iconColor = Colors.blue[700];
+
     return Container(
-      padding: const EdgeInsets.only(left: 16),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            width: cardWidth,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(10.0),
-              color: lightGreen,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Center the row contents
-                  children: [
-                    Row(
-                      children: [
-                      Icon(
-                      icon,
-                      color: Colors.blue,
-                      size: 32.0,
-                    ),
-                    SizedBox(width: 20,),
-                    Text(
-                          label,
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                    ],),
-                    
-                    Text(
-                          value,
-                          style: const TextStyle(fontSize: 16.0),
-                        ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // Align the text to the start
-                  children: [
-                    const Text(
-                      'Resumen registrado:',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    if (max != null) Text(max!),
-                    if (min != null) Text(min!),
-                    if (avg != null) Text(avg!),
-                    if (total != null) Text(total!),
-                  ],
-                )
-              ],
-            ),
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: lightGreen.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ICONO AZUL EN CÍRCULO BLANCO
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: iconColor,
+                size: 26,
+              ),
+            ),
+            const SizedBox(width: 12),
+            // TEXTO (EXPANDED)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  if (max != null && max!.isNotEmpty) ...[
+                    _extraLine(max!),
+                  ],
+                  if (min != null && min!.isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    _extraLine(min!),
+                  ],
+                  if (avg != null && avg!.isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    _extraLine(avg!),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _extraLine(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 13,
+        color: Colors.black87,
+      ),
+      softWrap: true,
     );
   }
 }

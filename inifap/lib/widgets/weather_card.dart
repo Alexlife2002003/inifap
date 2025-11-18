@@ -23,121 +23,97 @@ class WeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth = screenWidth - 40;
+    final iconColor = Colors.blue[700];
 
     return Container(
-      padding: const EdgeInsets.only(left: 16, bottom: 10),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            width: cardWidth,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(10.0),
-              color: lightGreen,
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  color: Colors.blue,
-                  size: 32.0,
-                ),
-                const SizedBox(width: 5.0),
-                Flexible(
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                label,
-                                style: TextStyle(
-                                  fontSize: screenWidth * 0.045,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                value,
-                                style: TextStyle(fontSize: screenWidth * 0.04),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 15),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                'Resumen registrado:',
-                                style: TextStyle(
-                                  fontSize: screenWidth * 0.04,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            if (max != null)
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  max!,
-                                  style:
-                                      TextStyle(fontSize: screenWidth * 0.035),
-                                ),
-                              ),
-                            if (min != null)
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  min!,
-                                  style:
-                                      TextStyle(fontSize: screenWidth * 0.035),
-                                ),
-                              ),
-                            if (avg != null)
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  avg!,
-                                  style:
-                                      TextStyle(fontSize: screenWidth * 0.035),
-                                ),
-                              ),
-                            if (total != null)
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  total!,
-                                  style:
-                                      TextStyle(fontSize: screenWidth * 0.035),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: lightGreen.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ICONO AZUL EN CÍRCULO BLANCO
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: iconColor,
+                size: 26,
+              ),
+            ),
+            const SizedBox(width: 12),
+            // TEXTO (EXPANDED PARA EVITAR OVERFLOW)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // LABEL
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: darkGreen,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  // VALOR PRINCIPAL
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  // LÍNEAS EXTRA
+                  if (max != null && max!.isNotEmpty) ...[
+                    _extraLine(max!),
+                  ],
+                  if (min != null && min!.isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    _extraLine(min!),
+                  ],
+                  if (avg != null && avg!.isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    _extraLine(avg!),
+                  ],
+                  if (total != null && total!.isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    _extraLine(total!),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _extraLine(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 13,
+        color: Colors.black87,
+      ),
+      softWrap: true,
     );
   }
 }
